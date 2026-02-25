@@ -1,0 +1,17 @@
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/urdf/mecanum4_lidar.urdf
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/launch/display.launch.py
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/ament_index/resource_index/package_run_dependencies/mecanum4_description
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/ament_index/resource_index/parent_prefix_path/mecanum4_description
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.sh
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.dsv
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/environment/path.sh
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/environment/path.dsv
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/local_setup.bash
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/local_setup.sh
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/local_setup.zsh
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/local_setup.dsv
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/package.dsv
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/ament_index/resource_index/packages/mecanum4_description
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig.cmake
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig-version.cmake
+/home/vboxuser/ros2_ws/install/mecanum4_description/share/mecanum4_description/package.xml

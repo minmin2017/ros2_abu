@@ -1,0 +1,38 @@
+[1.277s] Invoking command in '/home/vboxuser/robocon_ws/build/robocon_tutorial': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/vboxuser/robocon_ws/build/robocon_tutorial/build
+[1.767s] running develop
+[2.096s] Removing /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon-tutorial.egg-link (link to .)
+[2.157s] Invoked command in '/home/vboxuser/robocon_ws/build/robocon_tutorial' returned '0': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/vboxuser/robocon_ws/build/robocon_tutorial/build
+[2.162s] Invoking command in '/home/vboxuser/robocon_ws/src/robocon_tutorial': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robocon_tutorial build --build-base /home/vboxuser/robocon_ws/build/robocon_tutorial/build install --record /home/vboxuser/robocon_ws/build/robocon_tutorial/install.log --single-version-externally-managed install_data --force
+[2.501s] running egg_info
+[2.503s] writing ../../build/robocon_tutorial/robocon_tutorial.egg-info/PKG-INFO
+[2.503s] writing dependency_links to ../../build/robocon_tutorial/robocon_tutorial.egg-info/dependency_links.txt
+[2.504s] writing entry points to ../../build/robocon_tutorial/robocon_tutorial.egg-info/entry_points.txt
+[2.505s] writing requirements to ../../build/robocon_tutorial/robocon_tutorial.egg-info/requires.txt
+[2.505s] writing top-level names to ../../build/robocon_tutorial/robocon_tutorial.egg-info/top_level.txt
+[2.507s] reading manifest file '../../build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[2.509s] writing manifest file '../../build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[2.510s] running build
+[2.510s] running build_py
+[2.510s] copying robocon_tutorial/mecanum_serial_odometry.py -> /home/vboxuser/robocon_ws/build/robocon_tutorial/build/lib/robocon_tutorial
+[2.511s] running install
+[2.511s] running install_lib
+[2.513s] creating /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[2.513s] copying /home/vboxuser/robocon_ws/build/robocon_tutorial/build/lib/robocon_tutorial/simple_subscriber.py -> /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[2.527s] copying /home/vboxuser/robocon_ws/build/robocon_tutorial/build/lib/robocon_tutorial/mecanum_serial_odometry.py -> /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[2.527s] copying /home/vboxuser/robocon_ws/build/robocon_tutorial/build/lib/robocon_tutorial/__init__.py -> /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[2.528s] copying /home/vboxuser/robocon_ws/build/robocon_tutorial/build/lib/robocon_tutorial/simple_publisher.py -> /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[2.535s] byte-compiling /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/simple_subscriber.py to simple_subscriber.cpython-310.pyc
+[2.536s] byte-compiling /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/mecanum_serial_odometry.py to mecanum_serial_odometry.cpython-310.pyc
+[2.538s] byte-compiling /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/__init__.py to __init__.cpython-310.pyc
+[2.538s] byte-compiling /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/simple_publisher.py to simple_publisher.cpython-310.pyc
+[2.539s] running install_data
+[2.540s] copying resource/robocon_tutorial -> /home/vboxuser/robocon_ws/install/robocon_tutorial/share/ament_index/resource_index/packages
+[2.568s] copying package.xml -> /home/vboxuser/robocon_ws/install/robocon_tutorial/share/robocon_tutorial
+[2.569s] running install_egg_info
+[2.572s] Copying ../../build/robocon_tutorial/robocon_tutorial.egg-info to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial-0.0.0-py3.10.egg-info
+[2.586s] running install_scripts
+[2.612s] Installing mecanum_serial_odometry script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[2.613s] Installing simple_publisher script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[2.613s] Installing simple_subscriber script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[2.614s] writing list of installed files to '/home/vboxuser/robocon_ws/build/robocon_tutorial/install.log'
+[2.660s] Invoked command in '/home/vboxuser/robocon_ws/src/robocon_tutorial' returned '0': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robocon_tutorial build --build-base /home/vboxuser/robocon_ws/build/robocon_tutorial/build install --record /home/vboxuser/robocon_ws/build/robocon_tutorial/install.log --single-version-externally-managed install_data --force

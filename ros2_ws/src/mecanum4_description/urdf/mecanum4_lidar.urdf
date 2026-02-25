@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<robot name="mecanum4_lidar">
+
+  <!-- =========================
+       Basic links
+       ========================= -->
+  <link name="base_link"/>
+
+  <!-- Chassis (simple box) -->
+  <link name="chassis_link">
+    <visual>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.40 0.30 0.12"/> <!-- L W H (meters) -->
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.40 0.30 0.12"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+      <mass value="10.0"/>
+      <inertia ixx="0.10" ixy="0.0" ixz="0.0" iyy="0.20" iyz="0.0" izz="0.25"/>
+    </inertial>
+  </link>
+
+  <!-- Fixed joint: base_link -> chassis_link (keep base_link at robot reference) -->
+  <joint name="base_to_chassis" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- =========================
+       Wheels (cylinders)
+       Convention: FL, FR, RL, RR
+       X forward, Y left, Z up
+       ========================= -->
+
+  <!-- Wheel parameters (edit positions to match your robot) -->
+  <!-- Half distances from center -->
+  <!-- Lx: half wheelbase (front-back), Ly: half track (left-right) -->
+  <!-- Here: Lx=0.16, Ly=0.13 -->
+  <!-- Wheel radius=0.05, wheel width=0.03 -->
+
+  <link name="wheel_fl_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.05" length="0.03"/></geometry>
+    </visual>
+  </link>
+  <joint name="wheel_fl_joint" type="continuous">
+    <parent link="chassis_link"/>
+    <child link="wheel_fl_link"/>
+    <origin xyz="0.16 0.13 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="wheel_fr_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.05" length="0.03"/></geometry>
+    </visual>
+  </link>
+  <joint name="wheel_fr_joint" type="continuous">
+    <parent link="chassis_link"/>
+    <child link="wheel_fr_link"/>
+    <origin xyz="0.16 -0.13 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="wheel_rl_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.05" length="0.03"/></geometry>
+    </visual>
+  </link>
+  <joint name="wheel_rl_joint" type="continuous">
+    <parent link="chassis_link"/>
+    <child link="wheel_rl_link"/>
+    <origin xyz="-0.16 0.13 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="wheel_rr_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.05" length="0.03"/></geometry>
+    </visual>
+  </link>
+  <joint name="wheel_rr_joint" type="continuous">
+    <parent link="chassis_link"/>
+    <child link="wheel_rr_link"/>
+    <origin xyz="-0.16 -0.13 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- =========================
+       LiDAR
+       ========================= -->
+  <link name="laser_frame">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.035" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Fixed joint: base_link/chassis -> laser_frame (edit xyz to your mounting position) -->
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_frame"/>
+    <!-- Example: LiDAR is 0.10m forward, 0.00m left, 0.20m up -->
+    <origin xyz="0.10 0.00 0.20" rpy="0 0 0"/>
+  </joint>
+
+</robot>

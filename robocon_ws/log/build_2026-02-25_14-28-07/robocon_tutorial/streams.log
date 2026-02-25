@@ -1,0 +1,23 @@
+[1.223s] Invoking command in '/home/vboxuser/robocon_ws/src/robocon_tutorial': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robocon_tutorial build --build-base /home/vboxuser/robocon_ws/build/robocon_tutorial/build install --record /home/vboxuser/robocon_ws/build/robocon_tutorial/install.log --single-version-externally-managed install_data
+[1.549s] running egg_info
+[1.550s] writing ../../build/robocon_tutorial/robocon_tutorial.egg-info/PKG-INFO
+[1.551s] writing dependency_links to ../../build/robocon_tutorial/robocon_tutorial.egg-info/dependency_links.txt
+[1.552s] writing entry points to ../../build/robocon_tutorial/robocon_tutorial.egg-info/entry_points.txt
+[1.552s] writing requirements to ../../build/robocon_tutorial/robocon_tutorial.egg-info/requires.txt
+[1.552s] writing top-level names to ../../build/robocon_tutorial/robocon_tutorial.egg-info/top_level.txt
+[1.555s] reading manifest file '../../build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[1.586s] writing manifest file '../../build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[1.586s] running build
+[1.586s] running build_py
+[1.589s] running install
+[1.589s] running install_lib
+[1.591s] running install_data
+[1.592s] running install_egg_info
+[1.595s] removing '/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial-0.0.0-py3.10.egg-info' (and everything under it)
+[1.596s] Copying ../../build/robocon_tutorial/robocon_tutorial.egg-info to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial-0.0.0-py3.10.egg-info
+[1.619s] running install_scripts
+[1.650s] Installing mecanum_serial_odometry script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[1.651s] Installing simple_publisher script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[1.652s] Installing simple_subscriber script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[1.654s] writing list of installed files to '/home/vboxuser/robocon_ws/build/robocon_tutorial/install.log'
+[1.724s] Invoked command in '/home/vboxuser/robocon_ws/src/robocon_tutorial' returned '0': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/robocon_tutorial build --build-base /home/vboxuser/robocon_ws/build/robocon_tutorial/build install --record /home/vboxuser/robocon_ws/build/robocon_tutorial/install.log --single-version-externally-managed install_data

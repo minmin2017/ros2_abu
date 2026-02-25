@@ -1,0 +1,13 @@
+# Ignore everything by default
+*
+
+# Keep this file tracked
+!.gitignore
+
+# Allow the requested workspaces
+!ros2_ws/
+!ros2_ws/**
+!ross2_ws/
+!ross2_ws/**
+!robocon_ws/
+!robocon_ws/**
