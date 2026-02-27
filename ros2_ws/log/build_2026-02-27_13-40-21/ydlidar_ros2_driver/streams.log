@@ -1,0 +1,49 @@
+[0.056s] Invoking command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --build /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver -- -j5 -l5
+[1.157s] [ 50%] Built target ydlidar_ros2_driver_client
+[1.157s] [100%] Built target ydlidar_ros2_driver_node
+[1.183s] Invoked command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --build /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver -- -j5 -l5
+[1.197s] Invoking command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --install /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver
+[1.210s] -- Install configuration: ""
+[1.212s] -- Execute custom install script
+[1.212s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_node
+[1.212s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client
+[1.234s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_bringup.launch.cpython-310.pyc
+[1.235s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_driver.launch.cpython-310.pyc
+[1.235s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_rviz.launch.cpython-310.pyc
+[1.235s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_scan_echo.launch.cpython-310.pyc
+[1.236s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar.py
+[1.236s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_bringup.launch.py
+[1.236s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_driver.launch.py
+[1.236s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch.py
+[1.237s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch_view.py
+[1.237s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_rviz.launch.py
+[1.237s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_scan_echo.launch.py
+[1.237s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G1.yaml
+[1.238s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G2.yaml
+[1.238s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G6.yaml
+[1.238s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/GS2.yaml
+[1.239s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TEA.yaml
+[1.239s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TG.yaml
+[1.239s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TminiPro.yaml
+[1.239s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X2.yaml
+[1.239s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4-Pro.yaml
+[1.240s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4.yaml
+[1.240s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/ydlidar.yaml
+[1.240s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup/initenv.sh
+[1.240s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config/ydlidar.rviz
+[1.240s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ament_index/resource_index/package_run_dependencies/ydlidar_ros2_driver
+[1.241s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ament_index/resource_index/parent_prefix_path/ydlidar_ros2_driver
+[1.241s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.sh
+[1.241s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.dsv
+[1.241s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.sh
+[1.242s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.dsv
+[1.242s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.bash
+[1.242s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.sh
+[1.242s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.zsh
+[1.242s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.dsv
+[1.243s] -- Symlinking: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.dsv
+[1.259s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ament_index/resource_index/packages/ydlidar_ros2_driver
+[1.259s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig.cmake
+[1.259s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig-version.cmake
+[1.259s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.xml
+[1.262s] Invoked command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --install /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver

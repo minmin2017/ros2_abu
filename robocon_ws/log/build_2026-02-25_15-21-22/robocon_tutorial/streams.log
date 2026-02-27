@@ -1,0 +1,21 @@
+[90.094s] Invoking command in '/home/vboxuser/robocon_ws/build/robocon_tutorial': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/vboxuser/robocon_ws/build/robocon_tutorial/build --no-deps symlink_data --force
+[90.741s] running develop
+[91.084s] running egg_info
+[91.085s] writing robocon_tutorial.egg-info/PKG-INFO
+[91.087s] writing dependency_links to robocon_tutorial.egg-info/dependency_links.txt
+[91.088s] writing entry points to robocon_tutorial.egg-info/entry_points.txt
+[91.089s] writing requirements to robocon_tutorial.egg-info/requires.txt
+[91.090s] writing top-level names to robocon_tutorial.egg-info/top_level.txt
+[91.098s] reading manifest file 'robocon_tutorial.egg-info/SOURCES.txt'
+[91.098s] writing manifest file 'robocon_tutorial.egg-info/SOURCES.txt'
+[91.099s] running build_ext
+[91.099s] Creating /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon-tutorial.egg-link (link to .)
+[91.100s] Installing mecanum_serial_odometry script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[91.101s] Installing simple_publisher script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[91.101s] Installing simple_subscriber script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+[91.102s] 
+[91.102s] Installed /home/vboxuser/robocon_ws/build/robocon_tutorial
+[91.102s] running symlink_data
+[91.102s] symbolically linking /home/vboxuser/robocon_ws/build/robocon_tutorial/resource/robocon_tutorial -> /home/vboxuser/robocon_ws/install/robocon_tutorial/share/ament_index/resource_index/packages
+[91.136s] symbolically linking /home/vboxuser/robocon_ws/build/robocon_tutorial/package.xml -> /home/vboxuser/robocon_ws/install/robocon_tutorial/share/robocon_tutorial
+[120.111s] Invoked command in '/home/vboxuser/robocon_ws/build/robocon_tutorial' returned '0': PYTHONPATH=/home/vboxuser/robocon_ws/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/vboxuser/robocon_ws/build/robocon_tutorial/build --no-deps symlink_data --force

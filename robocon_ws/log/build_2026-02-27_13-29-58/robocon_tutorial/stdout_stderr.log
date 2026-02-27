@@ -1,0 +1,21 @@
+running develop
+running egg_info
+writing robocon_tutorial.egg-info/PKG-INFO
+writing dependency_links to robocon_tutorial.egg-info/dependency_links.txt
+writing entry points to robocon_tutorial.egg-info/entry_points.txt
+writing requirements to robocon_tutorial.egg-info/requires.txt
+writing top-level names to robocon_tutorial.egg-info/top_level.txt
+reading manifest file 'robocon_tutorial.egg-info/SOURCES.txt'
+writing manifest file 'robocon_tutorial.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon-tutorial.egg-link (link to .)
+Installing mecanum_serial_odometry script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+Installing simple_publisher script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+Installing simple_subscriber script to /home/vboxuser/robocon_ws/install/robocon_tutorial/lib/robocon_tutorial
+
+Installed /home/vboxuser/robocon_ws/build/robocon_tutorial
+running symlink_data
+symbolically linking /home/vboxuser/robocon_ws/build/robocon_tutorial/resource/robocon_tutorial -> /home/vboxuser/robocon_ws/install/robocon_tutorial/share/ament_index/resource_index/packages
+symbolically linking /home/vboxuser/robocon_ws/build/robocon_tutorial/package.xml -> /home/vboxuser/robocon_ws/install/robocon_tutorial/share/robocon_tutorial
+creating /home/vboxuser/robocon_ws/install/robocon_tutorial/share/robocon_tutorial/config
+error: [Errno 2] No such file or directory: '/home/vboxuser/robocon_ws/install/robocon_tutorial/share/robocon_tutorial/config/slam_toolbox_online_async_base_link.yaml'

@@ -1,5 +1,5 @@
 import math
-from threading import Event, Thread
+from threading import Event, Lock, Thread
 from typing import Optional, Tuple
 
 import rclpy
@@ -7,6 +7,7 @@ from geometry_msgs.msg import TransformStamped
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 import serial
+from std_srvs.srv import Trigger
 from tf2_ros import TransformBroadcaster
 
 
@@ -16,7 +17,7 @@ class MecanumSerialOdometry(Node):
     def __init__(self) -> None:
         super().__init__('mecanum_serial_odometry')
 
-        self.declare_parameter('port', '/dev/ttyACM0')
+        self.declare_parameter('port', '/dev/ttyACM1')
         self.declare_parameter('baudrate', 2000000)
         self.declare_parameter('wheel_radius', 0.06)
         self.declare_parameter('lx', 0.30)
@@ -34,6 +35,12 @@ class MecanumSerialOdometry(Node):
 
         self.odom_pub = self.create_publisher(Odometry, '/odom', 10)
         self.tf_broadcaster = TransformBroadcaster(self)
+        self.state_lock = Lock()
+        self.reset_odom_srv = self.create_service(
+            Trigger,
+            'reset_odom',
+            self._handle_reset_odom,
+        )
 
         self.x = 0.0
         self.y = 0.0
@@ -110,24 +117,25 @@ class MecanumSerialOdometry(Node):
     def _update_odometry_from_wheels(
         self, current_t_us: int, w1: float, w2: float, w3: float, w4: float
     ) -> None:
-        if self.previous_t_us is None:
+        with self.state_lock:
+            if self.previous_t_us is None:
+                self.previous_t_us = current_t_us
+                return
+
+            dt = (current_t_us - self.previous_t_us) * 1e-6
             self.previous_t_us = current_t_us
-            return
 
-        dt = (current_t_us - self.previous_t_us) * 1e-6
-        self.previous_t_us = current_t_us
+            if dt <= 0.0:
+                return
 
-        if dt <= 0.0:
-            return
+            vx, vy, omega = self._mecanum_forward_kinematics(w1, w2, w3, w4)
 
-        vx, vy, omega = self._mecanum_forward_kinematics(w1, w2, w3, w4)
-
-        cos_th = math.cos(self.theta)
-        sin_th = math.sin(self.theta)
-        self.x += (vx * cos_th - vy * sin_th) * dt
-        self.y += (vx * sin_th + vy * cos_th) * dt
-        self.theta += omega * dt
-        self.theta = math.atan2(math.sin(self.theta), math.cos(self.theta))
+            cos_th = math.cos(self.theta)
+            sin_th = math.sin(self.theta)
+            self.x += (vx * cos_th - vy * sin_th) * dt
+            self.y += (vx * sin_th + vy * cos_th) * dt
+            self.theta += omega * dt
+            self.theta = math.atan2(math.sin(self.theta), math.cos(self.theta))
 
         self._publish_odometry(vx, vy, omega)
 
@@ -146,17 +154,22 @@ class MecanumSerialOdometry(Node):
         return vx, vy, omega
 
     def _publish_odometry(self, vx: float, vy: float, omega: float) -> None:
+        with self.state_lock:
+            x = self.x
+            y = self.y
+            theta = self.theta
+
         stamp = self.get_clock().now().to_msg()
-        qz = math.sin(self.theta * 0.5)
-        qw = math.cos(self.theta * 0.5)
+        qz = math.sin(theta * 0.5)
+        qw = math.cos(theta * 0.5)
 
         odom_msg = Odometry()
         odom_msg.header.stamp = stamp
         odom_msg.header.frame_id = self.odom_frame
         odom_msg.child_frame_id = self.base_frame
 
-        odom_msg.pose.pose.position.x = self.x
-        odom_msg.pose.pose.position.y = self.y
+        odom_msg.pose.pose.position.x = x
+        odom_msg.pose.pose.position.y = y
         odom_msg.pose.pose.position.z = 0.0
         odom_msg.pose.pose.orientation.z = qz
         odom_msg.pose.pose.orientation.w = qw
@@ -173,12 +186,30 @@ class MecanumSerialOdometry(Node):
         transform.header.stamp = stamp
         transform.header.frame_id = self.odom_frame
         transform.child_frame_id = self.base_frame
-        transform.transform.translation.x = self.x
-        transform.transform.translation.y = self.y
+        transform.transform.translation.x = x
+        transform.transform.translation.y = y
         transform.transform.translation.z = 0.0
         transform.transform.rotation.z = qz
         transform.transform.rotation.w = qw
         self.tf_broadcaster.sendTransform(transform)
+
+    def _handle_reset_odom(
+        self,
+        request: Trigger.Request,
+        response: Trigger.Response,
+    ) -> Trigger.Response:
+        del request
+        with self.state_lock:
+            self.x = 0.0
+            self.y = 0.0
+            self.theta = 0.0
+            self.previous_t_us = None
+
+        self._publish_odometry(0.0, 0.0, 0.0)
+        response.success = True
+        response.message = 'Odometry reset to zero pose.'
+        self.get_logger().info('Reset odometry via /reset_odom service')
+        return response
 
     def destroy_node(self) -> bool:
         self.stop_event.set()
