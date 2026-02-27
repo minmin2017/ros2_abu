@@ -17,7 +17,7 @@ class MecanumSerialOdometry(Node):
     def __init__(self) -> None:
         super().__init__('mecanum_serial_odometry')
 
-        self.declare_parameter('port', '/dev/ttyACM1')
+        self.declare_parameter('port', '/dev/ttyACM0')
         self.declare_parameter('baudrate', 2000000)
         self.declare_parameter('wheel_radius', 0.06)
         self.declare_parameter('lx', 0.30)

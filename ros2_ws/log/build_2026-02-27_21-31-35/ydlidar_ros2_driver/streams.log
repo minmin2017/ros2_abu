@@ -1,0 +1,158 @@
+[0.160s] Invoking command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake /home/vboxuser/ros2_ws/src/ydlidar_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/vboxuser/ros2_ws/install/ydlidar_ros2_driver
+[0.997s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.503s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.658s] -- Found rclcpp: 16.0.17 (/opt/ros/humble/share/rclcpp/cmake)
+[2.096s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[2.147s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[2.203s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[2.264s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.365s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.616s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[2.652s] -- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[3.065s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.417s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[3.562s] -- Found visualization_msgs: 4.9.0 (/opt/ros/humble/share/visualization_msgs/cmake)
+[3.613s] -- Found std_srvs: 4.9.0 (/opt/ros/humble/share/std_srvs/cmake)
+[3.668s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[3.905s] -- Added test 'copyright' to check source files copyright and LICENSE
+[3.911s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.912s] -- Configured cppcheck include dirs: /home/vboxuser/ros2_ws/src/ydlidar_ros2_driver/src
+[3.913s] -- Configured cppcheck exclude dirs and/or files: 
+[3.917s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[3.918s] -- Configured cpplint exclude dirs and/or files: 
+[3.919s] -- Added test 'flake8' to check Python code syntax and style conventions
+[3.920s] -- Added test 'lint_cmake' to check CMake code style
+[3.921s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[3.925s] -- Added test 'uncrustify' to check C / C++ code style
+[3.925s] -- Configured uncrustify additional arguments: 
+[3.927s] -- Added test 'xmllint' to check XML markup files
+[3.932s] -- Configuring done
+[4.038s] -- Generating done
+[4.049s] -- Build files have been written to: /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver
+[4.071s] Invoked command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake /home/vboxuser/ros2_ws/src/ydlidar_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/vboxuser/ros2_ws/install/ydlidar_ros2_driver
+[4.078s] Invoking command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --build /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver -- -j5 -l5
+[4.243s] [35m[1mConsolidate compiler generated dependencies of target ydlidar_ros2_driver_client[0m
+[4.243s] [35m[1mConsolidate compiler generated dependencies of target ydlidar_ros2_driver_node[0m
+[4.444s] [ 50%] Built target ydlidar_ros2_driver_client
+[4.449s] [ 75%] [32mBuilding CXX object CMakeFiles/ydlidar_ros2_driver_node.dir/src/ydlidar_ros2_driver_node.cpp.o[0m
+[8.153s] In file included from [01m[K/home/vboxuser/.local/include/core/base/v8stdint.h:142[m[K,
+[8.153s]                  from [01m[K/home/vboxuser/.local/include/core/common/DriverInterface.h:4[m[K,
+[8.153s]                  from [01m[K/home/vboxuser/.local/include/src/CYdLidar.h:48[m[K,
+[8.154s]                  from [01m[K/home/vboxuser/ros2_ws/src/ydlidar_ros2_driver/src/ydlidar_ros2_driver_node.cpp:16[m[K:
+[8.154s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:[m[K In function ‘[01m[Kbool ydlidar::core::base::fileExists(const string&)[m[K’:
+[8.154s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_ino[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.154s]   183 |   struct stat info = {0[01;35m[K}[m[K;
+[8.154s]       |                        [01;35m[K^[m[K
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_nlink[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_mode[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_uid[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_gid[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::__pad0[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_rdev[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_size[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_blksize[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.155s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_blocks[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.156s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_atim[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.156s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_mtim[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.156s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::st_ctim[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.156s] [01m[K/home/vboxuser/.local/include/core/base/ydlidar.h:183:24:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kstat::__glibc_reserved[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.171s] In file included from [01m[K/home/vboxuser/.local/include/core/common/DriverInterface.h:5[m[K,
+[8.172s]                  from [01m[K/home/vboxuser/.local/include/src/CYdLidar.h:48[m[K,
+[8.172s]                  from [01m[K/home/vboxuser/ros2_ws/src/ydlidar_ros2_driver/src/ydlidar_ros2_driver_node.cpp:16[m[K:
+[8.172s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:[m[K In static member function ‘[01m[Kstatic ydlidar::core::base::Thread ydlidar::core::base::Thread::createThread(thread_proc_t, void*)[m[K’:
+[8.172s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:54:42:[m[K [01;35m[Kwarning: [m[Kcast between incompatible function types from ‘[01m[Kthread_proc_t[m[K’ {aka ‘[01m[Klong unsigned int (*)(void*)[m[K’} to ‘[01m[Kvoid* (*)(void*)[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcast-function-type-Wcast-function-type]8;;[m[K]
+[8.172s]    54 |                                    NULL, [01;35m[K(void *(*)(void *))proc[m[K,
+[8.172s]       |                                          [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[8.188s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:[m[K In member function ‘[01m[Kint ydlidar::core::base::Thread::join(long unsigned int)[m[K’:
+[8.189s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:135:46:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%X[m[K’ expects argument of type ‘[01m[Kunsigned int[m[K’, but argument 2 has type ‘[01m[K_size_t[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[8.189s]   135 |           printf("[YDLIDAR DEBUG] Thread [0x[01;35m[K%X[m[K] ready to cancel[%d]\n", [32m[K_handle[m[K, s);
+[8.190s]       |                                             [01;35m[K~^[m[K                          [32m[K~~~~~~~[m[K
+[8.190s]       |                                              [01;35m[K|[m[K                          [32m[K|[m[K
+[8.190s]       |                                              [01;35m[Kunsigned int[m[K               [32m[K_size_t {aka long unsigned int}[m[K
+[8.190s]       |                                             [32m[K%lX[m[K
+[8.190s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:137:46:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%X[m[K’ expects argument of type ‘[01m[Kunsigned int[m[K’, but argument 2 has type ‘[01m[K_size_t[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[8.190s]   137 |           printf("[YDLIDAR DEBUG] Thread [0x[01;35m[K%X[m[K] ready to cancel[%d] time[%u]\n",
+[8.190s]       |                                             [01;35m[K~^[m[K
+[8.190s]       |                                              [01;35m[K|[m[K
+[8.191s]       |                                              [01;35m[Kunsigned int[m[K
+[8.191s]       |                                             [32m[K%lX[m[K
+[8.191s]   138 |             [32m[K_handle[m[K, s, getms() - t);
+[8.192s]       |             [32m[K~~~~~~~[m[K                           
+[8.192s]       |             [32m[K|[m[K
+[8.192s]       |             [32m[K_size_t {aka long unsigned int}[m[K
+[8.193s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:141:42:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%X[m[K’ expects argument of type ‘[01m[Kunsigned int[m[K’, but argument 2 has type ‘[01m[K_size_t[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[8.193s]   141 |             printf("[YDLIDAR] Thread [0x[01;35m[K%X[m[K] has been canceled in other thread\n", [32m[K_handle[m[K);
+[8.194s]       |                                         [01;35m[K~^[m[K                                        [32m[K~~~~~~~[m[K
+[8.195s]       |                                          [01;35m[K|[m[K                                        [32m[K|[m[K
+[8.195s]       |                                          [01;35m[Kunsigned int[m[K                             [32m[K_size_t {aka long unsigned int}[m[K
+[8.195s]       |                                         [32m[K%lX[m[K
+[8.196s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:146:74:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%X[m[K’ expects argument of type ‘[01m[Kunsigned int[m[K’, but argument 3 has type ‘[01m[K_size_t[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[8.196s]   146 | "[YDLIDAR] An error occurred while thread[0x[01;35m[K%X[m[K] cancelled!\n", [32m[K_handle[m[K);
+[8.196s]       |                                             [01;35m[K~^[m[K                 [32m[K~~~~~~~[m[K
+[8.196s]       |                                              [01;35m[K|[m[K                 [32m[K|[m[K
+[8.196s]       |                                              [01;35m[Kunsigned int[m[K      [32m[K_size_t {aka long unsigned int}[m[K
+[8.197s]       |                                             [32m[K%lX[m[K
+[8.197s] [01m[K/home/vboxuser/.local/include/core/base/thread.h:150:40:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%X[m[K’ expects argument of type ‘[01m[Kunsigned int[m[K’, but argument 2 has type ‘[01m[K_size_t[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[8.197s]   150 |           printf("[YDLIDAR] Thread [0x[01;35m[K%X[m[K] has been canceled\n", [32m[K_handle[m[K);
+[8.198s]       |                                       [01;35m[K~^[m[K                        [32m[K~~~~~~~[m[K
+[8.198s]       |                                        [01;35m[K|[m[K                        [32m[K|[m[K
+[8.198s]       |                                        [01;35m[Kunsigned int[m[K             [32m[K_size_t {aka long unsigned int}[m[K
+[8.198s]       |                                       [32m[K%lX[m[K
+[8.360s] In file included from [01m[K/home/vboxuser/.local/include/core/common/DriverInterface.h:8[m[K,
+[8.361s]                  from [01m[K/home/vboxuser/.local/include/src/CYdLidar.h:48[m[K,
+[8.361s]                  from [01m[K/home/vboxuser/ros2_ws/src/ydlidar_ros2_driver/src/ydlidar_ros2_driver_node.cpp:16[m[K:
+[8.361s] [01m[K/home/vboxuser/.local/include/core/common/ydlidar_protocol.h:[m[K At global scope:
+[8.361s] [01m[K/home/vboxuser/.local/include/core/common/ydlidar_protocol.h:291:22:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kdevice_info::firmware_version[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.361s]   291 |   device_info di = {0[01;35m[K}[m[K;
+[8.361s]       |                      [01;35m[K^[m[K
+[8.361s] [01m[K/home/vboxuser/.local/include/core/common/ydlidar_protocol.h:291:22:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kdevice_info::hardware_version[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[8.362s] [01m[K/home/vboxuser/.local/include/core/common/ydlidar_protocol.h:291:22:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kdevice_info::serialnum[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[19.787s] [100%] [32m[1mLinking CXX executable ydlidar_ros2_driver_node[0m
+[21.659s] [100%] Built target ydlidar_ros2_driver_node
+[21.688s] Invoked command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --build /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver -- -j5 -l5
+[21.739s] Invoking command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --install /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver
+[21.750s] -- Install configuration: ""
+[21.751s] -- Execute custom install script
+[21.751s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_node
+[21.751s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client
+[21.752s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_bringup.launch.cpython-310.pyc
+[21.752s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_driver.launch.cpython-310.pyc
+[21.752s] -- Symlinking: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_launch.cpython-310.pyc
+[21.779s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_rviz.launch.cpython-310.pyc
+[21.779s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_scan_echo.launch.cpython-310.pyc
+[21.780s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar.py
+[21.780s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_bringup.launch.py
+[21.781s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_driver.launch.py
+[21.781s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch.py
+[21.781s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch_view.py
+[21.781s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_rviz.launch.py
+[21.781s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_scan_echo.launch.py
+[21.782s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G1.yaml
+[21.782s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G2.yaml
+[21.782s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G6.yaml
+[21.782s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/GS2.yaml
+[21.782s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TEA.yaml
+[21.783s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TG.yaml
+[21.783s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TminiPro.yaml
+[21.783s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X2.yaml
+[21.783s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4-Pro.yaml
+[21.783s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4.yaml
+[21.784s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/ydlidar.yaml
+[21.784s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup/initenv.sh
+[21.784s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config/ydlidar.rviz
+[21.784s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ament_index/resource_index/package_run_dependencies/ydlidar_ros2_driver
+[21.785s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ament_index/resource_index/parent_prefix_path/ydlidar_ros2_driver
+[21.785s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.sh
+[21.786s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.dsv
+[21.786s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.sh
+[21.786s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.dsv
+[21.786s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.bash
+[21.787s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.sh
+[21.787s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.zsh
+[21.787s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.dsv
+[21.787s] -- Symlinking: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.dsv
+[21.804s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ament_index/resource_index/packages/ydlidar_ros2_driver
+[21.805s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig.cmake
+[21.805s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig-version.cmake
+[21.805s] -- Up-to-date symlink: /home/vboxuser/ros2_ws/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.xml
+[21.809s] Invoked command in '/home/vboxuser/ros2_ws/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/vboxuser/robocon_ws/install/robocon_tutorial:/opt/ros/humble /usr/bin/cmake --install /home/vboxuser/ros2_ws/build/ydlidar_ros2_driver

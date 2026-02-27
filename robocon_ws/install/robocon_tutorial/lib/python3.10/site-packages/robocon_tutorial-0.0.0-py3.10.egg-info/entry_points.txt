@@ -1,0 +1,5 @@
+[console_scripts]
+mecanum_serial_odometry = robocon_tutorial.mecanum_serial_odometry:main
+simple_publisher = robocon_tutorial.simple_publisher:main
+simple_subscriber = robocon_tutorial.simple_subscriber:main
+
