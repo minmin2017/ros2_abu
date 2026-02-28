@@ -11,6 +11,11 @@
 !ross2_ws/**
 !robocon_ws/
 !robocon_ws/**
+!gazabo/
+!gazabo/models/
+!gazabo/models/abu_stadium/
+!gazabo/models/abu_stadium/meshes/
+!gazabo/models/abu_stadium/meshes/*.stl
 
 # Ignore ROS 2 build artifacts
 ros2_ws/build/
