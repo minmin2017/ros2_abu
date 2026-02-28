@@ -11,3 +11,11 @@
 !ross2_ws/**
 !robocon_ws/
 !robocon_ws/**
+
+# Ignore ROS 2 build artifacts
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+robocon_ws/build/
+robocon_ws/install/
+robocon_ws/log/

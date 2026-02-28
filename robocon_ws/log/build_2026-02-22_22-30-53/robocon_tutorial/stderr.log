@@ -1,5 +1,0 @@
-  File "/home/vboxuser/robocon_ws/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/simple_publisher.py", line 2
-    2 from rclpy.node import Node
-      ^^^^
-SyntaxError: invalid syntax
-

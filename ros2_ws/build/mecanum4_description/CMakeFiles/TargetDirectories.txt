@@ -1,9 +1,0 @@
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/uninstall.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/mecanum4_description_uninstall.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/test.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/edit_cache.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/rebuild_cache.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/list_install_components.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/install.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/install/local.dir
-/home/vboxuser/ros2_ws/build/mecanum4_description/CMakeFiles/install/strip.dir

@@ -1,1 +1,0 @@
-/home/vboxuser/ros2_ws/build/mecanum4_description/ament_cmake_environment_hooks/local_setup.zsh
