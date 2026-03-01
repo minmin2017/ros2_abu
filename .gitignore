@@ -18,6 +18,7 @@
 !/gazabo/models/**
 !/gazabo/models/
 !/gazabo/models/abu_stadium/
+!/gazabo/models/abu_stadium/**
 !/gazabo/models/abu_stadium/meshes/
 !/gazabo/models/abu_stadium/meshes/*.stl
 

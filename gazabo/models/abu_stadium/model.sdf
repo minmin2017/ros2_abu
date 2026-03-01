@@ -3,6 +3,8 @@
   <model name="abu_stadium">
     <static>true</static>
     <link name="stadium_link">
+
+      <!-- BASE -->
       <visual name="base_visual">
         <geometry>
           <mesh>
@@ -10,7 +12,14 @@
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
+        <material>
+          <ambient>1.0 0.898 0.8 1</ambient>
+          <diffuse>1.0 0.898 0.8 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
       </visual>
+
+      <!-- FOREST 1 -->
       <visual name="forest_visual">
         <geometry>
           <mesh>
@@ -18,7 +27,13 @@
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
+        <material>
+          <ambient>0.13 0.66 0.33 1</ambient>
+          <diffuse>0.13 0.66 0.33 1</diffuse>
+        </material>
       </visual>
+
+      <!-- FOREST 2 -->
       <visual name="forest2_visual">
         <geometry>
           <mesh>
@@ -26,7 +41,13 @@
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
+        <material>
+          <ambient>0.13 0.66 0.33 1</ambient>
+          <diffuse>0.13 0.66 0.33 1</diffuse>
+        </material>
       </visual>
+
+      <!-- SPEARHEAD RACK -->
       <visual name="spearhead_rack_visual">
         <geometry>
           <mesh>
@@ -34,7 +55,13 @@
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
+        <material>
+          <ambient>0.545 0.353 0.169 1</ambient>
+          <diffuse>0.545 0.353 0.169 1</diffuse>
+        </material>
       </visual>
+
+      <!-- STAFF RACK 1 -->
       <visual name="staff_rack_1_visual">
         <geometry>
           <mesh>
@@ -42,7 +69,13 @@
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
+        <material>
+          <ambient>0.545 0.353 0.169 1</ambient>
+          <diffuse>0.545 0.353 0.169 1</diffuse>
+        </material>
       </visual>
+
+      <!-- STAFF RACK 2 -->
       <visual name="staff_rack_2_visual">
         <geometry>
           <mesh>
@@ -50,7 +83,13 @@
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
+        <material>
+          <ambient>0.545 0.353 0.169 1</ambient>
+          <diffuse>0.545 0.353 0.169 1</diffuse>
+        </material>
       </visual>
+
+      <!-- TIC TAC TOE RACK (ปล่อย default หรือแก้เพิ่มได้) -->
       <visual name="tic_tac_toe_rack_visual">
         <geometry>
           <mesh>
@@ -59,6 +98,8 @@
           </mesh>
         </geometry>
       </visual>
+
+      <!-- COLLISION -->
       <collision name="base_collision">
         <geometry>
           <mesh>
@@ -67,6 +108,7 @@
           </mesh>
         </geometry>
       </collision>
+
     </link>
   </model>
 </sdf>
