@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="abu_stadium">
+    <static>true</static>
+    <link name="stadium_link">
+      <visual name="base_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/base_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="forest_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/forest_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="forest2_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/forest2_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="spearhead_rack_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/spearhead_rack_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="staff_rack_1_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/staff_rack_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="staff_rack_2_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/staff_rack_2.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="tic_tac_toe_rack_visual">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/tic_tac_toe_rack_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="base_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/base_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

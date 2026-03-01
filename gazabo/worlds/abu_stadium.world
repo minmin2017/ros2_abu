@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="abu_stadium_world">
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+    <include>
+      <uri>model://abu_stadium</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>0 -6 4 0 0.5 1.57</pose>
+      </camera>
+    </gui>
+  </world>
+</sdf>
