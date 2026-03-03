@@ -3,6 +3,7 @@
   <model name="abu_stadium">
     <static>true</static>
     <link name="stadium_link">
+      <pose>0 0 0 0 0 0</pose>
 
       <!-- BASE -->
       <visual name="base_visual">
