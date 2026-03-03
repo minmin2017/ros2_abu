@@ -48,11 +48,11 @@
 
   <link name="wheel_fl_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </collision>
     <inertial>
@@ -70,11 +70,11 @@
 
   <link name="wheel_fr_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </collision>
     <inertial>
@@ -92,11 +92,11 @@
 
   <link name="wheel_rl_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </collision>
     <inertial>
@@ -114,11 +114,11 @@
 
   <link name="wheel_rr_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+      <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
       <geometry><cylinder radius="0.05" length="0.03"/></geometry>
     </collision>
     <inertial>
