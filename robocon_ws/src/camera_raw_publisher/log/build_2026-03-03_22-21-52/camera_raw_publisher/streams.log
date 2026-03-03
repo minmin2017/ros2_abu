@@ -1,0 +1,37 @@
+[1.055s] Invoking command in '/home/vboxuser/robocon_ws/src/camera_raw_publisher': PYTHONPATH=/home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base build/camera_raw_publisher build --build-base /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build install --record /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/install.log --single-version-externally-managed install_data
+[1.436s] running egg_info
+[1.439s] creating build/camera_raw_publisher/camera_raw_publisher.egg-info
+[1.441s] writing build/camera_raw_publisher/camera_raw_publisher.egg-info/PKG-INFO
+[1.441s] writing dependency_links to build/camera_raw_publisher/camera_raw_publisher.egg-info/dependency_links.txt
+[1.442s] writing entry points to build/camera_raw_publisher/camera_raw_publisher.egg-info/entry_points.txt
+[1.443s] writing requirements to build/camera_raw_publisher/camera_raw_publisher.egg-info/requires.txt
+[1.444s] writing top-level names to build/camera_raw_publisher/camera_raw_publisher.egg-info/top_level.txt
+[1.445s] writing manifest file 'build/camera_raw_publisher/camera_raw_publisher.egg-info/SOURCES.txt'
+[1.447s] reading manifest file 'build/camera_raw_publisher/camera_raw_publisher.egg-info/SOURCES.txt'
+[1.448s] writing manifest file 'build/camera_raw_publisher/camera_raw_publisher.egg-info/SOURCES.txt'
+[1.448s] running build
+[1.448s] running build_py
+[1.449s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build
+[1.449s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib
+[1.449s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher
+[1.449s] copying camera_raw_publisher/camera_publisher_node.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher
+[1.449s] copying camera_raw_publisher/__init__.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher
+[1.449s] running install
+[1.450s] running install_lib
+[1.451s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher
+[1.451s] copying /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher/camera_publisher_node.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher
+[1.451s] copying /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher/__init__.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher
+[1.452s] byte-compiling /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher/camera_publisher_node.py to camera_publisher_node.cpython-310.pyc
+[1.453s] byte-compiling /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher/__init__.py to __init__.cpython-310.pyc
+[1.454s] running install_data
+[1.454s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index
+[1.454s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index/resource_index
+[1.454s] creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index/resource_index/packages
+[1.455s] copying resource/camera_raw_publisher -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index/resource_index/packages
+[1.455s] copying package.xml -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/camera_raw_publisher
+[1.455s] running install_egg_info
+[1.457s] Copying build/camera_raw_publisher/camera_raw_publisher.egg-info to /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher-0.0.0-py3.10.egg-info
+[1.459s] running install_scripts
+[1.489s] Installing camera_publisher_node script to /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/camera_raw_publisher
+[1.490s] writing list of installed files to '/home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/install.log'
+[1.535s] Invoked command in '/home/vboxuser/robocon_ws/src/camera_raw_publisher' returned '0': PYTHONPATH=/home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base build/camera_raw_publisher build --build-base /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build install --record /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/install.log --single-version-externally-managed install_data

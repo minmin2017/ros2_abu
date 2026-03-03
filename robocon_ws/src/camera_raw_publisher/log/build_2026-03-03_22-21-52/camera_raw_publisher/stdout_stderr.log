@@ -1,0 +1,35 @@
+running egg_info
+creating build/camera_raw_publisher/camera_raw_publisher.egg-info
+writing build/camera_raw_publisher/camera_raw_publisher.egg-info/PKG-INFO
+writing dependency_links to build/camera_raw_publisher/camera_raw_publisher.egg-info/dependency_links.txt
+writing entry points to build/camera_raw_publisher/camera_raw_publisher.egg-info/entry_points.txt
+writing requirements to build/camera_raw_publisher/camera_raw_publisher.egg-info/requires.txt
+writing top-level names to build/camera_raw_publisher/camera_raw_publisher.egg-info/top_level.txt
+writing manifest file 'build/camera_raw_publisher/camera_raw_publisher.egg-info/SOURCES.txt'
+reading manifest file 'build/camera_raw_publisher/camera_raw_publisher.egg-info/SOURCES.txt'
+writing manifest file 'build/camera_raw_publisher/camera_raw_publisher.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher
+copying camera_raw_publisher/camera_publisher_node.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher
+copying camera_raw_publisher/__init__.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher
+running install
+running install_lib
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher
+copying /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher/camera_publisher_node.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher
+copying /home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/build/lib/camera_raw_publisher/__init__.py -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher
+byte-compiling /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher/camera_publisher_node.py to camera_publisher_node.cpython-310.pyc
+byte-compiling /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index/resource_index
+creating /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index/resource_index/packages
+copying resource/camera_raw_publisher -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/ament_index/resource_index/packages
+copying package.xml -> /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/share/camera_raw_publisher
+running install_egg_info
+Copying build/camera_raw_publisher/camera_raw_publisher.egg-info to /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/python3.10/site-packages/camera_raw_publisher-0.0.0-py3.10.egg-info
+running install_scripts
+Installing camera_publisher_node script to /home/vboxuser/robocon_ws/src/camera_raw_publisher/install/camera_raw_publisher/lib/camera_raw_publisher
+writing list of installed files to '/home/vboxuser/robocon_ws/src/camera_raw_publisher/build/camera_raw_publisher/install.log'
