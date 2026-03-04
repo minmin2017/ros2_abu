@@ -155,31 +155,37 @@
   </joint>
 
   <!-- Gazebo differential drive plugin (subscribe /cmd_vel) -->
-  <gazebo>
-    <plugin name="gazebo_ros_diff_drive" filename="libgazebo_ros_diff_drive.so">
-      <ros>
-        <namespace>/</namespace>
-      </ros>
-      <num_wheel_pairs>2</num_wheel_pairs>
-      <left_joint>wheel_fl_joint</left_joint>
-      <right_joint>wheel_fr_joint</right_joint>
-      <left_joint>wheel_rl_joint</left_joint>
-      <right_joint>wheel_rr_joint</right_joint>
-      <wheel_separation>0.26</wheel_separation>
-      <wheel_separation>0.26</wheel_separation>
-      <wheel_diameter>0.10</wheel_diameter>
-      <wheel_diameter>0.10</wheel_diameter>
-      <command_topic>cmd_vel</command_topic>
-      <odometry_topic>odom</odometry_topic>
-      <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>base_link</robot_base_frame>
-      <publish_odom>true</publish_odom>
-      <publish_odom_tf>true</publish_odom_tf>
-      <publish_wheel_tf>false</publish_wheel_tf>
-      <max_wheel_torque>20</max_wheel_torque>
-      <max_wheel_acceleration>10.0</max_wheel_acceleration>
-    </plugin>
-  </gazebo>
+  <ros2_control name="GazeboSystem" type="system">
+  <hardware>
+    <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+  </hardware>
+
+  <joint name="wheel_fl_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="velocity"/>
+    <state_interface name="position"/>
+  </joint>
+  <joint name="wheel_fr_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="velocity"/>
+    <state_interface name="position"/>
+  </joint>
+  <joint name="wheel_rl_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="velocity"/>
+    <state_interface name="position"/>
+  </joint>
+  <joint name="wheel_rr_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="velocity"/>
+    <state_interface name="position"/>
+  </joint>
+</ros2_control>
+<gazebo>
+  <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+    <parameters>$(find-pkg-share mecanum4_description)/config/mecanum_controllers.yaml</parameters>
+  </plugin>
+</gazebo>
 
   <!-- Gazebo LiDAR sensor + ROS 2 LaserScan plugin -->
   <gazebo reference="laser_frame">
