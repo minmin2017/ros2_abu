@@ -7,16 +7,25 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 
-# ✅ Install URDF files
 install(
   DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
-# ✅ Install launch files (ถ้ามี)
 install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY config
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  PROGRAMS
+    scripts/cmd_vel_to_wheels.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
