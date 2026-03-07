@@ -12,12 +12,14 @@ class CmdVelToWheels(Node):
 
         self.declare_parameter("wheel_radius", 0.05)
         self.declare_parameter("half_length_x", 0.16)
-        self.declare_parameter("half_length_y", 0.13)
+        self.declare_parameter("half_length_y", 0.18)
+        self.declare_parameter("max_wheel_speed", 8.0)
         self.declare_parameter("use_stamped_cmd", True)
 
         self.radius = float(self.get_parameter("wheel_radius").value)
         self.lx = float(self.get_parameter("half_length_x").value)
         self.ly = float(self.get_parameter("half_length_y").value)
+        self.max_wheel_speed = float(self.get_parameter("max_wheel_speed").value)
         self.use_stamped = bool(self.get_parameter("use_stamped_cmd").value)
 
         self.pub = self.create_publisher(
@@ -48,6 +50,12 @@ class CmdVelToWheels(Node):
         fr = (vx + vy + k * wz) / r
         rl = (vx + vy - k * wz) / r
         rr = (vx - vy + k * wz) / r
+
+        # Limit wheel angular velocity so large /cmd_vel inputs do not destabilize Gazebo.
+        fl = max(-self.max_wheel_speed, min(self.max_wheel_speed, fl))
+        fr = max(-self.max_wheel_speed, min(self.max_wheel_speed, fr))
+        rl = max(-self.max_wheel_speed, min(self.max_wheel_speed, rl))
+        rr = max(-self.max_wheel_speed, min(self.max_wheel_speed, rr))
 
         out = Float64MultiArray()
         out.data = [fl, fr, rl, rr]
