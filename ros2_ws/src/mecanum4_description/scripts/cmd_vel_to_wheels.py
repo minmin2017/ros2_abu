@@ -14,7 +14,7 @@ class CmdVelToWheels(Node):
         self.declare_parameter("half_length_x", 0.16)
         self.declare_parameter("half_length_y", 0.18)
         self.declare_parameter("max_wheel_speed", 8.0)
-        self.declare_parameter("use_stamped_cmd", True)
+        self.declare_parameter("use_stamped_cmd", False)
 
         self.radius = float(self.get_parameter("wheel_radius").value)
         self.lx = float(self.get_parameter("half_length_x").value)
