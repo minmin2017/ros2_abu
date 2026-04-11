@@ -111,7 +111,7 @@ def generate_launch_description():
                 executable="cmd_vel_to_wheels.py",
                 name="cmd_vel_to_wheels",
                 output="screen",
-                parameters=[{"use_sim_time": True}, {"use_stamped_cmd": True}],
+                parameters=[{"use_sim_time": True}, {"use_stamped_cmd": False}],
             )
         ],
     )
