@@ -4,6 +4,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
+    ExecuteProcess,
     IncludeLaunchDescription,
     SetEnvironmentVariable,
     TimerAction,
@@ -21,7 +22,7 @@ def generate_launch_description():
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
     default_world = "/home/minmin/gazabo/worlds/abu_stadium.world"
     nav2_params = os.path.join(pkg_path, "config", "nav2_params.yaml")
-    slam_params = os.path.join(pkg_path, "config", "slam_params.yaml")
+    map_file = "/home/minmin/map.yaml"
     rviz_config = os.path.join(nav2_bringup_dir, "rviz", "nav2_default_view.rviz")
 
     with open(urdf_file, encoding="utf-8") as f:
@@ -120,7 +121,6 @@ def generate_launch_description():
     )
 
     # ── cmd_vel → wheel visuals bridge at t+8 s ───────────────────────────────
-    # use_stamped_cmd=False so this node receives geometry_msgs/Twist from nav2
     cmd_vel_bridge = TimerAction(
         period=8.0,
         actions=[
@@ -137,27 +137,77 @@ def generate_launch_description():
         ],
     )
 
-    # ── SLAM Toolbox at t+10 s ────────────────────────────────────────────────
-    # Provides /map topic and map→odom TF required by nav2
-    slam_toolbox = TimerAction(
+    nav2_common_args = ["--ros-args", "--log-level", "info"]
+
+    # ── Localization at t+10 s (map_server + AMCL, own lifecycle_manager) ─────
+    # Separate lifecycle_manager so AMCL has time to publish map→odom TF
+    # before Nav2 navigation nodes start requesting it.
+    localization = TimerAction(
         period=10.0,
         actions=[
             Node(
-                package="slam_toolbox",
-                executable="async_slam_toolbox_node",
-                name="slam_toolbox",
+                package="nav2_map_server",
+                executable="map_server",
+                name="map_server",
                 output="screen",
-                parameters=[slam_params, {"use_sim_time": True}],
+                parameters=[
+                    nav2_params,
+                    {"use_sim_time": True},
+                    {"yaml_filename": map_file},
+                ],
+                arguments=nav2_common_args,
+            ),
+            Node(
+                package="nav2_amcl",
+                executable="amcl",
+                name="amcl",
+                output="screen",
+                parameters=[nav2_params, {"use_sim_time": True}],
+                arguments=nav2_common_args,
+            ),
+            Node(
+                package="nav2_lifecycle_manager",
+                executable="lifecycle_manager",
+                name="lifecycle_manager_localization",
+                output="screen",
+                parameters=[
+                    {"use_sim_time": True},
+                    {"autostart": True},
+                    {"node_names": ["map_server", "amcl"]},
+                ],
+                arguments=nav2_common_args,
+            ),
+        ],
+    )
+
+    # ── Publish initial pose to AMCL at t+16 s ───────────────────────────────
+    # AMCL requires /initialpose to start publishing map→odom TF.
+    # Publish 5 times at 1 Hz to ensure AMCL receives at least one message
+    # (transient_local QoS isn't set by ros2 topic pub, so retry is needed).
+    publish_initial_pose = TimerAction(
+        period=16.0,
+        actions=[
+            ExecuteProcess(
+                cmd=[
+                    "ros2", "topic", "pub", "-t", "5", "-r", "1", "/initialpose",
+                    "geometry_msgs/msg/PoseWithCovarianceStamped",
+                    '{"header": {"frame_id": "map"}, '
+                    '"pose": {"pose": {"position": {"x": 1.0, "y": -0.5, "z": 0.0}, '
+                    '"orientation": {"x": 0.0, "y": 0.0, "z": 0.0, "w": 1.0}}, '
+                    '"covariance": [0.25, 0.0, 0.0, 0.0, 0.0, 0.0, '
+                    '0.0, 0.25, 0.0, 0.0, 0.0, 0.0, '
+                    '0.0, 0.0, 0.0, 0.0, 0.0, 0.0, '
+                    '0.0, 0.0, 0.0, 0.0, 0.0, 0.0, '
+                    '0.0, 0.0, 0.0, 0.0, 0.0, 0.0, '
+                    '0.0, 0.0, 0.0, 0.0, 0.0, 0.0685]}}',
+                ],
+                output="screen",
             )
         ],
     )
 
-    # ── Nav2 stack at t+20 s ──────────────────────────────────────────────────
-    # Custom bring-up WITHOUT velocity_smoother.
-    # Reason: nav2_bringup's navigation_launch.py hard-codes a velocity_smoother
-    # that continuously republishes to /cmd_vel (even 0s when idle) — which
-    # overrides teleop commands. We launch controller_server with no remap so
-    # it publishes directly to /cmd_vel, and teleop shares the same topic.
+    # ── Nav2 navigation stack at t+18 s ──────────────────────────────────────
+    # Starts 8 s after localization — gives AMCL time to publish map→odom TF.
     nav2_lifecycle_nodes = [
         "controller_server",
         "smoother_server",
@@ -167,10 +217,8 @@ def generate_launch_description():
         "waypoint_follower",
     ]
 
-    nav2_common_args = ["--ros-args", "--log-level", "info"]
-
     nav2 = TimerAction(
-        period=20.0,
+        period=18.0,
         actions=[
             Node(
                 package="nav2_controller",
@@ -178,7 +226,6 @@ def generate_launch_description():
                 output="screen",
                 parameters=[nav2_params, {"use_sim_time": True}],
                 arguments=nav2_common_args,
-                # NO cmd_vel remap — publish directly to /cmd_vel
             ),
             Node(
                 package="nav2_smoother",
@@ -235,7 +282,7 @@ def generate_launch_description():
         ],
     )
 
-    # ── RViz2 with Nav2 default view at t+5 s ────────────────────────────────
+    # ── RViz2 at t+5 s ───────────────────────────────────────────────────────
     rviz = TimerAction(
         period=5.0,
         actions=[
@@ -261,7 +308,8 @@ def generate_launch_description():
         joint_state_broadcaster,
         wheel_controller,
         cmd_vel_bridge,
-        slam_toolbox,
+        localization,
+        publish_initial_pose,
         nav2,
         rviz,
     ])

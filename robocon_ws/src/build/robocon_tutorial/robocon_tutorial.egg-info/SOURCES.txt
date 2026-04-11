@@ -10,6 +10,9 @@ setup.py
 ../build/robocon_tutorial/robocon_tutorial.egg-info/zip-safe
 resource/robocon_tutorial
 robocon_tutorial/__init__.py
+robocon_tutorial/mecanum_serial_odometry.py
+robocon_tutorial/simple_publisher.py
+robocon_tutorial/simple_subscriber.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py
