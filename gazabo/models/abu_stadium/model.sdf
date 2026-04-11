@@ -110,6 +110,60 @@
         </geometry>
       </collision>
 
+      <collision name="forest_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/forest_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="forest2_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/forest2_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="spearhead_rack_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/spearhead_rack_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="staff_rack_1_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/staff_rack_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="staff_rack_2_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/staff_rack_2.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <collision name="tic_tac_toe_rack_collision">
+        <geometry>
+          <mesh>
+            <uri>model://abu_stadium/meshes/tic_tac_toe_rack_1.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
     </link>
   </model>
 </sdf>
