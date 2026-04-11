@@ -4,7 +4,7 @@ bt_navigator:
     global_frame: map
     robot_base_frame: base_link
     odom_topic: /odom
-    bt_loop_duration: 10
+    bt_loop_duration: 20
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     plugin_lib_names:
@@ -67,7 +67,7 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: True
-    controller_frequency: 20.0
+    controller_frequency: 10.0
     # Small thresholds so mecanum y-velocity is detected as motion
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
@@ -93,13 +93,13 @@ controller_server:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
       # Mecanum can move in all directions
-      min_vel_x: -0.4
-      min_vel_y: -0.4
-      max_vel_x: 0.4
-      max_vel_y: 0.4
-      max_vel_theta: 1.0
+      min_vel_x: -1.2
+      min_vel_y: -1.2
+      max_vel_x: 1.2
+      max_vel_y: 1.2
+      max_vel_theta: 3.0
       min_speed_xy: 0.0
-      max_speed_xy: 0.4
+      max_speed_xy: 1.2
       min_speed_theta: 0.0
       # Acceleration limits — all three axes enabled
       acc_lim_x: 2.5
@@ -223,7 +223,7 @@ amcl:
     odom_frame_id: "odom"
     scan_topic: /scan
     # Particle filter
-    min_particles: 5000
+    min_particles: 500
     max_particles: 5000
     # Update thresholds (move before updating)
     update_min_d: 0.25
@@ -247,8 +247,8 @@ amcl:
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
     # Recovery
-    recovery_alpha_slow: 0.001
-    recovery_alpha_fast: 0.1
+    recovery_alpha_slow: 0.005
+    recovery_alpha_fast: 0.7
     resample_interval: 1
     transform_tolerance: 0.5
     # Initial pose (published via /initialpose topic from launch file)
@@ -303,8 +303,8 @@ behavior_server:
     transform_tolerance: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0
-    max_rotational_vel: 1.0
-    min_rotational_vel: 0.4
+    max_rotational_vel: 3.0
+    min_rotational_vel: 1.0
     rotational_acc_lim: 3.2
 
 waypoint_follower:
