@@ -25,6 +25,7 @@ install(
 install(
   PROGRAMS
     scripts/cmd_vel_to_wheels.py
+    scripts/teleop_gui.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
