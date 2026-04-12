@@ -120,11 +120,13 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["Oscillation", "BaseObstacle", "PathDist", "GoalDist", "Twirling"]
+      critics: ["Oscillation", "BaseObstacle", "PathDist", "GoalDist", "GoalAlign", "Twirling"]
       BaseObstacle.scale: 0.02
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
-      Twirling.scale: 5.0
+      GoalAlign.scale: 28.0
+      Twirling.scale: 2.0
+      Oscillation.scale: 20.0
       Oscillation.enabled: True
 
 local_costmap:
@@ -219,7 +221,7 @@ amcl:
     scan_topic: /scan
     # Particle filter
     min_particles: 500
-    max_particles: 500
+    max_particles: 5000
     # Update thresholds (move before updating)
     update_min_d: 0.25
     update_min_a: 0.2
