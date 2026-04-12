@@ -120,13 +120,14 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["Oscillation", "BaseObstacle", "PathDist", "GoalDist", "GoalAlign", "Twirling"]
-      BaseObstacle.scale: 0.02
+      critics: ["Oscillation", "BaseObstacle", "PathDist", "PathAlign", "GoalDist", "GoalAlign", "Twirling"]
+      BaseObstacle.scale: 0.5
       PathDist.scale: 32.0
+      PathAlign.scale: 48.0
       GoalDist.scale: 24.0
       GoalAlign.scale: 28.0
-      Twirling.scale: 2.0
-      Oscillation.scale: 20.0
+      Twirling.scale: 0.25
+      Oscillation.scale: 40.0
       Oscillation.enabled: True
 
 local_costmap:
@@ -147,7 +148,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.35
+        inflation_radius: 0.5
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
