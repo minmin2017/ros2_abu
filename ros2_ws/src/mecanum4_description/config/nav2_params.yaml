@@ -67,7 +67,7 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: True
-    controller_frequency: 10.0
+    controller_frequency: 20.0
     # Small thresholds so mecanum y-velocity is detected as motion
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
@@ -97,22 +97,22 @@ controller_server:
       min_vel_y: -1.2
       max_vel_x: 1.2
       max_vel_y: 1.2
-      max_vel_theta: 3.0
+      max_vel_theta: 5.0
       min_speed_xy: 0.0
       max_speed_xy: 1.2
       min_speed_theta: 0.0
       # Acceleration limits — all three axes enabled
       acc_lim_x: 2.5
       acc_lim_y: 2.5
-      acc_lim_theta: 3.2
+      acc_lim_theta: 5.0
       decel_lim_x: -2.5
       decel_lim_y: -2.5
-      decel_lim_theta: -3.2
-      # Sample counts — extra vy samples for holonomic
+      decel_lim_theta: -5.0
+      # Sample counts — balanced for holonomic diagonal motion
       vx_samples: 20
-      vy_samples: 10
-      vtheta_samples: 20
-      sim_time: 1.7
+      vy_samples: 20
+      vtheta_samples: 10
+      sim_time: 1.2
       linear_granularity: 0.05
       angular_granularity: 0.025
       transform_tolerance: 0.2
@@ -120,17 +120,12 @@ controller_server:
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
       stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
+      critics: ["Oscillation", "BaseObstacle", "PathDist", "GoalDist", "Twirling"]
       BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
       PathDist.scale: 32.0
       GoalDist.scale: 24.0
-      RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
+      Twirling.scale: 5.0
+      Oscillation.enabled: True
 
 local_costmap:
   local_costmap:
@@ -224,7 +219,7 @@ amcl:
     scan_topic: /scan
     # Particle filter
     min_particles: 500
-    max_particles: 5000
+    max_particles: 500
     # Update thresholds (move before updating)
     update_min_d: 0.25
     update_min_a: 0.2
@@ -269,7 +264,7 @@ planner_server:
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.5
-      use_astar: false
+      use_astar: true
       allow_unknown: true
 
 smoother_server:
@@ -303,9 +298,9 @@ behavior_server:
     transform_tolerance: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0
-    max_rotational_vel: 3.0
+    max_rotational_vel: 5.0
     min_rotational_vel: 1.0
-    rotational_acc_lim: 3.2
+    rotational_acc_lim: 5.0
 
 waypoint_follower:
   ros__parameters:
