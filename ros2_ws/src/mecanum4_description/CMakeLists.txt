@@ -23,6 +23,11 @@ install(
 )
 
 install(
+  DIRECTORY behavior_trees
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
   PROGRAMS
     scripts/cmd_vel_to_wheels.py
     scripts/teleop_gui.py
