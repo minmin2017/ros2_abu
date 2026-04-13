@@ -297,6 +297,29 @@ def generate_launch_description():
         ],
     )
 
+    # ── Kidnap-spin recovery at t+25 s ──────────────────────────────────────────
+    # Starts after Nav2 behavior_server is active (t+18 s) so the Spin action
+    # server is available. startup_delay=60 s prevents false triggers while
+    # AMCL converges from the initial pose published at t+16 s.
+    kidnap_spin = TimerAction(
+        period=25.0,
+        actions=[
+            Node(
+                package="mecanum4_description",
+                executable="amcl_kidnap_spin.py",
+                name="amcl_kidnap_spin",
+                output="screen",
+                parameters=[
+                    {"use_sim_time": True},
+                    {"cov_threshold": 0.8},
+                    {"spin_dist": 12.57},
+                    {"cooldown_sec": 45.0},
+                    {"startup_delay": 60.0},
+                ],
+            )
+        ],
+    )
+
     return LaunchDescription([
         world_arg,
         gazebo_model_path,
@@ -312,4 +335,5 @@ def generate_launch_description():
         publish_initial_pose,
         nav2,
         rviz,
+        kidnap_spin,
     ])

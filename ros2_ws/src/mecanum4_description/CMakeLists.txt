@@ -31,6 +31,7 @@ install(
   PROGRAMS
     scripts/cmd_vel_to_wheels.py
     scripts/teleop_gui.py
+    scripts/amcl_kidnap_spin.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
