@@ -11,6 +11,31 @@
       <uri>model://abu_stadium</uri>
       <pose>0 0 -1.23 1.5708 0 0</pose>
     </include>
+    <model name="docking_box">
+      <pose>2 -1.8 0.1 0 0 0.7854</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.5</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.2 0.2 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0.5 0 1</ambient>
+            <diffuse>1 0.5 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
     <gui fullscreen="0">
       <camera name="user_camera">
         <pose>0 -6 4 0 0.5 1.57</pose>

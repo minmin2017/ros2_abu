@@ -111,9 +111,9 @@ controller_server:
       decel_lim_y: -2.5
       decel_lim_theta: -5.0
       # Sample counts — balanced for holonomic diagonal motion
-      vx_samples: 20
-      vy_samples: 20
-      vtheta_samples: 20
+      vx_samples: 5
+      vy_samples: 5
+      vtheta_samples: 5
       sim_time: 0.8
       linear_granularity: 0.05
       angular_granularity: 0.025
@@ -145,7 +145,6 @@ local_costmap:
       width: 3
       height: 3
       resolution: 0.05
-      footprint_padding: 0.05
       # Robot body 40x30 cm; wheels reach ±0.195 m in y — use padded polygon
       footprint: "[[0.22, 0.20], [0.22, -0.20], [-0.22, -0.20], [-0.22, 0.20]]"
       plugins: ["voxel_layer", "inflation_layer"]
@@ -183,7 +182,6 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      footprint_padding: 0.05
       footprint: "[[0.22, 0.20], [0.22, -0.20], [-0.22, -0.20], [-0.22, 0.20]]"
       resolution: 0.05
       track_unknown_space: true
