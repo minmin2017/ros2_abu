@@ -1,0 +1,53 @@
+[0.142s] Invoking command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver -- -j8 -l8
+[0.605s] [35m[1mConsolidate compiler generated dependencies of target ydlidar_ros2_driver_client[0m
+[0.756s] [100%] Built target ydlidar_ros2_driver_client
+[0.827s] Invoked command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver -- -j8 -l8
+[0.927s] Invoking command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver
+[0.971s] -- Install configuration: ""
+[0.978s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client
+[0.980s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch
+[0.982s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar.py
+[0.983s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_scan_echo.launch.py
+[0.985s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__
+[0.986s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_rviz.launch.cpython-310.pyc
+[0.988s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_bringup.launch.cpython-310.pyc
+[0.988s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_launch.cpython-310.pyc
+[0.990s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_driver.launch.cpython-310.pyc
+[0.991s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_scan_echo.launch.cpython-310.pyc
+[0.991s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_rviz.launch.py
+[0.995s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch.py
+[0.996s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_bringup.launch.py
+[0.997s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch_view.py
+[0.999s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_driver.launch.py
+[0.999s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params
+[1.002s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4.yaml
+[1.002s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TminiPro.yaml
+[1.002s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G2.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X2.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G1.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TG.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/GS2.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/ydlidar.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4-Pro.yaml
+[1.003s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G6.yaml
+[1.004s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TEA.yaml
+[1.004s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup
+[1.004s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup/initenv.sh
+[1.004s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config
+[1.004s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config/ydlidar.rviz
+[1.005s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/package_run_dependencies/ydlidar_ros2_driver
+[1.006s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/parent_prefix_path/ydlidar_ros2_driver
+[1.006s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.sh
+[1.006s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.dsv
+[1.007s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.sh
+[1.007s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.dsv
+[1.009s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.bash
+[1.010s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.sh
+[1.011s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.zsh
+[1.012s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.dsv
+[1.013s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.dsv
+[1.014s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/packages/ydlidar_ros2_driver
+[1.014s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig.cmake
+[1.014s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig-version.cmake
+[1.021s] -- Up-to-date: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.xml
+[1.036s] Invoked command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver

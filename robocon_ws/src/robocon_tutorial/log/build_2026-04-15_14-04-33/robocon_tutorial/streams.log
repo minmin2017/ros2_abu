@@ -1,0 +1,45 @@
+[0.994s] Invoking command in '/home/minmin/robocon_ws/src/robocon_tutorial': PYTHONPATH=/home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base build/robocon_tutorial build --build-base /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build install --record /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/install.log --single-version-externally-managed install_data
+[1.378s] running egg_info
+[1.382s] creating build/robocon_tutorial/robocon_tutorial.egg-info
+[1.383s] writing build/robocon_tutorial/robocon_tutorial.egg-info/PKG-INFO
+[1.385s] writing dependency_links to build/robocon_tutorial/robocon_tutorial.egg-info/dependency_links.txt
+[1.386s] writing entry points to build/robocon_tutorial/robocon_tutorial.egg-info/entry_points.txt
+[1.386s] writing requirements to build/robocon_tutorial/robocon_tutorial.egg-info/requires.txt
+[1.387s] writing top-level names to build/robocon_tutorial/robocon_tutorial.egg-info/top_level.txt
+[1.388s] writing manifest file 'build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[1.393s] reading manifest file 'build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[1.395s] writing manifest file 'build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+[1.395s] running build
+[1.395s] running build_py
+[1.396s] creating /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build
+[1.397s] creating /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib
+[1.399s] creating /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial
+[1.401s] copying robocon_tutorial/__init__.py -> /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial
+[1.401s] copying robocon_tutorial/mecanum_serial_odometry.py -> /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial
+[1.402s] copying robocon_tutorial/simple_publisher.py -> /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial
+[1.402s] copying robocon_tutorial/simple_subscriber.py -> /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial
+[1.403s] running install
+[1.403s] running install_lib
+[1.406s] creating /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[1.408s] copying /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial/__init__.py -> /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[1.409s] copying /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial/mecanum_serial_odometry.py -> /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[1.409s] copying /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial/simple_publisher.py -> /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[1.410s] copying /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build/lib/robocon_tutorial/simple_subscriber.py -> /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial
+[1.412s] byte-compiling /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/__init__.py to __init__.cpython-310.pyc
+[1.415s] byte-compiling /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/mecanum_serial_odometry.py to mecanum_serial_odometry.cpython-310.pyc
+[1.419s] byte-compiling /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/simple_publisher.py to simple_publisher.cpython-310.pyc
+[1.420s] byte-compiling /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial/simple_subscriber.py to simple_subscriber.cpython-310.pyc
+[1.421s] running install_data
+[1.421s] creating /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/share/ament_index
+[1.422s] creating /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/share/ament_index/resource_index
+[1.424s] creating /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/share/ament_index/resource_index/packages
+[1.426s] copying resource/robocon_tutorial -> /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/share/ament_index/resource_index/packages
+[1.426s] copying package.xml -> /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/share/robocon_tutorial
+[1.426s] running install_egg_info
+[1.435s] Copying build/robocon_tutorial/robocon_tutorial.egg-info to /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial-0.0.0-py3.10.egg-info
+[1.439s] running install_scripts
+[1.471s] Installing mecanum_serial_odometry script to /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/robocon_tutorial
+[1.472s] Installing simple_publisher script to /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/robocon_tutorial
+[1.472s] Installing simple_subscriber script to /home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/robocon_tutorial
+[1.473s] writing list of installed files to '/home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/install.log'
+[1.525s] Invoked command in '/home/minmin/robocon_ws/src/robocon_tutorial' returned '0': PYTHONPATH=/home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/robocon_ws/src/robocon_tutorial/install/robocon_tutorial/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base build/robocon_tutorial build --build-base /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/build install --record /home/minmin/robocon_ws/src/robocon_tutorial/build/robocon_tutorial/install.log --single-version-externally-managed install_data

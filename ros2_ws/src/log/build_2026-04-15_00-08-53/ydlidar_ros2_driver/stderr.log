@@ -1,0 +1,4 @@
+[33mCMake Warning at CMakeLists.txt:35 (message):
+  ydlidar_sdk not found: ydlidar_ros2_driver_node will not be built
+
+[0m

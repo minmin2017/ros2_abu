@@ -31,6 +31,9 @@ install(
   PROGRAMS
     scripts/cmd_vel_to_wheels.py
     scripts/teleop_gui.py
+    scripts/docking_node.py
+    scripts/camera_docking_node.py
+    scripts/fused_docking_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
