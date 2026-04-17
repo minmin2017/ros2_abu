@@ -1,6 +1,17 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
   <world name="abu_stadium_world">
+    <scene>
+      <shadows>0</shadows>
+      <grid>0</grid>
+    </scene>
+
+    <physics type="ode">
+      <max_step_size>0.002</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>500</real_time_update_rate>
+    </physics>
+
     <include>
       <uri>model://sun</uri>
     </include>

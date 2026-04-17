@@ -24,7 +24,7 @@ def generate_launch_description():
         os.path.expanduser("~"), "ros2_ws", "maps", "abu_stadium_map.yaml"
     )
     nav2_params = os.path.join(pkg_path, "config", "nav2_params.yaml")
-    rviz_config = os.path.join(nav2_bringup_dir, "rviz", "nav2_default_view.rviz")
+    rviz_config = os.path.join(pkg_path, "config", "nav2_view.rviz")
 
     with open(urdf_file, encoding="utf-8") as f:
         robot_description = ' '.join(f.read().split())

@@ -45,8 +45,9 @@ from cv_bridge import CvBridge
 
 # ── Orange HSV range (Gazebo ambient/diffuse 1 0.5 0, accounting for lighting)
 # OpenCV H: 0-180,  S/V: 0-255
-ORANGE_LOWER = np.array([5,  100,  80], dtype=np.uint8)
-ORANGE_UPPER = np.array([25, 255, 255], dtype=np.uint8)
+# Narrowed hue to 10-20 and raised S_min to 150 to reject grass/floor false positives
+ORANGE_LOWER = np.array([10, 150, 100], dtype=np.uint8)
+ORANGE_UPPER = np.array([20, 255, 255], dtype=np.uint8)
 
 
 def angle_wrap(a: float) -> float:

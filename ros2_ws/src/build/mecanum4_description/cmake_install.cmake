@@ -64,6 +64,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/teleop_gui.py"
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/docking_node.py"
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/camera_docking_node.py"
+    "/home/minmin/ros2_ws/src/mecanum4_description/scripts/fused_docking_node.py"
     )
 endif()
 
