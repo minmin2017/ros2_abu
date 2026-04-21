@@ -1,0 +1,9 @@
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/uninstall.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/mecanum4_description_uninstall.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/test.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/edit_cache.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/rebuild_cache.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/list_install_components.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/install.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/install/local.dir
+/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/install/strip.dir

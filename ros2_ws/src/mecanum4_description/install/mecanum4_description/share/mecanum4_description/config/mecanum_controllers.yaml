@@ -1,0 +1,17 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    use_sim_time: true
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    wheel_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+wheel_controller:
+  ros__parameters:
+    joints:
+      - wheel_fl_joint
+      - wheel_fr_joint
+      - wheel_rl_joint
+      - wheel_rr_joint
+    interface_name: velocity

@@ -1,0 +1,1103 @@
+[0.000000] (-) TimerEvent: {}
+[0.005626] (mecanum4_description) JobQueued: {'identifier': 'mecanum4_description', 'dependencies': OrderedDict()}
+[0.005978] (ydlidar_ros2_driver) JobQueued: {'identifier': 'ydlidar_ros2_driver', 'dependencies': OrderedDict()}
+[0.006591] (mecanum4_description) JobStarted: {'identifier': 'mecanum4_description'}
+[0.052256] (ydlidar_ros2_driver) JobStarted: {'identifier': 'ydlidar_ros2_driver'}
+[0.080652] (mecanum4_description) JobProgress: {'identifier': 'mecanum4_description', 'progress': 'cmake'}
+[0.105539] (mecanum4_description) Command: {'cmd': ['/usr/bin/cmake', '/home/minmin/ros2_ws/src/mecanum4_description', '-DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/install/mecanum4_description'], 'cwd': '/home/minmin/ros2_ws/src/build/mecanum4_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'minmin'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('WT_PROFILE_ID', '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'), ('HOME', '/home/minmin'), ('OLDPWD', '/home/minmin/ros2_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/minmin/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'minmin'), ('NAME', 'DESKTOP-9G9OV1A'), ('WSL_INTEROP', '/run/WSL/4797_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/minmin/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-8.0.412.8-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-17.0.11.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-11.0.23.9-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Users/ASUS/Downloads/cmake-3.29.3-windows-x86_64/cmake-3.29.3-windows-x86_64/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Program Files/playit_gg/bin/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312:/mnt/c/MinGW/bin:/mnt/c/Program Files/MATLAB/R2024a/runtime/win64:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.1/:/mnt/c/Program Files/WireGuard/:/mnt/c/Program Files/Process Lasso/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Users/ASUS/.local/bin:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/ASUS/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Tesseract-OCR:/mnt/c/Users/ASUS/Downloads/php-8.3.7-Win32-vs16-x64:/mnt/c/Users/ASUS/AppData/Local/GitHubDesktop/bin:/mnt/c/MinGW/bin:/mnt/c/Users/ASUS/AppData/Roaming/npm:/mnt/c/Users/ASUS/AppData/Local/Programs/Ollama:/snap/bin'), ('WT_SESSION', '53af5bad-ee92-4dbd-bbd8-f42dac104348'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/minmin/ros2_ws/src/build/mecanum4_description'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('WSLENV', 'WT_SESSION:WT_PROFILE_ID:')]), 'shell': False}
+[0.138017] (-) TimerEvent: {}
+[0.142396] (ydlidar_ros2_driver) JobProgress: {'identifier': 'ydlidar_ros2_driver', 'progress': 'cmake'}
+[0.157226] (ydlidar_ros2_driver) Command: {'cmd': ['/usr/bin/cmake', '/home/minmin/ros2_ws/src/ydlidar_ros2_driver', '-DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/install/ydlidar_ros2_driver'], 'cwd': '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'minmin'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('WT_PROFILE_ID', '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'), ('HOME', '/home/minmin'), ('OLDPWD', '/home/minmin/ros2_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/minmin/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'minmin'), ('NAME', 'DESKTOP-9G9OV1A'), ('WSL_INTEROP', '/run/WSL/4797_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/minmin/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-8.0.412.8-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-17.0.11.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-11.0.23.9-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Users/ASUS/Downloads/cmake-3.29.3-windows-x86_64/cmake-3.29.3-windows-x86_64/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Program Files/playit_gg/bin/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312:/mnt/c/MinGW/bin:/mnt/c/Program Files/MATLAB/R2024a/runtime/win64:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.1/:/mnt/c/Program Files/WireGuard/:/mnt/c/Program Files/Process Lasso/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Users/ASUS/.local/bin:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/ASUS/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Tesseract-OCR:/mnt/c/Users/ASUS/Downloads/php-8.3.7-Win32-vs16-x64:/mnt/c/Users/ASUS/AppData/Local/GitHubDesktop/bin:/mnt/c/MinGW/bin:/mnt/c/Users/ASUS/AppData/Roaming/npm:/mnt/c/Users/ASUS/AppData/Local/Programs/Ollama:/snap/bin'), ('WT_SESSION', '53af5bad-ee92-4dbd-bbd8-f42dac104348'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('WSLENV', 'WT_SESSION:WT_PROFILE_ID:')]), 'shell': False}
+[0.239142] (-) TimerEvent: {}
+[0.339952] (-) TimerEvent: {}
+[0.441376] (-) TimerEvent: {}
+[0.543508] (-) TimerEvent: {}
+[0.646276] (-) TimerEvent: {}
+[0.747278] (-) TimerEvent: {}
+[0.848145] (-) TimerEvent: {}
+[0.949252] (-) TimerEvent: {}
+[1.050066] (-) TimerEvent: {}
+[1.151032] (-) TimerEvent: {}
+[1.252466] (-) TimerEvent: {}
+[1.353284] (-) TimerEvent: {}
+[1.454604] (-) TimerEvent: {}
+[1.555582] (-) TimerEvent: {}
+[1.656868] (-) TimerEvent: {}
+[1.761153] (-) TimerEvent: {}
+[1.862212] (mecanum4_description) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[1.862612] (-) TimerEvent: {}
+[1.875074] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[1.963138] (-) TimerEvent: {}
+[2.064170] (-) TimerEvent: {}
+[2.167916] (-) TimerEvent: {}
+[2.277718] (-) TimerEvent: {}
+[2.378750] (-) TimerEvent: {}
+[2.481911] (-) TimerEvent: {}
+[2.585429] (-) TimerEvent: {}
+[2.689402] (-) TimerEvent: {}
+[2.791875] (-) TimerEvent: {}
+[2.893717] (-) TimerEvent: {}
+[2.994410] (-) TimerEvent: {}
+[3.095459] (-) TimerEvent: {}
+[3.196978] (-) TimerEvent: {}
+[3.299252] (-) TimerEvent: {}
+[3.401835] (-) TimerEvent: {}
+[3.502483] (-) TimerEvent: {}
+[3.603295] (-) TimerEvent: {}
+[3.704298] (-) TimerEvent: {}
+[3.805135] (-) TimerEvent: {}
+[3.906125] (-) TimerEvent: {}
+[4.008967] (-) TimerEvent: {}
+[4.112767] (-) TimerEvent: {}
+[4.213476] (-) TimerEvent: {}
+[4.314708] (-) TimerEvent: {}
+[4.417148] (-) TimerEvent: {}
+[4.517961] (-) TimerEvent: {}
+[4.618794] (-) TimerEvent: {}
+[4.720059] (-) TimerEvent: {}
+[4.824335] (-) TimerEvent: {}
+[4.925131] (-) TimerEvent: {}
+[5.025803] (-) TimerEvent: {}
+[5.126788] (-) TimerEvent: {}
+[5.227855] (-) TimerEvent: {}
+[5.329157] (-) TimerEvent: {}
+[5.430917] (-) TimerEvent: {}
+[5.536799] (-) TimerEvent: {}
+[5.637563] (-) TimerEvent: {}
+[5.738372] (-) TimerEvent: {}
+[5.840359] (-) TimerEvent: {}
+[5.942965] (-) TimerEvent: {}
+[6.044001] (-) TimerEvent: {}
+[6.147305] (-) TimerEvent: {}
+[6.248260] (-) TimerEvent: {}
+[6.349192] (-) TimerEvent: {}
+[6.450255] (-) TimerEvent: {}
+[6.550967] (-) TimerEvent: {}
+[6.651891] (-) TimerEvent: {}
+[6.752784] (-) TimerEvent: {}
+[6.853471] (-) TimerEvent: {}
+[6.954218] (-) TimerEvent: {}
+[7.055465] (-) TimerEvent: {}
+[7.158643] (-) TimerEvent: {}
+[7.259496] (-) TimerEvent: {}
+[7.362549] (-) TimerEvent: {}
+[7.463331] (-) TimerEvent: {}
+[7.564522] (-) TimerEvent: {}
+[7.665404] (-) TimerEvent: {}
+[7.766214] (-) TimerEvent: {}
+[7.867114] (-) TimerEvent: {}
+[7.968228] (-) TimerEvent: {}
+[8.071667] (-) TimerEvent: {}
+[8.172722] (-) TimerEvent: {}
+[8.274182] (-) TimerEvent: {}
+[8.375232] (-) TimerEvent: {}
+[8.480909] (-) TimerEvent: {}
+[8.581559] (-) TimerEvent: {}
+[8.684789] (-) TimerEvent: {}
+[8.785491] (-) TimerEvent: {}
+[8.886621] (-) TimerEvent: {}
+[8.987547] (-) TimerEvent: {}
+[9.088598] (-) TimerEvent: {}
+[9.189956] (-) TimerEvent: {}
+[9.291719] (-) TimerEvent: {}
+[9.392640] (-) TimerEvent: {}
+[9.493312] (-) TimerEvent: {}
+[9.594001] (-) TimerEvent: {}
+[9.695023] (-) TimerEvent: {}
+[9.795827] (-) TimerEvent: {}
+[9.896874] (-) TimerEvent: {}
+[9.950616] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[9.997087] (-) TimerEvent: {}
+[10.066318] (mecanum4_description) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[10.097317] (-) TimerEvent: {}
+[10.198002] (-) TimerEvent: {}
+[10.298743] (-) TimerEvent: {}
+[10.400112] (-) TimerEvent: {}
+[10.500879] (-) TimerEvent: {}
+[10.602894] (-) TimerEvent: {}
+[10.703754] (-) TimerEvent: {}
+[10.813813] (-) TimerEvent: {}
+[10.914575] (-) TimerEvent: {}
+[11.015504] (-) TimerEvent: {}
+[11.116842] (-) TimerEvent: {}
+[11.217804] (-) TimerEvent: {}
+[11.318926] (-) TimerEvent: {}
+[11.421681] (-) TimerEvent: {}
+[11.522938] (-) TimerEvent: {}
+[11.623856] (-) TimerEvent: {}
+[11.724777] (-) TimerEvent: {}
+[11.825478] (-) TimerEvent: {}
+[11.926200] (-) TimerEvent: {}
+[12.027001] (-) TimerEvent: {}
+[12.127837] (-) TimerEvent: {}
+[12.228885] (-) TimerEvent: {}
+[12.329525] (-) TimerEvent: {}
+[12.430470] (-) TimerEvent: {}
+[12.531662] (-) TimerEvent: {}
+[12.632577] (-) TimerEvent: {}
+[12.733308] (-) TimerEvent: {}
+[12.833984] (-) TimerEvent: {}
+[12.934849] (-) TimerEvent: {}
+[13.035804] (-) TimerEvent: {}
+[13.136758] (-) TimerEvent: {}
+[13.237903] (-) TimerEvent: {}
+[13.295692] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[13.338223] (-) TimerEvent: {}
+[13.438960] (-) TimerEvent: {}
+[13.540035] (-) TimerEvent: {}
+[13.546089] (mecanum4_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[13.640611] (-) TimerEvent: {}
+[13.741352] (-) TimerEvent: {}
+[13.842037] (-) TimerEvent: {}
+[13.942910] (-) TimerEvent: {}
+[14.044317] (-) TimerEvent: {}
+[14.145056] (-) TimerEvent: {}
+[14.245722] (-) TimerEvent: {}
+[14.297442] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[14.322337] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[14.325614] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[14.329123] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[14.341041] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[14.346049] (-) TimerEvent: {}
+[14.446907] (-) TimerEvent: {}
+[14.521002] (mecanum4_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[14.539323] (mecanum4_description) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[14.540098] (mecanum4_description) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[14.541858] (mecanum4_description) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[14.547268] (-) TimerEvent: {}
+[14.551214] (mecanum4_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[14.647729] (-) TimerEvent: {}
+[14.748784] (-) TimerEvent: {}
+[14.849691] (-) TimerEvent: {}
+[14.950454] (-) TimerEvent: {}
+[15.051277] (-) TimerEvent: {}
+[15.152045] (-) TimerEvent: {}
+[15.218041] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[15.235971] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[15.236556] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[15.237560] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[15.252506] (-) TimerEvent: {}
+[15.254523] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[15.352863] (-) TimerEvent: {}
+[15.366539] (mecanum4_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[15.378137] (mecanum4_description) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[15.378685] (mecanum4_description) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[15.379593] (mecanum4_description) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[15.385417] (mecanum4_description) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[15.453229] (-) TimerEvent: {}
+[15.553764] (-) TimerEvent: {}
+[15.576252] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[15.654060] (-) TimerEvent: {}
+[15.687172] (mecanum4_description) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[15.754394] (-) TimerEvent: {}
+[15.768525] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[15.854902] (-) TimerEvent: {}
+[15.868503] (mecanum4_description) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[15.955645] (-) TimerEvent: {}
+[16.025151] (mecanum4_description) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[16.028516] (mecanum4_description) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[16.030961] (mecanum4_description) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[16.035711] (mecanum4_description) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[16.040336] (mecanum4_description) StdoutLine: {'line': b'-- Configuring done\n'}
+[16.056904] (-) TimerEvent: {}
+[16.057390] (mecanum4_description) StdoutLine: {'line': b'-- Generating done\n'}
+[16.061626] (mecanum4_description) StdoutLine: {'line': b'-- Build files have been written to: /home/minmin/ros2_ws/src/build/mecanum4_description\n'}
+[16.070224] (mecanum4_description) CommandEnded: {'returncode': 0}
+[16.071477] (mecanum4_description) JobProgress: {'identifier': 'mecanum4_description', 'progress': 'build'}
+[16.074178] (mecanum4_description) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/minmin/ros2_ws/src/build/mecanum4_description', '--', '-j8', '-l8'], 'cwd': '/home/minmin/ros2_ws/src/build/mecanum4_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'minmin'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('WT_PROFILE_ID', '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'), ('HOME', '/home/minmin'), ('OLDPWD', '/home/minmin/ros2_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/minmin/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'minmin'), ('NAME', 'DESKTOP-9G9OV1A'), ('WSL_INTEROP', '/run/WSL/4797_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/minmin/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-8.0.412.8-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-17.0.11.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-11.0.23.9-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Users/ASUS/Downloads/cmake-3.29.3-windows-x86_64/cmake-3.29.3-windows-x86_64/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Program Files/playit_gg/bin/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312:/mnt/c/MinGW/bin:/mnt/c/Program Files/MATLAB/R2024a/runtime/win64:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.1/:/mnt/c/Program Files/WireGuard/:/mnt/c/Program Files/Process Lasso/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Users/ASUS/.local/bin:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/ASUS/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Tesseract-OCR:/mnt/c/Users/ASUS/Downloads/php-8.3.7-Win32-vs16-x64:/mnt/c/Users/ASUS/AppData/Local/GitHubDesktop/bin:/mnt/c/MinGW/bin:/mnt/c/Users/ASUS/AppData/Roaming/npm:/mnt/c/Users/ASUS/AppData/Local/Programs/Ollama:/snap/bin'), ('WT_SESSION', '53af5bad-ee92-4dbd-bbd8-f42dac104348'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/minmin/ros2_ws/src/build/mecanum4_description'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('WSLENV', 'WT_SESSION:WT_PROFILE_ID:')]), 'shell': False}
+[16.156647] (mecanum4_description) CommandEnded: {'returncode': 0}
+[16.157702] (-) TimerEvent: {}
+[16.158738] (mecanum4_description) JobProgress: {'identifier': 'mecanum4_description', 'progress': 'install'}
+[16.176534] (mecanum4_description) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/minmin/ros2_ws/src/build/mecanum4_description'], 'cwd': '/home/minmin/ros2_ws/src/build/mecanum4_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'minmin'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('WT_PROFILE_ID', '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'), ('HOME', '/home/minmin'), ('OLDPWD', '/home/minmin/ros2_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/minmin/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'minmin'), ('NAME', 'DESKTOP-9G9OV1A'), ('WSL_INTEROP', '/run/WSL/4797_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/minmin/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-8.0.412.8-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-17.0.11.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-11.0.23.9-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Users/ASUS/Downloads/cmake-3.29.3-windows-x86_64/cmake-3.29.3-windows-x86_64/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Program Files/playit_gg/bin/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312:/mnt/c/MinGW/bin:/mnt/c/Program Files/MATLAB/R2024a/runtime/win64:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.1/:/mnt/c/Program Files/WireGuard/:/mnt/c/Program Files/Process Lasso/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Users/ASUS/.local/bin:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/ASUS/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Tesseract-OCR:/mnt/c/Users/ASUS/Downloads/php-8.3.7-Win32-vs16-x64:/mnt/c/Users/ASUS/AppData/Local/GitHubDesktop/bin:/mnt/c/MinGW/bin:/mnt/c/Users/ASUS/AppData/Roaming/npm:/mnt/c/Users/ASUS/AppData/Local/Programs/Ollama:/snap/bin'), ('WT_SESSION', '53af5bad-ee92-4dbd-bbd8-f42dac104348'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/minmin/ros2_ws/src/build/mecanum4_description'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('WSLENV', 'WT_SESSION:WT_PROFILE_ID:')]), 'shell': False}
+[16.189557] (mecanum4_description) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[16.190195] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/urdf\n'}
+[16.193856] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/urdf/mecanum4_lidar.urdf\n'}
+[16.194346] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch\n'}
+[16.195780] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/localization_bringup.launch.py\n'}
+[16.196892] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/nav2_slam_bringup.launch.py\n'}
+[16.198101] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/abu_stadium_spawn.launch.py\n'}
+[16.198977] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/nav2_amcl_bringup.launch.py\n'}
+[16.199813] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/sim_bringup.launch.py\n'}
+[16.200718] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/display.launch.py\n'}
+[16.201683] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/robot_state_publisher.launch.py\n'}
+[16.202600] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config\n'}
+[16.203754] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config/nav2_params.yaml\n'}
+[16.204065] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config/slam_params.yaml\n'}
+[16.204382] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config/mecanum_controllers.yaml\n'}
+[16.204893] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/behavior_trees\n'}
+[16.206161] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml\n'}
+[16.209429] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/lib/mecanum4_description/cmd_vel_to_wheels.py\n'}
+[16.209781] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/lib/mecanum4_description/teleop_gui.py\n'}
+[16.210297] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/lib/mecanum4_description/docking_node.py\n'}
+[16.213107] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/ament_index/resource_index/package_run_dependencies/mecanum4_description\n'}
+[16.214530] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/ament_index/resource_index/parent_prefix_path/mecanum4_description\n'}
+[16.215902] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.sh\n'}
+[16.216322] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.dsv\n'}
+[16.216917] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/path.sh\n'}
+[16.217552] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/path.dsv\n'}
+[16.218598] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.bash\n'}
+[16.219382] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.sh\n'}
+[16.219787] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.zsh\n'}
+[16.220249] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.dsv\n'}
+[16.220849] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/package.dsv\n'}
+[16.222601] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/ament_index/resource_index/packages/mecanum4_description\n'}
+[16.224345] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig.cmake\n'}
+[16.224813] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig-version.cmake\n'}
+[16.225207] (mecanum4_description) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/package.xml\n'}
+[16.229984] (mecanum4_description) CommandEnded: {'returncode': 0}
+[16.258411] (-) TimerEvent: {}
+[16.271467] (mecanum4_description) JobEnded: {'identifier': 'mecanum4_description', 'rc': 0}
+[16.359374] (-) TimerEvent: {}
+[16.460254] (-) TimerEvent: {}
+[16.528530] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[16.548041] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[16.560861] (-) TimerEvent: {}
+[16.579221] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[16.621616] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[16.661801] (-) TimerEvent: {}
+[16.679319] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[16.768924] (-) TimerEvent: {}
+[16.851049] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[16.863838] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[16.869492] (-) TimerEvent: {}
+[16.972040] (-) TimerEvent: {}
+[17.073167] (-) TimerEvent: {}
+[17.179971] (-) TimerEvent: {}
+[17.286169] (-) TimerEvent: {}
+[17.395085] (-) TimerEvent: {}
+[17.503918] (-) TimerEvent: {}
+[17.612709] (-) TimerEvent: {}
+[17.721353] (-) TimerEvent: {}
+[17.830253] (-) TimerEvent: {}
+[17.931639] (-) TimerEvent: {}
+[18.032440] (-) TimerEvent: {}
+[18.133608] (-) TimerEvent: {}
+[18.235105] (-) TimerEvent: {}
+[18.335935] (-) TimerEvent: {}
+[18.438051] (-) TimerEvent: {}
+[18.538729] (-) TimerEvent: {}
+[18.639539] (-) TimerEvent: {}
+[18.740258] (-) TimerEvent: {}
+[18.840969] (-) TimerEvent: {}
+[18.941777] (-) TimerEvent: {}
+[19.042418] (-) TimerEvent: {}
+[19.143445] (-) TimerEvent: {}
+[19.244491] (-) TimerEvent: {}
+[19.345042] (-) TimerEvent: {}
+[19.446163] (-) TimerEvent: {}
+[19.546967] (-) TimerEvent: {}
+[19.648011] (-) TimerEvent: {}
+[19.749140] (-) TimerEvent: {}
+[19.849776] (-) TimerEvent: {}
+[19.950642] (-) TimerEvent: {}
+[20.051302] (-) TimerEvent: {}
+[20.152005] (-) TimerEvent: {}
+[20.252811] (-) TimerEvent: {}
+[20.353588] (-) TimerEvent: {}
+[20.454257] (-) TimerEvent: {}
+[20.554990] (-) TimerEvent: {}
+[20.655697] (-) TimerEvent: {}
+[20.756614] (-) TimerEvent: {}
+[20.857288] (-) TimerEvent: {}
+[20.958035] (-) TimerEvent: {}
+[21.059112] (-) TimerEvent: {}
+[21.160484] (-) TimerEvent: {}
+[21.261239] (-) TimerEvent: {}
+[21.362376] (-) TimerEvent: {}
+[21.463541] (-) TimerEvent: {}
+[21.564311] (-) TimerEvent: {}
+[21.664917] (-) TimerEvent: {}
+[21.765806] (-) TimerEvent: {}
+[21.867129] (-) TimerEvent: {}
+[21.968259] (-) TimerEvent: {}
+[22.069030] (-) TimerEvent: {}
+[22.170070] (-) TimerEvent: {}
+[22.271140] (-) TimerEvent: {}
+[22.371810] (-) TimerEvent: {}
+[22.472917] (-) TimerEvent: {}
+[22.573506] (-) TimerEvent: {}
+[22.674544] (-) TimerEvent: {}
+[22.775357] (-) TimerEvent: {}
+[22.876235] (-) TimerEvent: {}
+[22.977552] (-) TimerEvent: {}
+[23.078226] (-) TimerEvent: {}
+[23.179066] (-) TimerEvent: {}
+[23.279843] (-) TimerEvent: {}
+[23.381272] (-) TimerEvent: {}
+[23.482279] (-) TimerEvent: {}
+[23.582779] (-) TimerEvent: {}
+[23.683515] (-) TimerEvent: {}
+[23.784138] (-) TimerEvent: {}
+[23.885015] (-) TimerEvent: {}
+[23.985763] (-) TimerEvent: {}
+[24.086356] (-) TimerEvent: {}
+[24.127755] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[24.186690] (-) TimerEvent: {}
+[24.287402] (-) TimerEvent: {}
+[24.388152] (-) TimerEvent: {}
+[24.488915] (-) TimerEvent: {}
+[24.590169] (-) TimerEvent: {}
+[24.691380] (-) TimerEvent: {}
+[24.792284] (-) TimerEvent: {}
+[24.893572] (-) TimerEvent: {}
+[24.995408] (-) TimerEvent: {}
+[25.104748] (-) TimerEvent: {}
+[25.213831] (-) TimerEvent: {}
+[25.315076] (-) TimerEvent: {}
+[25.416729] (-) TimerEvent: {}
+[25.517744] (-) TimerEvent: {}
+[25.618564] (-) TimerEvent: {}
+[25.719454] (-) TimerEvent: {}
+[25.820572] (-) TimerEvent: {}
+[25.921976] (-) TimerEvent: {}
+[26.026400] (-) TimerEvent: {}
+[26.135259] (-) TimerEvent: {}
+[26.244082] (-) TimerEvent: {}
+[26.352873] (-) TimerEvent: {}
+[26.461670] (-) TimerEvent: {}
+[26.570482] (-) TimerEvent: {}
+[26.671366] (-) TimerEvent: {}
+[26.777837] (-) TimerEvent: {}
+[26.884519] (-) TimerEvent: {}
+[26.985110] (-) TimerEvent: {}
+[27.094488] (-) TimerEvent: {}
+[27.203503] (-) TimerEvent: {}
+[27.306399] (-) TimerEvent: {}
+[27.416685] (-) TimerEvent: {}
+[27.525617] (-) TimerEvent: {}
+[27.633602] (-) TimerEvent: {}
+[27.738683] (-) TimerEvent: {}
+[27.847606] (-) TimerEvent: {}
+[27.956201] (-) TimerEvent: {}
+[28.060924] (-) TimerEvent: {}
+[28.168130] (-) TimerEvent: {}
+[28.277182] (-) TimerEvent: {}
+[28.384195] (-) TimerEvent: {}
+[28.484887] (-) TimerEvent: {}
+[28.591265] (-) TimerEvent: {}
+[28.694164] (-) TimerEvent: {}
+[28.802994] (-) TimerEvent: {}
+[28.905275] (-) TimerEvent: {}
+[29.005879] (-) TimerEvent: {}
+[29.106764] (-) TimerEvent: {}
+[29.213336] (-) TimerEvent: {}
+[29.315609] (-) TimerEvent: {}
+[29.424858] (-) TimerEvent: {}
+[29.528476] (-) TimerEvent: {}
+[29.629361] (-) TimerEvent: {}
+[29.733236] (-) TimerEvent: {}
+[29.834341] (-) TimerEvent: {}
+[29.935037] (-) TimerEvent: {}
+[30.036461] (-) TimerEvent: {}
+[30.140491] (-) TimerEvent: {}
+[30.249484] (-) TimerEvent: {}
+[30.358655] (-) TimerEvent: {}
+[30.467495] (-) TimerEvent: {}
+[30.573839] (-) TimerEvent: {}
+[30.674791] (-) TimerEvent: {}
+[30.775613] (-) TimerEvent: {}
+[30.877037] (-) TimerEvent: {}
+[30.984466] (-) TimerEvent: {}
+[31.089363] (-) TimerEvent: {}
+[31.198418] (-) TimerEvent: {}
+[31.307803] (-) TimerEvent: {}
+[31.408837] (-) TimerEvent: {}
+[31.509836] (-) TimerEvent: {}
+[31.610425] (-) TimerEvent: {}
+[31.711401] (-) TimerEvent: {}
+[31.812292] (-) TimerEvent: {}
+[31.913176] (-) TimerEvent: {}
+[32.022032] (-) TimerEvent: {}
+[32.122911] (-) TimerEvent: {}
+[32.230237] (-) TimerEvent: {}
+[32.330964] (-) TimerEvent: {}
+[32.431857] (-) TimerEvent: {}
+[32.533530] (-) TimerEvent: {}
+[32.634118] (-) TimerEvent: {}
+[32.734945] (-) TimerEvent: {}
+[32.835910] (-) TimerEvent: {}
+[32.937116] (-) TimerEvent: {}
+[33.037665] (-) TimerEvent: {}
+[33.134406] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[33.137892] (-) TimerEvent: {}
+[33.238482] (-) TimerEvent: {}
+[33.339333] (-) TimerEvent: {}
+[33.440274] (-) TimerEvent: {}
+[33.541599] (-) TimerEvent: {}
+[33.650641] (-) TimerEvent: {}
+[33.754161] (-) TimerEvent: {}
+[33.863255] (-) TimerEvent: {}
+[33.964846] (-) TimerEvent: {}
+[34.065830] (-) TimerEvent: {}
+[34.166943] (-) TimerEvent: {}
+[34.268002] (-) TimerEvent: {}
+[34.368861] (-) TimerEvent: {}
+[34.469838] (-) TimerEvent: {}
+[34.570573] (-) TimerEvent: {}
+[34.671332] (-) TimerEvent: {}
+[34.772124] (-) TimerEvent: {}
+[34.873002] (-) TimerEvent: {}
+[34.973574] (-) TimerEvent: {}
+[35.074365] (-) TimerEvent: {}
+[35.175496] (-) TimerEvent: {}
+[35.280758] (-) TimerEvent: {}
+[35.381400] (-) TimerEvent: {}
+[35.482181] (-) TimerEvent: {}
+[35.582959] (-) TimerEvent: {}
+[35.684175] (-) TimerEvent: {}
+[35.785236] (-) TimerEvent: {}
+[35.885792] (-) TimerEvent: {}
+[35.986421] (-) TimerEvent: {}
+[36.087167] (-) TimerEvent: {}
+[36.187934] (-) TimerEvent: {}
+[36.288689] (-) TimerEvent: {}
+[36.389191] (-) TimerEvent: {}
+[36.489750] (-) TimerEvent: {}
+[36.590445] (-) TimerEvent: {}
+[36.691451] (-) TimerEvent: {}
+[36.800346] (-) TimerEvent: {}
+[36.902575] (-) TimerEvent: {}
+[37.009390] (-) TimerEvent: {}
+[37.111618] (-) TimerEvent: {}
+[37.212907] (-) TimerEvent: {}
+[37.322128] (-) TimerEvent: {}
+[37.425028] (-) TimerEvent: {}
+[37.534198] (-) TimerEvent: {}
+[37.642870] (-) TimerEvent: {}
+[37.751692] (-) TimerEvent: {}
+[37.860498] (-) TimerEvent: {}
+[37.965781] (-) TimerEvent: {}
+[38.066872] (-) TimerEvent: {}
+[38.169108] (-) TimerEvent: {}
+[38.277894] (-) TimerEvent: {}
+[38.386765] (-) TimerEvent: {}
+[38.490947] (-) TimerEvent: {}
+[38.592517] (-) TimerEvent: {}
+[38.693461] (-) TimerEvent: {}
+[38.794149] (-) TimerEvent: {}
+[38.894950] (-) TimerEvent: {}
+[38.995629] (-) TimerEvent: {}
+[39.096476] (-) TimerEvent: {}
+[39.196971] (-) TimerEvent: {}
+[39.297542] (-) TimerEvent: {}
+[39.398394] (-) TimerEvent: {}
+[39.499632] (-) TimerEvent: {}
+[39.601122] (-) TimerEvent: {}
+[39.701681] (-) TimerEvent: {}
+[39.802622] (-) TimerEvent: {}
+[39.903524] (-) TimerEvent: {}
+[40.004876] (-) TimerEvent: {}
+[40.106225] (-) TimerEvent: {}
+[40.211738] (-) TimerEvent: {}
+[40.312834] (-) TimerEvent: {}
+[40.413776] (-) TimerEvent: {}
+[40.514485] (-) TimerEvent: {}
+[40.615119] (-) TimerEvent: {}
+[40.715927] (-) TimerEvent: {}
+[40.816749] (-) TimerEvent: {}
+[40.917225] (-) TimerEvent: {}
+[41.017621] (-) TimerEvent: {}
+[41.118201] (-) TimerEvent: {}
+[41.219301] (-) TimerEvent: {}
+[41.320679] (-) TimerEvent: {}
+[41.421199] (-) TimerEvent: {}
+[41.521700] (-) TimerEvent: {}
+[41.622376] (-) TimerEvent: {}
+[41.723515] (-) TimerEvent: {}
+[41.824256] (-) TimerEvent: {}
+[41.924798] (-) TimerEvent: {}
+[42.025292] (-) TimerEvent: {}
+[42.126025] (-) TimerEvent: {}
+[42.231987] (-) TimerEvent: {}
+[42.332796] (-) TimerEvent: {}
+[42.433757] (-) TimerEvent: {}
+[42.534988] (-) TimerEvent: {}
+[42.635487] (-) TimerEvent: {}
+[42.736243] (-) TimerEvent: {}
+[42.837317] (-) TimerEvent: {}
+[42.938635] (-) TimerEvent: {}
+[43.040413] (-) TimerEvent: {}
+[43.140826] (-) TimerEvent: {}
+[43.248099] (-) TimerEvent: {}
+[43.357220] (-) TimerEvent: {}
+[43.464547] (-) TimerEvent: {}
+[43.565148] (-) TimerEvent: {}
+[43.672740] (-) TimerEvent: {}
+[43.781705] (-) TimerEvent: {}
+[43.882497] (-) TimerEvent: {}
+[43.991559] (-) TimerEvent: {}
+[44.093002] (-) TimerEvent: {}
+[44.194789] (-) TimerEvent: {}
+[44.295476] (-) TimerEvent: {}
+[44.396686] (-) TimerEvent: {}
+[44.497272] (-) TimerEvent: {}
+[44.598033] (-) TimerEvent: {}
+[44.699062] (-) TimerEvent: {}
+[44.800555] (-) TimerEvent: {}
+[44.901490] (-) TimerEvent: {}
+[45.002453] (-) TimerEvent: {}
+[45.103586] (-) TimerEvent: {}
+[45.207330] (-) TimerEvent: {}
+[45.308136] (-) TimerEvent: {}
+[45.409099] (-) TimerEvent: {}
+[45.510533] (-) TimerEvent: {}
+[45.612067] (-) TimerEvent: {}
+[45.713396] (-) TimerEvent: {}
+[45.814691] (-) TimerEvent: {}
+[45.916434] (-) TimerEvent: {}
+[46.017298] (-) TimerEvent: {}
+[46.118480] (-) TimerEvent: {}
+[46.219311] (-) TimerEvent: {}
+[46.323763] (-) TimerEvent: {}
+[46.424870] (-) TimerEvent: {}
+[46.525858] (-) TimerEvent: {}
+[46.627224] (-) TimerEvent: {}
+[46.728830] (-) TimerEvent: {}
+[46.829836] (-) TimerEvent: {}
+[46.931507] (-) TimerEvent: {}
+[47.032253] (-) TimerEvent: {}
+[47.133135] (-) TimerEvent: {}
+[47.234948] (-) TimerEvent: {}
+[47.344280] (-) TimerEvent: {}
+[47.445125] (-) TimerEvent: {}
+[47.546418] (-) TimerEvent: {}
+[47.647934] (-) TimerEvent: {}
+[47.755962] (-) TimerEvent: {}
+[47.857280] (-) TimerEvent: {}
+[47.958264] (-) TimerEvent: {}
+[48.059006] (-) TimerEvent: {}
+[48.159816] (-) TimerEvent: {}
+[48.264420] (-) TimerEvent: {}
+[48.365565] (-) TimerEvent: {}
+[48.466934] (-) TimerEvent: {}
+[48.568186] (-) TimerEvent: {}
+[48.668754] (-) TimerEvent: {}
+[48.769268] (-) TimerEvent: {}
+[48.869915] (-) TimerEvent: {}
+[48.970632] (-) TimerEvent: {}
+[49.071305] (-) TimerEvent: {}
+[49.172068] (-) TimerEvent: {}
+[49.273242] (-) TimerEvent: {}
+[49.374171] (-) TimerEvent: {}
+[49.439747] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[49.473622] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[49.474341] (-) TimerEvent: {}
+[49.575519] (-) TimerEvent: {}
+[49.677303] (-) TimerEvent: {}
+[49.778381] (-) TimerEvent: {}
+[49.879418] (-) TimerEvent: {}
+[49.980216] (-) TimerEvent: {}
+[50.080745] (-) TimerEvent: {}
+[50.181501] (-) TimerEvent: {}
+[50.211496] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[50.213079] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[50.281719] (-) TimerEvent: {}
+[50.382276] (-) TimerEvent: {}
+[50.483249] (-) TimerEvent: {}
+[50.584713] (-) TimerEvent: {}
+[50.685526] (-) TimerEvent: {}
+[50.786500] (-) TimerEvent: {}
+[50.888228] (-) TimerEvent: {}
+[50.989236] (-) TimerEvent: {}
+[51.089978] (-) TimerEvent: {}
+[51.096572] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[51.099084] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[51.190639] (-) TimerEvent: {}
+[51.297808] (-) TimerEvent: {}
+[51.306012] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[51.405618] (-) TimerEvent: {}
+[51.422494] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found visualization_msgs: 4.9.1 (/opt/ros/humble/share/visualization_msgs/cmake)\n'}
+[51.490535] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)\n'}
+[51.505889] (-) TimerEvent: {}
+[51.606587] (-) TimerEvent: {}
+[51.707674] (-) TimerEvent: {}
+[51.809284] (-) TimerEvent: {}
+[51.910335] (-) TimerEvent: {}
+[52.011214] (-) TimerEvent: {}
+[52.113023] (-) TimerEvent: {}
+[52.214138] (-) TimerEvent: {}
+[52.315314] (-) TimerEvent: {}
+[52.416193] (-) TimerEvent: {}
+[52.517177] (-) TimerEvent: {}
+[52.618142] (-) TimerEvent: {}
+[52.719018] (-) TimerEvent: {}
+[52.820234] (-) TimerEvent: {}
+[52.921255] (-) TimerEvent: {}
+[53.022223] (-) TimerEvent: {}
+[53.123373] (-) TimerEvent: {}
+[53.224554] (-) TimerEvent: {}
+[53.326196] (-) TimerEvent: {}
+[53.427337] (-) TimerEvent: {}
+[53.528743] (-) TimerEvent: {}
+[53.629450] (-) TimerEvent: {}
+[53.730212] (-) TimerEvent: {}
+[53.830919] (-) TimerEvent: {}
+[53.931738] (-) TimerEvent: {}
+[54.032588] (-) TimerEvent: {}
+[54.133116] (-) TimerEvent: {}
+[54.234598] (-) TimerEvent: {}
+[54.335421] (-) TimerEvent: {}
+[54.436709] (-) TimerEvent: {}
+[54.538273] (-) TimerEvent: {}
+[54.639281] (-) TimerEvent: {}
+[54.740632] (-) TimerEvent: {}
+[54.842419] (-) TimerEvent: {}
+[54.943840] (-) TimerEvent: {}
+[55.045446] (-) TimerEvent: {}
+[55.146242] (-) TimerEvent: {}
+[55.247295] (-) TimerEvent: {}
+[55.348772] (-) TimerEvent: {}
+[55.449529] (-) TimerEvent: {}
+[55.550730] (-) TimerEvent: {}
+[55.652261] (-) TimerEvent: {}
+[55.753022] (-) TimerEvent: {}
+[55.854046] (-) TimerEvent: {}
+[55.955362] (-) TimerEvent: {}
+[56.057227] (-) TimerEvent: {}
+[56.158488] (-) TimerEvent: {}
+[56.260118] (-) TimerEvent: {}
+[56.361407] (-) TimerEvent: {}
+[56.462792] (-) TimerEvent: {}
+[56.564937] (-) TimerEvent: {}
+[56.666208] (-) TimerEvent: {}
+[56.767557] (-) TimerEvent: {}
+[56.869260] (-) TimerEvent: {}
+[56.970448] (-) TimerEvent: {}
+[57.071954] (-) TimerEvent: {}
+[57.173635] (-) TimerEvent: {}
+[57.274688] (-) TimerEvent: {}
+[57.376264] (-) TimerEvent: {}
+[57.477203] (-) TimerEvent: {}
+[57.578375] (-) TimerEvent: {}
+[57.679930] (-) TimerEvent: {}
+[57.780931] (-) TimerEvent: {}
+[57.882170] (-) TimerEvent: {}
+[57.983684] (-) TimerEvent: {}
+[58.084283] (-) TimerEvent: {}
+[58.185658] (-) TimerEvent: {}
+[58.287144] (-) TimerEvent: {}
+[58.388079] (-) TimerEvent: {}
+[58.489578] (-) TimerEvent: {}
+[58.590594] (-) TimerEvent: {}
+[58.691622] (-) TimerEvent: {}
+[58.793029] (-) TimerEvent: {}
+[58.893909] (-) TimerEvent: {}
+[58.995037] (-) TimerEvent: {}
+[59.096505] (-) TimerEvent: {}
+[59.197283] (-) TimerEvent: {}
+[59.298489] (-) TimerEvent: {}
+[59.400306] (-) TimerEvent: {}
+[59.504243] (-) TimerEvent: {}
+[59.605531] (-) TimerEvent: {}
+[59.707094] (-) TimerEvent: {}
+[59.808145] (-) TimerEvent: {}
+[59.909543] (-) TimerEvent: {}
+[60.010227] (-) TimerEvent: {}
+[60.111281] (-) TimerEvent: {}
+[60.212683] (-) TimerEvent: {}
+[60.313426] (-) TimerEvent: {}
+[60.414290] (-) TimerEvent: {}
+[60.515783] (-) TimerEvent: {}
+[60.617508] (-) TimerEvent: {}
+[60.718667] (-) TimerEvent: {}
+[60.820366] (-) TimerEvent: {}
+[60.921126] (-) TimerEvent: {}
+[61.022129] (-) TimerEvent: {}
+[61.123013] (-) TimerEvent: {}
+[61.224890] (-) TimerEvent: {}
+[61.326286] (-) TimerEvent: {}
+[61.427319] (-) TimerEvent: {}
+[61.528248] (-) TimerEvent: {}
+[61.629532] (-) TimerEvent: {}
+[61.730633] (-) TimerEvent: {}
+[61.832026] (-) TimerEvent: {}
+[61.939219] (-) TimerEvent: {}
+[62.048287] (-) TimerEvent: {}
+[62.149041] (-) TimerEvent: {}
+[62.157538] (ydlidar_ros2_driver) StderrLine: {'line': b'\x1b[33mCMake Warning at CMakeLists.txt:35 (message):\n'}
+[62.157971] (ydlidar_ros2_driver) StderrLine: {'line': b'  ydlidar_sdk not found: ydlidar_ros2_driver_node will not be built\n'}
+[62.158075] (ydlidar_ros2_driver) StderrLine: {'line': b'\n'}
+[62.158159] (ydlidar_ros2_driver) StderrLine: {'line': b'\x1b[0m\n'}
+[62.166861] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[62.250118] (-) TimerEvent: {}
+[62.350979] (-) TimerEvent: {}
+[62.387190] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[62.396769] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[62.397160] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/minmin/ros2_ws/src/ydlidar_ros2_driver/src\n'}
+[62.397300] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[62.405762] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[62.406216] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[62.408966] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[62.412101] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[62.416180] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[62.424040] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[62.424494] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[62.428162] (ydlidar_ros2_driver) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[62.432842] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Configuring done\n'}
+[62.452682] (-) TimerEvent: {}
+[62.474688] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Generating done\n'}
+[62.485774] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Build files have been written to: /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver\n'}
+[62.523828] (ydlidar_ros2_driver) CommandEnded: {'returncode': 0}
+[62.525394] (ydlidar_ros2_driver) JobProgress: {'identifier': 'ydlidar_ros2_driver', 'progress': 'build'}
+[62.527745] (ydlidar_ros2_driver) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver', '--', '-j8', '-l8'], 'cwd': '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'minmin'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('WT_PROFILE_ID', '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'), ('HOME', '/home/minmin'), ('OLDPWD', '/home/minmin/ros2_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/minmin/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'minmin'), ('NAME', 'DESKTOP-9G9OV1A'), ('WSL_INTEROP', '/run/WSL/4797_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/minmin/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-8.0.412.8-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-17.0.11.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-11.0.23.9-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Users/ASUS/Downloads/cmake-3.29.3-windows-x86_64/cmake-3.29.3-windows-x86_64/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Program Files/playit_gg/bin/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312:/mnt/c/MinGW/bin:/mnt/c/Program Files/MATLAB/R2024a/runtime/win64:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.1/:/mnt/c/Program Files/WireGuard/:/mnt/c/Program Files/Process Lasso/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Users/ASUS/.local/bin:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/ASUS/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Tesseract-OCR:/mnt/c/Users/ASUS/Downloads/php-8.3.7-Win32-vs16-x64:/mnt/c/Users/ASUS/AppData/Local/GitHubDesktop/bin:/mnt/c/MinGW/bin:/mnt/c/Users/ASUS/AppData/Roaming/npm:/mnt/c/Users/ASUS/AppData/Local/Programs/Ollama:/snap/bin'), ('WT_SESSION', '53af5bad-ee92-4dbd-bbd8-f42dac104348'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('WSLENV', 'WT_SESSION:WT_PROFILE_ID:')]), 'shell': False}
+[62.552962] (-) TimerEvent: {}
+[62.654656] (-) TimerEvent: {}
+[62.655907] (ydlidar_ros2_driver) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/ydlidar_ros2_driver_client.dir/src/ydlidar_ros2_driver_client.cpp.o\x1b[0m\n'}
+[62.755402] (-) TimerEvent: {}
+[62.856146] (-) TimerEvent: {}
+[62.956964] (-) TimerEvent: {}
+[63.057662] (-) TimerEvent: {}
+[63.166778] (-) TimerEvent: {}
+[63.275774] (-) TimerEvent: {}
+[63.384643] (-) TimerEvent: {}
+[63.493223] (-) TimerEvent: {}
+[63.602318] (-) TimerEvent: {}
+[63.711249] (-) TimerEvent: {}
+[63.820309] (-) TimerEvent: {}
+[63.929349] (-) TimerEvent: {}
+[64.038301] (-) TimerEvent: {}
+[64.146094] (-) TimerEvent: {}
+[64.255038] (-) TimerEvent: {}
+[64.364098] (-) TimerEvent: {}
+[64.473025] (-) TimerEvent: {}
+[64.581740] (-) TimerEvent: {}
+[64.682928] (-) TimerEvent: {}
+[64.791947] (-) TimerEvent: {}
+[64.893294] (-) TimerEvent: {}
+[65.002453] (-) TimerEvent: {}
+[65.105862] (-) TimerEvent: {}
+[65.215628] (-) TimerEvent: {}
+[65.324696] (-) TimerEvent: {}
+[65.436423] (-) TimerEvent: {}
+[65.545689] (-) TimerEvent: {}
+[65.654926] (-) TimerEvent: {}
+[65.764856] (-) TimerEvent: {}
+[65.873993] (-) TimerEvent: {}
+[65.975232] (-) TimerEvent: {}
+[66.077240] (-) TimerEvent: {}
+[66.184949] (-) TimerEvent: {}
+[66.293980] (-) TimerEvent: {}
+[66.403030] (-) TimerEvent: {}
+[66.512096] (-) TimerEvent: {}
+[66.621153] (-) TimerEvent: {}
+[66.729848] (-) TimerEvent: {}
+[66.838947] (-) TimerEvent: {}
+[66.947898] (-) TimerEvent: {}
+[67.049947] (-) TimerEvent: {}
+[67.150785] (-) TimerEvent: {}
+[67.251830] (-) TimerEvent: {}
+[67.352986] (-) TimerEvent: {}
+[67.453819] (-) TimerEvent: {}
+[67.554993] (-) TimerEvent: {}
+[67.656094] (-) TimerEvent: {}
+[67.756855] (-) TimerEvent: {}
+[67.857367] (-) TimerEvent: {}
+[67.958284] (-) TimerEvent: {}
+[68.058931] (-) TimerEvent: {}
+[68.159767] (-) TimerEvent: {}
+[68.260973] (-) TimerEvent: {}
+[68.362823] (-) TimerEvent: {}
+[68.467590] (-) TimerEvent: {}
+[68.573146] (-) TimerEvent: {}
+[68.673960] (-) TimerEvent: {}
+[68.775455] (-) TimerEvent: {}
+[68.876529] (-) TimerEvent: {}
+[68.977724] (-) TimerEvent: {}
+[69.079965] (-) TimerEvent: {}
+[69.181271] (-) TimerEvent: {}
+[69.290294] (-) TimerEvent: {}
+[69.399346] (-) TimerEvent: {}
+[69.508578] (-) TimerEvent: {}
+[69.617638] (-) TimerEvent: {}
+[69.724359] (-) TimerEvent: {}
+[69.833604] (-) TimerEvent: {}
+[69.942384] (-) TimerEvent: {}
+[70.051441] (-) TimerEvent: {}
+[70.152615] (-) TimerEvent: {}
+[70.254173] (-) TimerEvent: {}
+[70.355657] (-) TimerEvent: {}
+[70.456729] (-) TimerEvent: {}
+[70.557811] (-) TimerEvent: {}
+[70.659338] (-) TimerEvent: {}
+[70.769083] (-) TimerEvent: {}
+[70.878103] (-) TimerEvent: {}
+[70.986493] (-) TimerEvent: {}
+[71.087621] (-) TimerEvent: {}
+[71.189045] (-) TimerEvent: {}
+[71.296001] (-) TimerEvent: {}
+[71.396564] (-) TimerEvent: {}
+[71.497460] (-) TimerEvent: {}
+[71.598707] (-) TimerEvent: {}
+[71.700303] (-) TimerEvent: {}
+[71.801295] (-) TimerEvent: {}
+[71.902465] (-) TimerEvent: {}
+[72.003825] (-) TimerEvent: {}
+[72.104826] (-) TimerEvent: {}
+[72.206345] (-) TimerEvent: {}
+[72.312758] (-) TimerEvent: {}
+[72.421998] (-) TimerEvent: {}
+[72.530981] (-) TimerEvent: {}
+[72.639954] (-) TimerEvent: {}
+[72.741841] (-) TimerEvent: {}
+[72.850767] (-) TimerEvent: {}
+[72.959717] (-) TimerEvent: {}
+[73.060677] (-) TimerEvent: {}
+[73.169856] (-) TimerEvent: {}
+[73.270741] (-) TimerEvent: {}
+[73.371716] (-) TimerEvent: {}
+[73.473526] (-) TimerEvent: {}
+[73.582645] (-) TimerEvent: {}
+[73.691635] (-) TimerEvent: {}
+[73.800516] (-) TimerEvent: {}
+[73.909412] (-) TimerEvent: {}
+[74.018270] (-) TimerEvent: {}
+[74.124457] (-) TimerEvent: {}
+[74.233669] (-) TimerEvent: {}
+[74.338228] (-) TimerEvent: {}
+[74.439597] (-) TimerEvent: {}
+[74.540506] (-) TimerEvent: {}
+[74.641661] (-) TimerEvent: {}
+[74.742383] (-) TimerEvent: {}
+[74.843193] (-) TimerEvent: {}
+[74.944209] (-) TimerEvent: {}
+[75.045562] (-) TimerEvent: {}
+[75.147367] (-) TimerEvent: {}
+[75.256542] (-) TimerEvent: {}
+[75.365723] (-) TimerEvent: {}
+[75.466900] (-) TimerEvent: {}
+[75.576152] (-) TimerEvent: {}
+[75.685163] (-) TimerEvent: {}
+[75.794125] (-) TimerEvent: {}
+[75.903218] (-) TimerEvent: {}
+[76.012483] (-) TimerEvent: {}
+[76.116282] (-) TimerEvent: {}
+[76.225316] (-) TimerEvent: {}
+[76.326756] (-) TimerEvent: {}
+[76.435731] (-) TimerEvent: {}
+[76.537033] (-) TimerEvent: {}
+[76.638455] (-) TimerEvent: {}
+[76.739025] (-) TimerEvent: {}
+[76.839787] (-) TimerEvent: {}
+[76.940798] (-) TimerEvent: {}
+[77.041950] (-) TimerEvent: {}
+[77.143113] (-) TimerEvent: {}
+[77.244539] (-) TimerEvent: {}
+[77.353478] (-) TimerEvent: {}
+[77.454367] (-) TimerEvent: {}
+[77.555272] (-) TimerEvent: {}
+[77.656698] (-) TimerEvent: {}
+[77.757440] (-) TimerEvent: {}
+[77.858267] (-) TimerEvent: {}
+[77.959383] (-) TimerEvent: {}
+[78.060362] (-) TimerEvent: {}
+[78.169587] (-) TimerEvent: {}
+[78.272345] (-) TimerEvent: {}
+[78.373184] (-) TimerEvent: {}
+[78.473899] (-) TimerEvent: {}
+[78.575471] (-) TimerEvent: {}
+[78.676627] (-) TimerEvent: {}
+[78.778021] (-) TimerEvent: {}
+[78.879521] (-) TimerEvent: {}
+[78.980928] (-) TimerEvent: {}
+[79.081779] (-) TimerEvent: {}
+[79.183075] (-) TimerEvent: {}
+[79.292070] (-) TimerEvent: {}
+[79.401332] (-) TimerEvent: {}
+[79.510351] (-) TimerEvent: {}
+[79.613664] (-) TimerEvent: {}
+[79.722708] (-) TimerEvent: {}
+[79.831705] (-) TimerEvent: {}
+[79.940722] (-) TimerEvent: {}
+[80.049792] (-) TimerEvent: {}
+[80.150825] (-) TimerEvent: {}
+[80.252053] (-) TimerEvent: {}
+[80.353586] (-) TimerEvent: {}
+[80.462593] (-) TimerEvent: {}
+[80.567380] (-) TimerEvent: {}
+[80.668144] (-) TimerEvent: {}
+[80.768813] (-) TimerEvent: {}
+[80.869557] (-) TimerEvent: {}
+[80.970562] (-) TimerEvent: {}
+[81.072236] (-) TimerEvent: {}
+[81.174092] (-) TimerEvent: {}
+[81.283069] (-) TimerEvent: {}
+[81.392047] (-) TimerEvent: {}
+[81.501214] (-) TimerEvent: {}
+[81.610356] (-) TimerEvent: {}
+[81.711400] (-) TimerEvent: {}
+[81.812585] (-) TimerEvent: {}
+[81.914001] (-) TimerEvent: {}
+[82.014723] (-) TimerEvent: {}
+[82.115545] (-) TimerEvent: {}
+[82.216555] (-) TimerEvent: {}
+[82.317828] (-) TimerEvent: {}
+[82.419361] (-) TimerEvent: {}
+[82.522833] (-) TimerEvent: {}
+[82.631946] (-) TimerEvent: {}
+[82.741067] (-) TimerEvent: {}
+[82.850226] (-) TimerEvent: {}
+[82.959373] (-) TimerEvent: {}
+[83.068461] (-) TimerEvent: {}
+[83.173358] (-) TimerEvent: {}
+[83.282261] (-) TimerEvent: {}
+[83.387641] (-) TimerEvent: {}
+[83.496568] (-) TimerEvent: {}
+[83.605532] (-) TimerEvent: {}
+[83.714681] (-) TimerEvent: {}
+[83.823622] (-) TimerEvent: {}
+[83.932819] (-) TimerEvent: {}
+[84.041911] (-) TimerEvent: {}
+[84.146103] (-) TimerEvent: {}
+[84.246966] (-) TimerEvent: {}
+[84.348183] (-) TimerEvent: {}
+[84.449468] (-) TimerEvent: {}
+[84.554476] (-) TimerEvent: {}
+[84.657502] (-) TimerEvent: {}
+[84.758198] (-) TimerEvent: {}
+[84.858995] (-) TimerEvent: {}
+[84.960003] (-) TimerEvent: {}
+[85.061196] (-) TimerEvent: {}
+[85.162792] (-) TimerEvent: {}
+[85.272044] (-) TimerEvent: {}
+[85.381159] (-) TimerEvent: {}
+[85.490404] (-) TimerEvent: {}
+[85.599307] (-) TimerEvent: {}
+[85.708288] (-) TimerEvent: {}
+[85.817394] (-) TimerEvent: {}
+[85.925998] (-) TimerEvent: {}
+[86.034934] (-) TimerEvent: {}
+[86.138941] (-) TimerEvent: {}
+[86.242960] (-) TimerEvent: {}
+[86.347086] (-) TimerEvent: {}
+[86.451308] (-) TimerEvent: {}
+[86.555195] (-) TimerEvent: {}
+[86.659181] (-) TimerEvent: {}
+[86.763043] (-) TimerEvent: {}
+[86.866551] (-) TimerEvent: {}
+[86.970510] (-) TimerEvent: {}
+[87.071872] (-) TimerEvent: {}
+[87.172717] (-) TimerEvent: {}
+[87.273769] (-) TimerEvent: {}
+[87.375091] (-) TimerEvent: {}
+[87.475747] (-) TimerEvent: {}
+[87.576517] (-) TimerEvent: {}
+[87.677373] (-) TimerEvent: {}
+[87.778574] (-) TimerEvent: {}
+[87.880218] (-) TimerEvent: {}
+[87.989392] (-) TimerEvent: {}
+[88.090257] (-) TimerEvent: {}
+[88.191208] (-) TimerEvent: {}
+[88.292556] (-) TimerEvent: {}
+[88.393947] (-) TimerEvent: {}
+[88.495462] (-) TimerEvent: {}
+[88.600618] (-) TimerEvent: {}
+[88.701552] (-) TimerEvent: {}
+[88.802841] (-) TimerEvent: {}
+[88.904576] (-) TimerEvent: {}
+[89.012523] (-) TimerEvent: {}
+[89.118554] (-) TimerEvent: {}
+[89.224948] (-) TimerEvent: {}
+[89.331894] (-) TimerEvent: {}
+[89.438984] (-) TimerEvent: {}
+[89.546764] (-) TimerEvent: {}
+[89.654869] (-) TimerEvent: {}
+[89.758496] (-) TimerEvent: {}
+[89.859858] (-) TimerEvent: {}
+[89.968017] (-) TimerEvent: {}
+[90.070032] (-) TimerEvent: {}
+[90.179010] (-) TimerEvent: {}
+[90.288083] (-) TimerEvent: {}
+[90.397256] (-) TimerEvent: {}
+[90.506196] (-) TimerEvent: {}
+[90.613456] (-) TimerEvent: {}
+[90.719107] (-) TimerEvent: {}
+[90.825018] (-) TimerEvent: {}
+[90.930012] (-) TimerEvent: {}
+[91.038226] (-) TimerEvent: {}
+[91.145742] (-) TimerEvent: {}
+[91.254809] (-) TimerEvent: {}
+[91.363855] (-) TimerEvent: {}
+[91.472844] (-) TimerEvent: {}
+[91.581828] (-) TimerEvent: {}
+[91.690753] (-) TimerEvent: {}
+[91.799886] (-) TimerEvent: {}
+[91.824967] (ydlidar_ros2_driver) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable ydlidar_ros2_driver_client\x1b[0m\n'}
+[91.900361] (-) TimerEvent: {}
+[92.001103] (-) TimerEvent: {}
+[92.101922] (-) TimerEvent: {}
+[92.203118] (-) TimerEvent: {}
+[92.304265] (-) TimerEvent: {}
+[92.413373] (-) TimerEvent: {}
+[92.522200] (-) TimerEvent: {}
+[92.631187] (-) TimerEvent: {}
+[92.737146] (-) TimerEvent: {}
+[92.846216] (-) TimerEvent: {}
+[92.955225] (-) TimerEvent: {}
+[93.056297] (-) TimerEvent: {}
+[93.160956] (-) TimerEvent: {}
+[93.270170] (-) TimerEvent: {}
+[93.379346] (-) TimerEvent: {}
+[93.488568] (-) TimerEvent: {}
+[93.597734] (-) TimerEvent: {}
+[93.706693] (-) TimerEvent: {}
+[93.815664] (-) TimerEvent: {}
+[93.924638] (-) TimerEvent: {}
+[94.033584] (-) TimerEvent: {}
+[94.133855] (ydlidar_ros2_driver) StdoutLine: {'line': b'[100%] Built target ydlidar_ros2_driver_client\n'}
+[94.134287] (-) TimerEvent: {}
+[94.188115] (ydlidar_ros2_driver) CommandEnded: {'returncode': 0}
+[94.190860] (ydlidar_ros2_driver) JobProgress: {'identifier': 'ydlidar_ros2_driver', 'progress': 'install'}
+[94.191876] (ydlidar_ros2_driver) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver'], 'cwd': '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'minmin'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('WT_PROFILE_ID', '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'), ('HOME', '/home/minmin'), ('OLDPWD', '/home/minmin/ros2_ws'), ('ROS_PYTHON_VERSION', '3'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/minmin/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'minmin'), ('NAME', 'DESKTOP-9G9OV1A'), ('WSL_INTEROP', '/run/WSL/4797_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/minmin/.local/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jre-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-8.0.412.8-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-17.0.11.9-hotspot/bin:/mnt/c/Program Files/Eclipse Adoptium/jre-11.0.23.9-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet/:/mnt/c/Users/ASUS/Downloads/cmake-3.29.3-windows-x86_64/cmake-3.29.3-windows-x86_64/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Program Files/playit_gg/bin/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312:/mnt/c/MinGW/bin:/mnt/c/Program Files/MATLAB/R2024a/runtime/win64:/mnt/c/Program Files/MATLAB/R2024a/bin:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/cloudflared/:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.1/:/mnt/c/Program Files/WireGuard/:/mnt/c/Program Files/Process Lasso/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/150/DTS/Binn/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Users/ASUS/.local/bin:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python312/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/ASUS/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/ASUS/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/Tesseract-OCR:/mnt/c/Users/ASUS/Downloads/php-8.3.7-Win32-vs16-x64:/mnt/c/Users/ASUS/AppData/Local/GitHubDesktop/bin:/mnt/c/MinGW/bin:/mnt/c/Users/ASUS/AppData/Roaming/npm:/mnt/c/Users/ASUS/AppData/Local/Programs/Ollama:/snap/bin'), ('WT_SESSION', '53af5bad-ee92-4dbd-bbd8-f42dac104348'), ('XDG_RUNTIME_DIR', '/run/user/1000/'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('AMENT_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('PWD', '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('CMAKE_PREFIX_PATH', '/home/minmin/ros2_ws/install/ydlidar_ros2_driver:/home/minmin/ros2_ws/install/mecanum4_description:/opt/ros/humble'), ('WSLENV', 'WT_SESSION:WT_PROFILE_ID:')]), 'shell': False}
+[94.222537] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[94.226288] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client\n'}
+[94.235185] (-) TimerEvent: {}
+[94.242124] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Set runtime path of "/home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client" to ""\n'}
+[94.242437] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch\n'}
+[94.247963] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar.py\n'}
+[94.249103] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_scan_echo.launch.py\n'}
+[94.250977] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__\n'}
+[94.253724] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_rviz.launch.cpython-310.pyc\n'}
+[94.255264] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_bringup.launch.cpython-310.pyc\n'}
+[94.256577] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_launch.cpython-310.pyc\n'}
+[94.257623] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_driver.launch.cpython-310.pyc\n'}
+[94.258762] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_scan_echo.launch.cpython-310.pyc\n'}
+[94.260121] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_rviz.launch.py\n'}
+[94.261358] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch.py\n'}
+[94.262683] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_bringup.launch.py\n'}
+[94.264332] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch_view.py\n'}
+[94.265911] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_driver.launch.py\n'}
+[94.267629] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params\n'}
+[94.269636] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4.yaml\n'}
+[94.270744] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TminiPro.yaml\n'}
+[94.271838] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G2.yaml\n'}
+[94.277005] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X2.yaml\n'}
+[94.279233] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G1.yaml\n'}
+[94.280175] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TG.yaml\n'}
+[94.281455] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/GS2.yaml\n'}
+[94.282915] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/ydlidar.yaml\n'}
+[94.284191] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4-Pro.yaml\n'}
+[94.285622] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G6.yaml\n'}
+[94.287108] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TEA.yaml\n'}
+[94.288535] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup\n'}
+[94.291340] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup/initenv.sh\n'}
+[94.292585] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config\n'}
+[94.294435] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config/ydlidar.rviz\n'}
+[94.309808] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/package_run_dependencies/ydlidar_ros2_driver\n'}
+[94.312234] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/parent_prefix_path/ydlidar_ros2_driver\n'}
+[94.315463] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.sh\n'}
+[94.316365] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.dsv\n'}
+[94.317304] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.sh\n'}
+[94.317965] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.dsv\n'}
+[94.318430] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.bash\n'}
+[94.319346] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.sh\n'}
+[94.320088] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.zsh\n'}
+[94.320812] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.dsv\n'}
+[94.321581] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.dsv\n'}
+[94.323533] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/packages/ydlidar_ros2_driver\n'}
+[94.325384] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig.cmake\n'}
+[94.325821] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig-version.cmake\n'}
+[94.326759] (ydlidar_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.xml\n'}
+[94.336005] (ydlidar_ros2_driver) CommandEnded: {'returncode': 0}
+[94.339614] (-) TimerEvent: {}
+[94.400352] (ydlidar_ros2_driver) JobEnded: {'identifier': 'ydlidar_ros2_driver', 'rc': 0}
+[94.404405] (-) EventReactorShutdown: {}

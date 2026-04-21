@@ -1,0 +1,63 @@
+[0.129s] Invoking command in '/home/minmin/ros2_ws/src/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/minmin/ros2_ws/src/mecanum4_description -DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/install/mecanum4_description
+[1.854s] -- The C compiler identification is GNU 11.4.0
+[10.058s] -- The CXX compiler identification is GNU 11.4.0
+[13.538s] -- Detecting C compiler ABI info
+[14.513s] -- Detecting C compiler ABI info - done
+[14.531s] -- Check for working C compiler: /usr/bin/cc - skipped
+[14.532s] -- Detecting C compile features
+[14.534s] -- Detecting C compile features - done
+[14.543s] -- Detecting CXX compiler ABI info
+[15.359s] -- Detecting CXX compiler ABI info - done
+[15.370s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[15.371s] -- Detecting CXX compile features
+[15.372s] -- Detecting CXX compile features - done
+[15.377s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[15.679s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[15.861s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[16.017s] -- Added test 'flake8' to check Python code syntax and style conventions
+[16.021s] -- Added test 'lint_cmake' to check CMake code style
+[16.023s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[16.028s] -- Added test 'xmllint' to check XML markup files
+[16.032s] -- Configuring done
+[16.049s] -- Generating done
+[16.054s] -- Build files have been written to: /home/minmin/ros2_ws/src/build/mecanum4_description
+[16.063s] Invoked command in '/home/minmin/ros2_ws/src/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/minmin/ros2_ws/src/mecanum4_description -DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/install/mecanum4_description
+[16.067s] Invoking command in '/home/minmin/ros2_ws/src/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/build/mecanum4_description -- -j8 -l8
+[16.149s] Invoked command in '/home/minmin/ros2_ws/src/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/build/mecanum4_description -- -j8 -l8
+[16.169s] Invoking command in '/home/minmin/ros2_ws/src/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/build/mecanum4_description
+[16.182s] -- Install configuration: ""
+[16.182s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/urdf
+[16.186s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/urdf/mecanum4_lidar.urdf
+[16.186s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch
+[16.188s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/localization_bringup.launch.py
+[16.189s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/nav2_slam_bringup.launch.py
+[16.190s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/abu_stadium_spawn.launch.py
+[16.191s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/nav2_amcl_bringup.launch.py
+[16.192s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/sim_bringup.launch.py
+[16.193s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/display.launch.py
+[16.194s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/launch/robot_state_publisher.launch.py
+[16.195s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config
+[16.196s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config/nav2_params.yaml
+[16.196s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config/slam_params.yaml
+[16.196s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/config/mecanum_controllers.yaml
+[16.197s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/behavior_trees
+[16.198s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml
+[16.201s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/lib/mecanum4_description/cmd_vel_to_wheels.py
+[16.202s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/lib/mecanum4_description/teleop_gui.py
+[16.202s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/lib/mecanum4_description/docking_node.py
+[16.205s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/ament_index/resource_index/package_run_dependencies/mecanum4_description
+[16.206s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/ament_index/resource_index/parent_prefix_path/mecanum4_description
+[16.208s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.sh
+[16.208s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.dsv
+[16.209s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/path.sh
+[16.210s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/environment/path.dsv
+[16.211s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.bash
+[16.211s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.sh
+[16.212s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.zsh
+[16.212s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/local_setup.dsv
+[16.213s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/package.dsv
+[16.215s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/ament_index/resource_index/packages/mecanum4_description
+[16.216s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig.cmake
+[16.217s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig-version.cmake
+[16.217s] -- Installing: /home/minmin/ros2_ws/src/install/mecanum4_description/share/mecanum4_description/package.xml
+[16.222s] Invoked command in '/home/minmin/ros2_ws/src/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/build/mecanum4_description

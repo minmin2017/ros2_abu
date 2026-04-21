@@ -1,0 +1,110 @@
+[0.111s] Invoking command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/minmin/ros2_ws/src/ydlidar_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/install/ydlidar_ros2_driver
+[1.823s] -- The C compiler identification is GNU 11.4.0
+[9.898s] -- The CXX compiler identification is GNU 11.4.0
+[13.244s] -- Detecting C compiler ABI info
+[14.245s] -- Detecting C compiler ABI info - done
+[14.271s] -- Check for working C compiler: /usr/bin/cc - skipped
+[14.274s] -- Detecting C compile features
+[14.277s] -- Detecting C compile features - done
+[14.289s] -- Detecting CXX compiler ABI info
+[15.166s] -- Detecting CXX compiler ABI info - done
+[15.184s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[15.185s] -- Detecting CXX compile features
+[15.185s] -- Detecting CXX compile features - done
+[15.202s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[15.524s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[15.716s] -- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+[16.477s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[16.496s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[16.527s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[16.569s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[16.627s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[16.799s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[16.812s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[24.076s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[33.082s] -- Found FastRTPS: /opt/ros/humble/include  
+[49.388s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[49.421s] -- Looking for pthread.h
+[50.159s] -- Looking for pthread.h - found
+[50.161s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[51.044s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[51.047s] -- Found Threads: TRUE  
+[51.254s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[51.370s] -- Found visualization_msgs: 4.9.1 (/opt/ros/humble/share/visualization_msgs/cmake)
+[51.438s] -- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)
+[62.106s] [33mCMake Warning at CMakeLists.txt:35 (message):
+[62.106s]   ydlidar_sdk not found: ydlidar_ros2_driver_node will not be built
+[62.106s] 
+[62.106s] [0m
+[62.115s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[62.335s] -- Added test 'copyright' to check source files copyright and LICENSE
+[62.345s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[62.345s] -- Configured cppcheck include dirs: /home/minmin/ros2_ws/src/ydlidar_ros2_driver/src
+[62.345s] -- Configured cppcheck exclude dirs and/or files: 
+[62.354s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[62.354s] -- Configured cpplint exclude dirs and/or files: 
+[62.357s] -- Added test 'flake8' to check Python code syntax and style conventions
+[62.360s] -- Added test 'lint_cmake' to check CMake code style
+[62.364s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[62.372s] -- Added test 'uncrustify' to check C / C++ code style
+[62.372s] -- Configured uncrustify additional arguments: 
+[62.376s] -- Added test 'xmllint' to check XML markup files
+[62.381s] -- Configuring done
+[62.422s] -- Generating done
+[62.434s] -- Build files have been written to: /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver
+[62.472s] Invoked command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/minmin/ros2_ws/src/ydlidar_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/install/ydlidar_ros2_driver
+[62.476s] Invoking command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver -- -j8 -l8
+[62.604s] [ 50%] [32mBuilding CXX object CMakeFiles/ydlidar_ros2_driver_client.dir/src/ydlidar_ros2_driver_client.cpp.o[0m
+[91.773s] [100%] [32m[1mLinking CXX executable ydlidar_ros2_driver_client[0m
+[94.082s] [100%] Built target ydlidar_ros2_driver_client
+[94.136s] Invoked command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver -- -j8 -l8
+[94.143s] Invoking command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver
+[94.170s] -- Install configuration: ""
+[94.174s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client
+[94.190s] -- Set runtime path of "/home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/lib/ydlidar_ros2_driver/ydlidar_ros2_driver_client" to ""
+[94.190s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch
+[94.196s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar.py
+[94.197s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_scan_echo.launch.py
+[94.199s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__
+[94.202s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_rviz.launch.cpython-310.pyc
+[94.203s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_bringup.launch.cpython-310.pyc
+[94.204s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_launch.cpython-310.pyc
+[94.205s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_driver.launch.cpython-310.pyc
+[94.207s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/__pycache__/ydlidar_scan_echo.launch.cpython-310.pyc
+[94.208s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_rviz.launch.py
+[94.209s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch.py
+[94.211s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_bringup.launch.py
+[94.212s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_launch_view.py
+[94.214s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/launch/ydlidar_driver.launch.py
+[94.215s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params
+[94.217s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4.yaml
+[94.219s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TminiPro.yaml
+[94.220s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G2.yaml
+[94.225s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X2.yaml
+[94.227s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G1.yaml
+[94.228s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TG.yaml
+[94.229s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/GS2.yaml
+[94.231s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/ydlidar.yaml
+[94.232s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/X4-Pro.yaml
+[94.233s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/G6.yaml
+[94.235s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/params/TEA.yaml
+[94.236s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup
+[94.239s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/startup/initenv.sh
+[94.240s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config
+[94.242s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/config/ydlidar.rviz
+[94.258s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/package_run_dependencies/ydlidar_ros2_driver
+[94.260s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/parent_prefix_path/ydlidar_ros2_driver
+[94.263s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.sh
+[94.265s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/ament_prefix_path.dsv
+[94.265s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.sh
+[94.266s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/environment/path.dsv
+[94.266s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.bash
+[94.267s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.sh
+[94.268s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.zsh
+[94.269s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/local_setup.dsv
+[94.269s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.dsv
+[94.271s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ament_index/resource_index/packages/ydlidar_ros2_driver
+[94.273s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig.cmake
+[94.274s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/cmake/ydlidar_ros2_driverConfig-version.cmake
+[94.275s] -- Installing: /home/minmin/ros2_ws/src/install/ydlidar_ros2_driver/share/ydlidar_ros2_driver/package.xml
+[94.286s] Invoked command in '/home/minmin/ros2_ws/src/build/ydlidar_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/build/ydlidar_ros2_driver

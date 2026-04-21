@@ -26,7 +26,7 @@ def generate_launch_description():
     rviz_config = os.path.join(nav2_bringup_dir, "rviz", "nav2_default_view.rviz")
 
     with open(urdf_file, encoding="utf-8") as f:
-        robot_description = f.read()
+        robot_description = ' '.join(f.read().split())
 
     world_arg = DeclareLaunchArgument(
         "world",
@@ -282,9 +282,12 @@ def generate_launch_description():
         ],
     )
 
-    # ── RViz2 at t+5 s ───────────────────────────────────────────────────────
+    # ── RViz2 at t+22 s ──────────────────────────────────────────────────────
+    # Started AFTER Nav2 is up (t+18 s) so RViz connects to ready topics
+    # instead of being flooded during the Nav2 spin-up burst — prevents the
+    # Qt event loop from stalling on WSLg.
     rviz = TimerAction(
-        period=5.0,
+        period=22.0,
         actions=[
             Node(
                 package="rviz2",

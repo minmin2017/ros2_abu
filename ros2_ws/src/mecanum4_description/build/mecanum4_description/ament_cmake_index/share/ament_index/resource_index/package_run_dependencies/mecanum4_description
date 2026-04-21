@@ -1,0 +1,1 @@
+ament_index_python;launch;launch_ros;robot_state_publisher;gazebo_ros;gazebo_ros2_control;controller_manager;geometry_msgs;std_msgs;rclpy;rviz2;nav2_bringup;nav2_msgs;slam_toolbox;ament_lint_auto;ament_lint_common
