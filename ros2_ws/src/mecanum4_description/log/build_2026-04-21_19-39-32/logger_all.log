@@ -1,0 +1,106 @@
+[0.672s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.673s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=8, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x70a1fd856200>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x70a1fd855c30>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x70a1fd855c30>>, mixin_verb=('build',))
+[0.977s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.977s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.977s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.977s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.977s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.978s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.978s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/minmin/ros2_ws/src/mecanum4_description'
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.978s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.979s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.979s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[1.002s] DEBUG:colcon.colcon_core.package_identification:Package '.' with type 'ros.ament_cmake' and name 'mecanum4_description'
+[1.002s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[1.002s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[1.002s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[1.002s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[1.002s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[1.065s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[1.065s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[1.070s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 2 installed packages in /home/minmin/ros2_ws/install
+[1.073s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 370 installed packages in /opt/ros/humble
+[1.075s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'cmake_args' from command line to 'None'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'cmake_target' from command line to 'None'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'cmake_clean_cache' from command line to 'False'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'cmake_clean_first' from command line to 'False'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'cmake_force_configure' from command line to 'False'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'ament_cmake_args' from command line to 'None'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'catkin_cmake_args' from command line to 'None'
+[1.147s] Level 5:colcon.colcon_core.verb:set package 'mecanum4_description' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.147s] DEBUG:colcon.colcon_core.verb:Building package 'mecanum4_description' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description', 'merge_install': False, 'path': '/home/minmin/ros2_ws/src/mecanum4_description', 'symlink_install': False, 'test_result_base': None}
+[1.148s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[1.150s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[1.150s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/minmin/ros2_ws/src/mecanum4_description' with build type 'ament_cmake'
+[1.150s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/minmin/ros2_ws/src/mecanum4_description'
+[1.156s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[1.156s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.156s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.178s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
+[1.711s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
+[1.732s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description
+[1.762s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(mecanum4_description)
+[1.763s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description
+[1.767s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description' for CMake module files
+[1.768s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description' for CMake config files
+[1.769s] Level 1:colcon.colcon_core.shell:create_environment_hook('mecanum4_description', 'cmake_prefix_path')
+[1.769s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/hook/cmake_prefix_path.ps1'
+[1.770s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/hook/cmake_prefix_path.dsv'
+[1.771s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/hook/cmake_prefix_path.sh'
+[1.773s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib'
+[1.774s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/bin'
+[1.774s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/pkgconfig/mecanum4_description.pc'
+[1.774s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/python3.10/site-packages'
+[1.775s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/bin'
+[1.775s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.ps1'
+[1.777s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.dsv'
+[1.779s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.sh'
+[1.780s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.bash'
+[1.782s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.zsh'
+[1.784s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/colcon-core/packages/mecanum4_description)
+[1.785s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(mecanum4_description)
+[1.786s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description' for CMake module files
+[1.787s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description' for CMake config files
+[1.787s] Level 1:colcon.colcon_core.shell:create_environment_hook('mecanum4_description', 'cmake_prefix_path')
+[1.788s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/hook/cmake_prefix_path.ps1'
+[1.789s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/hook/cmake_prefix_path.dsv'
+[1.789s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/hook/cmake_prefix_path.sh'
+[1.791s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib'
+[1.791s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/bin'
+[1.791s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/pkgconfig/mecanum4_description.pc'
+[1.792s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/python3.10/site-packages'
+[1.793s] Level 1:colcon.colcon_core.environment:checking '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/bin'
+[1.794s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.ps1'
+[1.796s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.dsv'
+[1.798s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.sh'
+[1.799s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.bash'
+[1.801s] INFO:colcon.colcon_core.shell:Creating package script '/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.zsh'
+[1.802s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/colcon-core/packages/mecanum4_description)
+[1.802s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.804s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.804s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.805s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[2.051s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[2.052s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[2.052s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[2.052s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[2.052s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.FileNotFound: Failed to connect to socket /run/user/1000/bus: No such file or directory
+[2.052s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[2.053s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/minmin/ros2_ws/src/mecanum4_description/install/local_setup.ps1'
+[2.055s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/minmin/ros2_ws/src/mecanum4_description/install/_local_setup_util_ps1.py'
+[2.057s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/minmin/ros2_ws/src/mecanum4_description/install/setup.ps1'
+[2.061s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/minmin/ros2_ws/src/mecanum4_description/install/local_setup.sh'
+[2.064s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/minmin/ros2_ws/src/mecanum4_description/install/_local_setup_util_sh.py'
+[2.066s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/minmin/ros2_ws/src/mecanum4_description/install/setup.sh'
+[2.069s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/minmin/ros2_ws/src/mecanum4_description/install/local_setup.bash'
+[2.070s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/minmin/ros2_ws/src/mecanum4_description/install/setup.bash'
+[2.073s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/minmin/ros2_ws/src/mecanum4_description/install/local_setup.zsh'
+[2.074s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/minmin/ros2_ws/src/mecanum4_description/install/setup.zsh'

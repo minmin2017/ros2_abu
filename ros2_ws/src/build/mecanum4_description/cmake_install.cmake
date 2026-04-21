@@ -62,9 +62,11 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/mecanum4_description" TYPE PROGRAM FILES
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/cmd_vel_to_wheels.py"
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/teleop_gui.py"
+    "/home/minmin/ros2_ws/src/mecanum4_description/scripts/amcl_kidnap_spin.py"
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/docking_node.py"
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/camera_docking_node.py"
     "/home/minmin/ros2_ws/src/mecanum4_description/scripts/fused_docking_node.py"
+    "/home/minmin/ros2_ws/src/mecanum4_description/scripts/cam_lidar_docking_node.py"
     )
 endif()
 

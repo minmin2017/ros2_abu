@@ -66,7 +66,7 @@
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 47,
+				"line" : 49,
 				"parent" : 0
 			},
 			{
@@ -295,9 +295,11 @@
 			[
 				"scripts/cmd_vel_to_wheels.py",
 				"scripts/teleop_gui.py",
+				"scripts/amcl_kidnap_spin.py",
 				"scripts/docking_node.py",
 				"scripts/camera_docking_node.py",
-				"scripts/fused_docking_node.py"
+				"scripts/fused_docking_node.py",
+				"scripts/cam_lidar_docking_node.py"
 			],
 			"type" : "file"
 		},
@@ -307,7 +309,7 @@
 			"destination" : "share/ament_index/resource_index/package_run_dependencies",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/mecanum4_description"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/mecanum4_description"
 			],
 			"type" : "file"
 		},
@@ -317,7 +319,7 @@
 			"destination" : "share/ament_index/resource_index/parent_prefix_path",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/mecanum4_description"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/mecanum4_description"
 			],
 			"type" : "file"
 		},
@@ -337,7 +339,7 @@
 			"destination" : "share/mecanum4_description/environment",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/ament_prefix_path.dsv"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/ament_prefix_path.dsv"
 			],
 			"type" : "file"
 		},
@@ -357,7 +359,7 @@
 			"destination" : "share/mecanum4_description/environment",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/path.dsv"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/path.dsv"
 			],
 			"type" : "file"
 		},
@@ -367,7 +369,7 @@
 			"destination" : "share/mecanum4_description",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/local_setup.bash"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/local_setup.bash"
 			],
 			"type" : "file"
 		},
@@ -377,7 +379,7 @@
 			"destination" : "share/mecanum4_description",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/local_setup.sh"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/local_setup.sh"
 			],
 			"type" : "file"
 		},
@@ -387,7 +389,7 @@
 			"destination" : "share/mecanum4_description",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/local_setup.zsh"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/local_setup.zsh"
 			],
 			"type" : "file"
 		},
@@ -397,7 +399,7 @@
 			"destination" : "share/mecanum4_description",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/local_setup.dsv"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/local_setup.dsv"
 			],
 			"type" : "file"
 		},
@@ -407,7 +409,7 @@
 			"destination" : "share/mecanum4_description",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_environment_hooks/package.dsv"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_environment_hooks/package.dsv"
 			],
 			"type" : "file"
 		},
@@ -417,7 +419,7 @@
 			"destination" : "share/ament_index/resource_index/packages",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_index/share/ament_index/resource_index/packages/mecanum4_description"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_index/share/ament_index/resource_index/packages/mecanum4_description"
 			],
 			"type" : "file"
 		},
@@ -427,8 +429,8 @@
 			"destination" : "share/mecanum4_description/cmake",
 			"paths" : 
 			[
-				"build/mecanum4_description/ament_cmake_core/mecanum4_descriptionConfig.cmake",
-				"build/mecanum4_description/ament_cmake_core/mecanum4_descriptionConfig-version.cmake"
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_core/mecanum4_descriptionConfig.cmake",
+				"/home/minmin/ros2_ws/src/build/mecanum4_description/ament_cmake_core/mecanum4_descriptionConfig-version.cmake"
 			],
 			"type" : "file"
 		},

@@ -61,7 +61,6 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan, Image
 from geometry_msgs.msg import Twist
-from cv_bridge import CvBridge
 
 # ── Orange HSV range ──────────────────────────────────────────────────────────
 # Narrowed to reject ABU stadium grass (low saturation) and floor reflections.
@@ -129,7 +128,6 @@ class FusedDockingNode(Node):
 
         # ── State ─────────────────────────────────────────────────────────────
         self.docked       = False
-        self.bridge       = CvBridge()
 
         # Latest processed values (written by sensor callbacks, read by timer)
         self._lidar_target: tuple | None = None   # (tx, ty, t_yaw) laser frame
@@ -272,7 +270,8 @@ class FusedDockingNode(Node):
     def _image_cb(self, msg: Image) -> None:
         if self.docked:
             return
-        bgr    = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+        arr    = np.frombuffer(msg.data, dtype=np.uint8).reshape((msg.height, msg.width, 3))
+        bgr    = arr[:, :, ::-1].copy() if msg.encoding in ('rgb8', 'RGB8') else arr.copy()
         result = self._process_camera(bgr)
         if result is None:
             self._cam_valid = False
@@ -552,7 +551,13 @@ class FusedDockingNode(Node):
         cv2.putText(debug, source_str,
                     (10, 112), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 200, 100), 2)
 
-        self.dbg_pub.publish(self.bridge.cv2_to_imgmsg(debug, encoding='bgr8'))
+        out          = Image()
+        out.height   = debug.shape[0]
+        out.width    = debug.shape[1]
+        out.encoding = 'bgr8'
+        out.step     = debug.shape[1] * 3
+        out.data     = debug.tobytes()
+        self.dbg_pub.publish(out)
 
     def _stop(self) -> None:
         self.cmd_pub.publish(Twist())
