@@ -272,7 +272,7 @@
          rate; higher values cost GPU time but also give RViz a smoother
          stream. -->
     <sensor type="camera" name="camera_sensor">
-      <update_rate>30</update_rate>
+      <update_rate>60</update_rate>
       <!-- visualize:false — do not render Gazebo's built-in camera preview
            window; it costs another GL context on WSLg and the image is
            already shown by rqt_image_view. -->

@@ -106,6 +106,31 @@ def generate_launch_description():
         ],
     )
 
+    # ── Spawn target item at t+4 s ───────────────────────────────────────────
+    target_item_urdf = os.path.join(pkg_path, "urdf", "target_item.urdf")
+    with open(target_item_urdf, encoding="utf-8") as f:
+        target_item_description = ' '.join(f.read().split())
+        
+    spawn_target_item = TimerAction(
+        period=4.0,
+        actions=[
+            Node(
+                package="gazebo_ros",
+                executable="spawn_entity.py",
+                arguments=[
+                    "-entity", "target_item",
+                    "-b",  # bond to world so it doesn't just fall through if no physics
+                    "-x", "2.0",
+                    "-y", "0.0",
+                    "-z", "0.5",
+                    "-file", target_item_urdf,
+                    "-timeout", "120",
+                ],
+                output="screen",
+            )
+        ],
+    )
+
     # ── Controllers at t+5-7 s ────────────────────────────────────────────────
     joint_state_broadcaster = TimerAction(
         period=5.0,
@@ -305,6 +330,7 @@ def generate_launch_description():
         gazebo,
         state_publisher,
         spawn_robot,
+        spawn_target_item,
         joint_state_broadcaster,
         wheel_controller,
         cmd_vel_bridge,

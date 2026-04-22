@@ -87,6 +87,10 @@ def angle_wrap(a: float) -> float:
     return math.atan2(math.sin(a), math.cos(a))
 
 
+def angle_wrap_vec(a: np.ndarray) -> np.ndarray:
+    return np.arctan2(np.sin(a), np.cos(a))
+
+
 def bfs_cluster(points: np.ndarray, eps: float) -> list:
     n       = len(points)
     visited = np.zeros(n, dtype=bool)
@@ -114,7 +118,7 @@ class CamLidarDockingNode(Node):
     def __init__(self):
         super().__init__('cam_lidar_docking_node')
 
-        self.declare_parameter('docking_distance', 0.35)
+        self.declare_parameter('docking_distance', 0.75)
         self.declare_parameter('known_box_width',  0.20)
         self.declare_parameter('hfov',             1.047)
         self.declare_parameter('img_width',        640)
@@ -127,7 +131,7 @@ class CamLidarDockingNode(Node):
         self.declare_parameter('xy_tolerance',     0.05)
         self.declare_parameter('yaw_tolerance',    0.05)
         self.declare_parameter('min_area',         300)
-        self.declare_parameter('ema_alpha',        0.3)
+        self.declare_parameter('ema_alpha',        0.6)
         self.declare_parameter('max_lost_frames',  10)
         self.declare_parameter('cluster_eps',      0.05)
         self.declare_parameter('min_cluster_pts',  3)
@@ -145,6 +149,12 @@ class CamLidarDockingNode(Node):
 
         self.docked = False
 
+        # FPS tracking
+        self._dbg_last_time: float = 0.0
+        self._dbg_fps      : float = 0.0
+        self._cam_last_time: float = 0.0
+        self._cam_fps      : float = 0.0
+
         # Camera state (EMA-smoothed)
         self._cam_lateral  : float | None = None
         self._cam_angle    : float | None = None
@@ -152,6 +162,7 @@ class CamLidarDockingNode(Node):
         self._cam_angle_raw: float        = 0.0   # unsmoothed, used for LiDAR cone
         self._cam_valid                   = False
         self._lost_frames                 = 0
+        self._dbg_frame_count             = 0     # publish debug every 3 frames
 
         # LiDAR state
         self._lidar_depth  : float | None = None
@@ -195,8 +206,18 @@ class CamLidarDockingNode(Node):
         if self.docked:
             return
 
-        arr = np.frombuffer(msg.data, dtype=np.uint8).reshape((msg.height, msg.width, 3))
-        bgr = arr[:, :, ::-1].copy() if msg.encoding in ('rgb8', 'RGB8') else arr.copy()
+        import time as _time
+        _now = _time.monotonic()
+        _dt  = _now - self._cam_last_time
+        if _dt > 0:
+            self._cam_fps = 0.8 * self._cam_fps + 0.2 * (1.0 / _dt)
+        self._cam_last_time = _now
+
+        arr  = np.frombuffer(msg.data, dtype=np.uint8).reshape((msg.height, msg.width, 3))
+        full = arr[:, :, ::-1].copy() if msg.encoding in ('rgb8', 'RGB8') else arr.copy()
+        # Downscale to half resolution — cuts processing & encoding time ~4×
+        bgr  = cv2.resize(full, (msg.width // 2, msg.height // 2),
+                          interpolation=cv2.INTER_LINEAR)
 
         result = self._detect_box(bgr)
         max_lost = int(self.get_parameter('max_lost_frames').value)
@@ -224,14 +245,19 @@ class CamLidarDockingNode(Node):
             self._cam_depth_px = alpha * cam_depth   + (1.0 - alpha) * self._cam_depth_px
 
         self._cam_valid = True
-        self._publish_debug(bgr, mask, rect, self._cam_depth_px, self._cam_lateral)
+        self._dbg_frame_count += 1
+        if self._dbg_frame_count % 3 == 0:
+            self._publish_debug(bgr, mask, rect, self._cam_depth_px, self._cam_lateral)
 
     def _detect_box(self, bgr: np.ndarray):
         p        = self.get_parameter
-        min_area = int(p('min_area').value)
-        img_w    = int(p('img_width').value)
+        img_h, img_w = bgr.shape[:2]
+        # Compute focal from actual image width (works regardless of downscaling)
+        hfov    = float(p('hfov').value)
+        focal   = (img_w / 2.0) / math.tan(hfov / 2.0)
+        min_area = int(p('min_area').value) * (img_w * img_h) // (
+            int(p('img_width').value) * int(p('img_height').value))
         known_w  = float(p('known_box_width').value)
-        focal    = self._focal_px
 
         hsv  = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, ORANGE_LOWER, ORANGE_UPPER)
@@ -283,14 +309,19 @@ class CamLidarDockingNode(Node):
             self._face_clean  = False
             return
 
-        points = self._scan_to_xy(msg)
+        cone_rad = math.radians(float(p('lidar_cone_deg').value))
+
+        # Pre-filter scan points to a cone centred on the camera bearing so
+        # bfs_cluster (O(n²)) runs on ~tens of points instead of ~720.
+        # Use a slightly wider gate (×1.5) to tolerate camera/LiDAR lag.
+        points = self._scan_to_xy(msg, cam_angle=self._cam_angle_raw,
+                                  cone_rad=cone_rad * 1.5)
         if len(points) < 3:
             self._lidar_valid = False
             self._face_valid  = False
             self._face_clean  = False
             return
 
-        cone_rad = math.radians(float(p('lidar_cone_deg').value))
         clusters = bfs_cluster(points, float(p('cluster_eps').value))
 
         best_dist    = float('inf')
@@ -461,7 +492,9 @@ class CamLidarDockingNode(Node):
         c, n, d, ps = best
         return c, n, d, ps, False, corner_vtx
 
-    def _scan_to_xy(self, msg: LaserScan) -> np.ndarray:
+    def _scan_to_xy(self, msg: LaserScan,
+                    cam_angle: float | None = None,
+                    cone_rad: float | None = None) -> np.ndarray:
         angles = msg.angle_min + np.arange(len(msg.ranges)) * msg.angle_increment
         ranges = np.array(msg.ranges, dtype=float)
         valid  = (
@@ -470,6 +503,9 @@ class CamLidarDockingNode(Node):
             & (ranges <= msg.range_max)
             & (ranges <= 15.0)
         )
+        # Angular gate around camera bearing (short-circuits most of the scan).
+        if cam_angle is not None and cone_rad is not None:
+            valid &= (np.abs(angle_wrap_vec(angles - cam_angle)) < cone_rad)
         r, a = ranges[valid], angles[valid]
         return np.column_stack((r * np.cos(a), r * np.sin(a)))
 
@@ -477,12 +513,6 @@ class CamLidarDockingNode(Node):
 
     def _control_cb(self):
         if self.docked:
-            self._stop()
-            return
-
-        # Camera must be valid — it is the primary sensor
-        if not self._cam_valid or self._cam_lateral is None:
-            self.get_logger().warn('Camera: box not detected', throttle_duration_sec=2.0)
             self._stop()
             return
 
@@ -498,6 +528,44 @@ class CamLidarDockingNode(Node):
         safety_d   = float(p('safety_stop_dist').value)
         orbit_v    = float(p('orbit_speed').value)
         seek_w     = float(p('seek_omega').value)
+
+        # ── Camera-lost fallback ───────────────────────────────────────────────
+        # If the camera can't see the box (usually because we overshot and are
+        # now too close), try to recover instead of just stopping.
+        if not self._cam_valid or self._cam_lateral is None:
+            # Prefer LiDAR face if still available — drive to standoff blind.
+            if (self._face_valid
+                    and self._face_center is not None
+                    and self._face_normal is not None):
+                target = self._face_center + self._face_normal * target_d
+                tx, ty = float(target[0]), float(target[1])
+                cmd = Twist()
+                cmd.linear.x = float(np.clip(kp_l   * tx, -max_l * 0.5, max_l * 0.5))
+                cmd.linear.y = float(np.clip(kp_lat * ty, -max_l * 0.5, max_l * 0.5))
+                self.cmd_pub.publish(cmd)
+                self.get_logger().warn(
+                    f'Camera lost — LiDAR-only recovery to standoff '
+                    f'(tx={tx:+.2f}, ty={ty:+.2f})',
+                    throttle_duration_sec=1.0)
+                return
+            # No face either: if LiDAR says something's close in front, back up.
+            too_close = (
+                self._min_front_range < target_d
+                or (self._lidar_depth is not None and self._lidar_depth < target_d)
+            )
+            if too_close:
+                cmd = Twist()
+                cmd.linear.x = -max_l * 0.4
+                self.cmd_pub.publish(cmd)
+                self.get_logger().warn(
+                    f'Camera lost, too close — backing up '
+                    f'(front={self._min_front_range:.2f}m, '
+                    f'depth={self._lidar_depth})',
+                    throttle_duration_sec=1.0)
+                return
+            self.get_logger().warn('Camera: box not detected', throttle_duration_sec=2.0)
+            self._stop()
+            return
 
         cmd     = Twist()
         state   = 'SEEK'
@@ -603,10 +671,13 @@ class CamLidarDockingNode(Node):
             cmd.linear.y = 0.0
             logline = f'[SEEK] cam_angle={math.degrees(yaw_err):.1f}° (no face)'
 
-        # Emergency stop: forward range too close → no forward push
-        if self._min_front_range < safety_d and cmd.linear.x > 0.0:
+        # Overshoot guard: never push forward when we're already at/past the
+        # docking_distance standoff. Uses the tighter of (safety_stop_dist,
+        # target_d - tol_xy) so approach can still complete the last few cm.
+        overshoot_limit = max(safety_d, target_d - tol_xy)
+        if self._min_front_range < overshoot_limit and cmd.linear.x > 0.0:
             cmd.linear.x = 0.0
-            logline += f'  ⚠ STOP (front={self._min_front_range:.2f}m)'
+            logline += f'  ⚠ NO-FWD (front={self._min_front_range:.2f}m<{overshoot_limit:.2f})'
 
         self.cmd_pub.publish(cmd)
         self.get_logger().info(logline, throttle_duration_sec=0.5)
@@ -614,6 +685,13 @@ class CamLidarDockingNode(Node):
     # ── debug image ───────────────────────────────────────────────────────────
 
     def _publish_debug(self, bgr, mask, rect, depth, lateral):
+        import time as _time
+        now = _time.monotonic()
+        dt  = now - self._dbg_last_time
+        if dt > 0:
+            self._dbg_fps = 0.8 * self._dbg_fps + 0.2 * (1.0 / dt)
+        self._dbg_last_time = now
+
         debug   = bgr.copy()
         overlay = debug.copy()
         overlay[mask > 0] = (0, 200, 0)
@@ -658,6 +736,8 @@ class CamLidarDockingNode(Node):
                         (10, 86), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
         cv2.putText(debug, f'front_min: {self._min_front_range:.2f} m',
                     (10, 114), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 200, 255), 2)
+        cv2.putText(debug, f'cam_raw FPS: {self._cam_fps:.1f}  dbg FPS: {self._dbg_fps:.1f}',
+                    (10, 142), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 128), 2)
 
         out          = Image()
         out.height   = debug.shape[0]
