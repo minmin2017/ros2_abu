@@ -42,6 +42,7 @@ import numpy as np
 import cv2
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
 
@@ -80,9 +81,10 @@ class CameraDockingNode(Node):
         self._lost_frames            = 0
 
         self.img_sub = self.create_subscription(
-            Image, '/camera/image_raw', self._image_cb, 10)
+            Image, '/camera/image_raw', self._image_cb, qos_profile_sensor_data)
         self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
-        self.dbg_pub = self.create_publisher(Image, '/camera/debug_image', 10)
+        self.dbg_pub = self.create_publisher(
+            Image, '/camera/debug_image', qos_profile_sensor_data)
 
         # Control at 20 Hz, decoupled from camera 15 Hz
         self.create_timer(0.05, self._control_cb)

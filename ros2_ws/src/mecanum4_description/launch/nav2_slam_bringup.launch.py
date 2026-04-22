@@ -4,6 +4,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import (
     DeclareLaunchArgument,
+    ExecuteProcess,
     IncludeLaunchDescription,
     SetEnvironmentVariable,
     TimerAction,
@@ -32,6 +33,14 @@ def generate_launch_description():
         default_value=default_world,
         description="Gazebo world file path",
     )
+    gui_arg = DeclareLaunchArgument(
+        "gui",
+        default_value="false",
+        description="Launch the Gazebo client GUI (gzclient). Default false on "
+                    "WSLg because gzclient competes with RViz + rqt for the "
+                    "d3d12 GL device and can make RViz unresponsive. "
+                    "Pass gui:=true if you specifically want the Gazebo GUI.",
+    )
 
     # ── Gazebo ────────────────────────────────────────────────────────────────
     gazebo_model_path = SetEnvironmentVariable(
@@ -46,12 +55,23 @@ def generate_launch_description():
         "GAZEBO_RESOURCE_PATH",
         "/home/minmin/gazabo:/usr/share/gazebo-11",
     )
+    # ── GPU rendering pins (WSLg: Mesa d3d12 → NVIDIA via DirectX 12) ─────────
+    # Keeps the `camera` sensor, Gazebo client, and RViz on the GPU path even
+    # if the shell that launched ros2 didn't export these. Lidar stays on the
+    # CPU `ray` sensor per URDF — gpu_ray is broken on WSLg d3d12.
+    libgl_hw = SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "0")
+    gallium_d3d12 = SetEnvironmentVariable("GALLIUM_DRIVER", "d3d12")
+    ogre_rtt = SetEnvironmentVariable("OGRE_RTT_MODE", "FBO")
+    mesa_adapter = SetEnvironmentVariable("MESA_D3D12_DEFAULT_ADAPTER_NAME", "NVIDIA")
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_pkg, "launch", "gazebo.launch.py")
         ),
-        launch_arguments={"world": LaunchConfiguration("world")}.items(),
+        launch_arguments={
+            "world": LaunchConfiguration("world"),
+            "gui": LaunchConfiguration("gui"),
+        }.items(),
     )
 
     # ── Robot state publisher ─────────────────────────────────────────────────
@@ -250,8 +270,35 @@ def generate_launch_description():
         ],
     )
 
+    # ── Camera viewers at t+12 s ─────────────────────────────────────────────
+    # Separate rqt_image_view processes (own Qt event loop each) so that
+    # image display doesn't starve RViz's main thread on WSLg d3d12.
+    # Started after camera topic is up (t+3 s spawn + a few seconds).
+    camera_views = TimerAction(
+        period=12.0,
+        actions=[
+            ExecuteProcess(
+                cmd=["ros2", "run", "rqt_image_view", "rqt_image_view",
+                     "/camera/image_raw"],
+                name="rqt_image_raw",
+                output="log",
+            ),
+            ExecuteProcess(
+                cmd=["ros2", "run", "rqt_image_view", "rqt_image_view",
+                     "/camera/debug_image"],
+                name="rqt_image_debug",
+                output="log",
+            ),
+        ],
+    )
+
     return LaunchDescription([
         world_arg,
+        gui_arg,
+        libgl_hw,
+        gallium_d3d12,
+        ogre_rtt,
+        mesa_adapter,
         gazebo_model_path,
         gazebo_plugin_path,
         gazebo_resource_path,
@@ -264,4 +311,5 @@ def generate_launch_description():
         slam_toolbox,
         nav2,
         rviz,
+        camera_views,
     ])

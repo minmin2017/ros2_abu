@@ -447,6 +447,12 @@ Visualization Manager:
           Value: true
       Enabled: true
       Name: Controller
+    # NOTE: On WSLg (Mesa d3d12), enabling `rviz_default_plugins/Image`
+    # freezes RViz — image renders fine but the Qt event loop starves on
+    # glTexImage2D through the d3d12 bridge, so buttons stop responding.
+    # The group is kept (Enabled: false) so you can still toggle it on per
+    # display if ever needed; the canonical workflow uses rqt_image_view in
+    # its own process — see the launch files for the `rqt_image_view` nodes.
     - Class: rviz_common/Group
       Displays:
         - Class: rviz_default_plugins/Image
@@ -457,10 +463,10 @@ Visualization Manager:
           Name: CameraDebug
           Normalize Range: true
           Topic:
-            Depth: 5
+            Depth: 1
             Durability Policy: Volatile
             History Policy: Keep Last
-            Reliability Policy: Reliable
+            Reliability Policy: Best Effort
             Value: /camera/debug_image
           Value: false
         - Class: rviz_default_plugins/Image
@@ -471,10 +477,10 @@ Visualization Manager:
           Name: CameraRaw
           Normalize Range: true
           Topic:
-            Depth: 5
+            Depth: 1
             Durability Policy: Volatile
             History Policy: Keep Last
-            Reliability Policy: Reliable
+            Reliability Policy: Best Effort
             Value: /camera/image_raw
           Value: false
       Enabled: false
@@ -495,7 +501,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Fixed Frame: map
-    Frame Rate: 20
+    Frame Rate: 15
   Name: root
   Tools:
     - Class: rviz_default_plugins/MoveCamera
