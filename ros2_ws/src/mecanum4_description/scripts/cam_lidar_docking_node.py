@@ -64,6 +64,10 @@ Parameters
   safety_cone_deg   float  25.0  deg    half-width of front cone for safety range check
   orbit_speed       float  0.08  m/s    strafe speed in ORBIT mode when escaping a corner
   seek_omega        float  0.4   rad/s  rotation speed in SEEK mode (no face at all)
+  lidar_offset_x    float  0.10  m      laser_frame translation from base_link (URDF
+                                        laser_joint origin x). Face-center points are
+                                        shifted by this before use so that control
+                                        targets are expressed in base_link frame.
 """
 
 import math
@@ -136,6 +140,7 @@ class CamLidarDockingNode(Node):
         self.declare_parameter('safety_cone_deg',  25.0)
         self.declare_parameter('orbit_speed',      0.08)
         self.declare_parameter('seek_omega',       0.4)
+        self.declare_parameter('lidar_offset_x',   0.10)
 
         self.docked = False
 
@@ -335,6 +340,14 @@ class CamLidarDockingNode(Node):
             return
 
         center, normal, direction, perp_std, is_clean, corner_vtx = face
+
+        # Shift laser_frame points to base_link frame (translation-only offset
+        # in x). Normal and direction are unit vectors in the xy plane and
+        # share the same orientation as base_link, so they do not transform.
+        lidar_dx = float(p('lidar_offset_x').value)
+        center = center + np.array([lidar_dx, 0.0])
+        if corner_vtx is not None:
+            corner_vtx = corner_vtx + np.array([lidar_dx, 0.0])
 
         # Faster EMA for face_center so it tracks the closing motion; normal
         # and direction stay at the base alpha for orientation stability.
