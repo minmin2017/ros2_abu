@@ -20,8 +20,10 @@ Control (20 Hz) — target-point go-to, not depth-only
   State:
     docked   → stop
     !face    → SEEK: stop forward motion, rotate in place toward camera centroid
-    !clean   → ORBIT: looking at a corner; strafe along face tangent AWAY from corner
-               vertex + rotate toward face normal; do NOT advance
+    !clean   → ORBIT: looking at a corner; drive holonomic (vx, vy) toward a
+               safe standoff on the face-normal line + rotate to keep box
+               centered. Shifts the robot laterally to square up on the face
+               instead of walking tangentially around the corner.
     clean    → APPROACH: target_pt = face_center + face_normal * docking_distance
                drive mecanum (vx, vy) toward target_pt in robot frame, rotate to align
                robot +x with inward normal (−n). Done when |target_pt|<tol & yaw<tol_yaw.
@@ -62,6 +64,10 @@ Parameters
   safety_cone_deg   float  25.0  deg    half-width of front cone for safety range check
   orbit_speed       float  0.08  m/s    strafe speed in ORBIT mode when escaping a corner
   seek_omega        float  0.4   rad/s  rotation speed in SEEK mode (no face at all)
+  lidar_offset_x    float  0.10  m      laser_frame translation from base_link (URDF
+                                        laser_joint origin x). Face-center points are
+                                        shifted by this before use so that control
+                                        targets are expressed in base_link frame.
 """
 
 import math
@@ -69,6 +75,7 @@ import numpy as np
 import cv2
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import Image, LaserScan
 from geometry_msgs.msg import Twist
 
@@ -78,6 +85,10 @@ ORANGE_UPPER = np.array([20, 255, 255], dtype=np.uint8)
 
 def angle_wrap(a: float) -> float:
     return math.atan2(math.sin(a), math.cos(a))
+
+
+def angle_wrap_vec(a: np.ndarray) -> np.ndarray:
+    return np.arctan2(np.sin(a), np.cos(a))
 
 
 def bfs_cluster(points: np.ndarray, eps: float) -> list:
@@ -107,7 +118,7 @@ class CamLidarDockingNode(Node):
     def __init__(self):
         super().__init__('cam_lidar_docking_node')
 
-        self.declare_parameter('docking_distance', 0.35)
+        self.declare_parameter('docking_distance', 0.75)
         self.declare_parameter('known_box_width',  0.20)
         self.declare_parameter('hfov',             1.047)
         self.declare_parameter('img_width',        640)
@@ -120,7 +131,7 @@ class CamLidarDockingNode(Node):
         self.declare_parameter('xy_tolerance',     0.05)
         self.declare_parameter('yaw_tolerance',    0.05)
         self.declare_parameter('min_area',         300)
-        self.declare_parameter('ema_alpha',        0.3)
+        self.declare_parameter('ema_alpha',        0.6)
         self.declare_parameter('max_lost_frames',  10)
         self.declare_parameter('cluster_eps',      0.05)
         self.declare_parameter('min_cluster_pts',  3)
@@ -134,8 +145,15 @@ class CamLidarDockingNode(Node):
         self.declare_parameter('safety_cone_deg',  25.0)
         self.declare_parameter('orbit_speed',      0.08)
         self.declare_parameter('seek_omega',       0.4)
+        self.declare_parameter('lidar_offset_x',   0.10)
 
         self.docked = False
+
+        # FPS tracking
+        self._dbg_last_time: float = 0.0
+        self._dbg_fps      : float = 0.0
+        self._cam_last_time: float = 0.0
+        self._cam_fps      : float = 0.0
 
         # Camera state (EMA-smoothed)
         self._cam_lateral  : float | None = None
@@ -144,6 +162,7 @@ class CamLidarDockingNode(Node):
         self._cam_angle_raw: float        = 0.0   # unsmoothed, used for LiDAR cone
         self._cam_valid                   = False
         self._lost_frames                 = 0
+        self._dbg_frame_count             = 0     # publish debug every 3 frames
 
         # LiDAR state
         self._lidar_depth  : float | None = None
@@ -162,11 +181,12 @@ class CamLidarDockingNode(Node):
         self._min_front_range: float = float('inf')
 
         self.img_sub  = self.create_subscription(
-            Image,     '/camera/image_raw', self._image_cb, 10)
+            Image,     '/camera/image_raw', self._image_cb, qos_profile_sensor_data)
         self.scan_sub = self.create_subscription(
-            LaserScan, '/scan',             self._scan_cb,  10)
+            LaserScan, '/scan',             self._scan_cb,  qos_profile_sensor_data)
         self.cmd_pub  = self.create_publisher(Twist, '/cmd_vel',            10)
-        self.dbg_pub  = self.create_publisher(Image, '/camera/debug_image', 10)
+        self.dbg_pub  = self.create_publisher(
+            Image, '/camera/debug_image', qos_profile_sensor_data)
 
         self.create_timer(0.05, self._control_cb)
 
@@ -186,8 +206,18 @@ class CamLidarDockingNode(Node):
         if self.docked:
             return
 
-        arr = np.frombuffer(msg.data, dtype=np.uint8).reshape((msg.height, msg.width, 3))
-        bgr = arr[:, :, ::-1].copy() if msg.encoding in ('rgb8', 'RGB8') else arr.copy()
+        import time as _time
+        _now = _time.monotonic()
+        _dt  = _now - self._cam_last_time
+        if _dt > 0:
+            self._cam_fps = 0.8 * self._cam_fps + 0.2 * (1.0 / _dt)
+        self._cam_last_time = _now
+
+        arr  = np.frombuffer(msg.data, dtype=np.uint8).reshape((msg.height, msg.width, 3))
+        full = arr[:, :, ::-1].copy() if msg.encoding in ('rgb8', 'RGB8') else arr.copy()
+        # Downscale to half resolution — cuts processing & encoding time ~4×
+        bgr  = cv2.resize(full, (msg.width // 2, msg.height // 2),
+                          interpolation=cv2.INTER_LINEAR)
 
         result = self._detect_box(bgr)
         max_lost = int(self.get_parameter('max_lost_frames').value)
@@ -215,14 +245,19 @@ class CamLidarDockingNode(Node):
             self._cam_depth_px = alpha * cam_depth   + (1.0 - alpha) * self._cam_depth_px
 
         self._cam_valid = True
-        self._publish_debug(bgr, mask, rect, self._cam_depth_px, self._cam_lateral)
+        self._dbg_frame_count += 1
+        if self._dbg_frame_count % 3 == 0:
+            self._publish_debug(bgr, mask, rect, self._cam_depth_px, self._cam_lateral)
 
     def _detect_box(self, bgr: np.ndarray):
         p        = self.get_parameter
-        min_area = int(p('min_area').value)
-        img_w    = int(p('img_width').value)
+        img_h, img_w = bgr.shape[:2]
+        # Compute focal from actual image width (works regardless of downscaling)
+        hfov    = float(p('hfov').value)
+        focal   = (img_w / 2.0) / math.tan(hfov / 2.0)
+        min_area = int(p('min_area').value) * (img_w * img_h) // (
+            int(p('img_width').value) * int(p('img_height').value))
         known_w  = float(p('known_box_width').value)
-        focal    = self._focal_px
 
         hsv  = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, ORANGE_LOWER, ORANGE_UPPER)
@@ -246,8 +281,11 @@ class CamLidarDockingNode(Node):
             return None
 
         # Camera-pinhole depth (fallback only)
-        cam_depth    = (known_w * focal) / face_w_px
-        lateral_m    = (cx_px - img_w / 2.0) * cam_depth / focal
+        cam_depth = (known_w * focal) / face_w_px
+        # Image +x is to the right in the image, which is the robot's −y side
+        # (robot frame: +x forward, +y left). Flip sign so angle_to_box follows
+        # the robot-frame convention: positive = box to the left of robot.
+        lateral_m    = -(cx_px - img_w / 2.0) * cam_depth / focal
         angle_to_box = math.atan2(lateral_m, max(cam_depth, 0.01))
 
         return lateral_m, angle_to_box, cam_depth, rect, mask
@@ -271,14 +309,19 @@ class CamLidarDockingNode(Node):
             self._face_clean  = False
             return
 
-        points = self._scan_to_xy(msg)
+        cone_rad = math.radians(float(p('lidar_cone_deg').value))
+
+        # Pre-filter scan points to a cone centred on the camera bearing so
+        # bfs_cluster (O(n²)) runs on ~tens of points instead of ~720.
+        # Use a slightly wider gate (×1.5) to tolerate camera/LiDAR lag.
+        points = self._scan_to_xy(msg, cam_angle=self._cam_angle_raw,
+                                  cone_rad=cone_rad * 1.5)
         if len(points) < 3:
             self._lidar_valid = False
             self._face_valid  = False
             self._face_clean  = False
             return
 
-        cone_rad = math.radians(float(p('lidar_cone_deg').value))
         clusters = bfs_cluster(points, float(p('cluster_eps').value))
 
         best_dist    = float('inf')
@@ -331,13 +374,25 @@ class CamLidarDockingNode(Node):
 
         center, normal, direction, perp_std, is_clean, corner_vtx = face
 
+        # Shift laser_frame points to base_link frame (translation-only offset
+        # in x). Normal and direction are unit vectors in the xy plane and
+        # share the same orientation as base_link, so they do not transform.
+        lidar_dx = float(p('lidar_offset_x').value)
+        center = center + np.array([lidar_dx, 0.0])
+        if corner_vtx is not None:
+            corner_vtx = corner_vtx + np.array([lidar_dx, 0.0])
+
+        # Faster EMA for face_center so it tracks the closing motion; normal
+        # and direction stay at the base alpha for orientation stability.
+        alpha_center = min(1.0, alpha * 2.0)
+
         # EMA-smooth center, normal, direction for stability
         if self._face_center is None:
             self._face_center    = center
             self._face_normal    = normal
             self._face_direction = direction
         else:
-            self._face_center    = alpha * center    + (1.0 - alpha) * self._face_center
+            self._face_center    = alpha_center * center + (1.0 - alpha_center) * self._face_center
             n_new                = alpha * normal    + (1.0 - alpha) * self._face_normal
             n_mag                = float(np.linalg.norm(n_new))
             self._face_normal    = (n_new / n_mag) if n_mag > 1e-6 else normal
@@ -437,7 +492,9 @@ class CamLidarDockingNode(Node):
         c, n, d, ps = best
         return c, n, d, ps, False, corner_vtx
 
-    def _scan_to_xy(self, msg: LaserScan) -> np.ndarray:
+    def _scan_to_xy(self, msg: LaserScan,
+                    cam_angle: float | None = None,
+                    cone_rad: float | None = None) -> np.ndarray:
         angles = msg.angle_min + np.arange(len(msg.ranges)) * msg.angle_increment
         ranges = np.array(msg.ranges, dtype=float)
         valid  = (
@@ -446,6 +503,9 @@ class CamLidarDockingNode(Node):
             & (ranges <= msg.range_max)
             & (ranges <= 15.0)
         )
+        # Angular gate around camera bearing (short-circuits most of the scan).
+        if cam_angle is not None and cone_rad is not None:
+            valid &= (np.abs(angle_wrap_vec(angles - cam_angle)) < cone_rad)
         r, a = ranges[valid], angles[valid]
         return np.column_stack((r * np.cos(a), r * np.sin(a)))
 
@@ -453,12 +513,6 @@ class CamLidarDockingNode(Node):
 
     def _control_cb(self):
         if self.docked:
-            self._stop()
-            return
-
-        # Camera must be valid — it is the primary sensor
-        if not self._cam_valid or self._cam_lateral is None:
-            self.get_logger().warn('Camera: box not detected', throttle_duration_sec=2.0)
             self._stop()
             return
 
@@ -475,75 +529,155 @@ class CamLidarDockingNode(Node):
         orbit_v    = float(p('orbit_speed').value)
         seek_w     = float(p('seek_omega').value)
 
+        # ── Camera-lost fallback ───────────────────────────────────────────────
+        # If the camera can't see the box (usually because we overshot and are
+        # now too close), try to recover instead of just stopping.
+        if not self._cam_valid or self._cam_lateral is None:
+            # Prefer LiDAR face if still available — drive to standoff blind.
+            if (self._face_valid
+                    and self._face_center is not None
+                    and self._face_normal is not None):
+                target = self._face_center + self._face_normal * target_d
+                tx, ty = float(target[0]), float(target[1])
+                cmd = Twist()
+                cmd.linear.x = float(np.clip(kp_l   * tx, -max_l * 0.5, max_l * 0.5))
+                cmd.linear.y = float(np.clip(kp_lat * ty, -max_l * 0.5, max_l * 0.5))
+                self.cmd_pub.publish(cmd)
+                self.get_logger().warn(
+                    f'Camera lost — LiDAR-only recovery to standoff '
+                    f'(tx={tx:+.2f}, ty={ty:+.2f})',
+                    throttle_duration_sec=1.0)
+                return
+            # No face either: if LiDAR says something's close in front, back up.
+            too_close = (
+                self._min_front_range < target_d
+                or (self._lidar_depth is not None and self._lidar_depth < target_d)
+            )
+            if too_close:
+                cmd = Twist()
+                cmd.linear.x = -max_l * 0.4
+                self.cmd_pub.publish(cmd)
+                self.get_logger().warn(
+                    f'Camera lost, too close — backing up '
+                    f'(front={self._min_front_range:.2f}m, '
+                    f'depth={self._lidar_depth})',
+                    throttle_duration_sec=1.0)
+                return
+            self.get_logger().warn('Camera: box not detected', throttle_duration_sec=2.0)
+            self._stop()
+            return
+
         cmd     = Twist()
         state   = 'SEEK'
         logline = ''
 
+        # Bearing to the box (robot frame, + = left). Prefer LiDAR face center
+        # when available because it is less noisy than the camera pinhole.
+        if self._face_valid and self._face_center is not None:
+            box_bearing = math.atan2(float(self._face_center[1]),
+                                     float(self._face_center[0]))
+        else:
+            box_bearing = float(self._cam_angle) if self._cam_angle is not None else 0.0
+
         if (self._face_valid
                 and self._face_center is not None
                 and self._face_normal is not None
-                and self._face_direction is not None):
-            n = self._face_normal
-            yaw_err = math.atan2(-float(n[1]), -float(n[0]))  # align +x with −n
+                and self._face_direction is not None
+                and self._face_clean):
+            # APPROACH: clean face — drive to standoff point AND align to −n.
+            state    = 'APPROACH'
+            n        = self._face_normal
+            normal_yaw_err = math.atan2(-float(n[1]), -float(n[0]))
+            target   = self._face_center + self._face_normal * target_d
+            tx, ty   = float(target[0]), float(target[1])
+            dist_tgt = math.hypot(tx, ty)
 
-            if self._face_clean:
-                # APPROACH: target is docking_distance along +n from face center
-                state    = 'APPROACH'
-                target   = self._face_center + self._face_normal * target_d
-                tx, ty   = float(target[0]), float(target[1])
-                dist_tgt = math.hypot(tx, ty)
+            xy_done  = dist_tgt < tol_xy
+            yaw_done = abs(normal_yaw_err) < tol_yaw
+            if xy_done and yaw_done:
+                self.get_logger().info('DOCKED successfully.')
+                self.docked = True
+                self._stop()
+                return
 
-                xy_done  = dist_tgt < tol_xy
-                yaw_done = abs(yaw_err) < tol_yaw
-                if xy_done and yaw_done:
-                    self.get_logger().info('DOCKED successfully.')
-                    self.docked = True
-                    self._stop()
-                    return
+            # Two-phase yaw target:
+            #   Far  (> 0.20 m from standoff): face the box (box_bearing). This
+            #        keeps the target point off the +x axis so mecanum uses
+            #        both vx AND vy — true holonomic motion, not diff-drive.
+            #   Close (≤ 0.20 m): align the chassis with the inward normal so
+            #        we end up perpendicular to the face at the standoff.
+            near = dist_tgt < 0.20
+            yaw_err = normal_yaw_err if near else box_bearing
 
-                cmd.linear.x  = float(np.clip(kp_l   * tx,      -max_l, max_l))
-                cmd.linear.y  = float(np.clip(kp_lat * ty,      -max_l, max_l))
-                cmd.angular.z = float(np.clip(kp_a   * yaw_err, -max_a, max_a))
-                logline = (f'[APPROACH] target=({tx:+.2f},{ty:+.2f}) d={dist_tgt:.2f}m '
-                           f'yaw={math.degrees(yaw_err):.1f}°')
-            else:
-                # ORBIT: we see a corner → strafe along face direction AWAY from
-                # the corner vertex, rotate to align with the chosen face normal.
-                # Do NOT advance forward — we need to resolve to a clean face first.
-                state = 'ORBIT'
-                d_vec = self._face_direction
-                # Pick sign so that strafing moves away from corner vertex:
-                # half centroid is at face_center; corner is at _corner_vertex;
-                # face extends from vertex toward center, so strafe along
-                # (face_center − corner_vertex) direction, projected onto d_vec.
-                if self._corner_vertex is not None:
-                    away = self._face_center - self._corner_vertex
-                    sign = 1.0 if float(np.dot(away, d_vec)) >= 0.0 else -1.0
-                else:
-                    sign = 1.0
-                # d_vec is in robot frame. Mecanum body velocity toward sign*d_vec:
-                vbody = sign * d_vec
-                cmd.linear.x  = float(np.clip(orbit_v * float(vbody[0]), -max_l, max_l))
-                cmd.linear.y  = float(np.clip(orbit_v * float(vbody[1]), -max_l, max_l))
-                cmd.angular.z = float(np.clip(kp_a * yaw_err, -max_a, max_a))
-                logline = (f'[ORBIT] perp_std={self._face_perp_std*100:.1f}cm '
-                           f'strafe=({cmd.linear.x:+.2f},{cmd.linear.y:+.2f}) '
-                           f'yaw={math.degrees(yaw_err):.1f}°')
+            # Distance-gated speed cap: slows the robot as it approaches the
+            # target point so proportional control does not overshoot.
+            #   dist_tgt ≥ 0.30 m  →  full max_l
+            #   dist_tgt ≤ 0.05 m  →  20 % of max_l
+            speed_cap = max_l * float(np.clip(dist_tgt / 0.30, 0.2, 1.0))
+
+            cmd.linear.x  = float(np.clip(kp_l   * tx,      -speed_cap, speed_cap))
+            cmd.linear.y  = float(np.clip(kp_lat * ty,      -speed_cap, speed_cap))
+            cmd.angular.z = float(np.clip(kp_a   * yaw_err, -max_a,     max_a))
+            logline = (f'[APPROACH{"/NEAR" if near else "/FAR"}] '
+                       f'target=({tx:+.2f},{ty:+.2f}) d={dist_tgt:.2f}m '
+                       f'cap={speed_cap:.2f} '
+                       f'yaw_n={math.degrees(normal_yaw_err):.1f}° '
+                       f'bear={math.degrees(box_bearing):.1f}°')
+
+        elif (self._face_valid
+                and self._face_center is not None
+                and self._face_normal is not None):
+            # ORBIT: corner visible. Drive to a safe standoff on the face
+            # normal line using holonomic (vx, vy) motion — this shifts the
+            # robot laterally until it is square with the face instead of
+            # walking tangentially around the corner onto the next face.
+            state = 'ORBIT'
+            n               = self._face_normal
+            orbit_standoff  = target_d * 1.3
+            target          = self._face_center + n * orbit_standoff
+            tx, ty          = float(target[0]), float(target[1])
+            dist_tgt        = math.hypot(tx, ty)
+
+            # Scale motion down when the box drifts off-center so rotation
+            # can catch up and we do not walk out of FOV.
+            bearing_gate = max(0.0, 1.0 - abs(box_bearing) / 0.5)
+            speed_cap    = max(orbit_v, max_l * 0.4)
+
+            cmd.linear.x  = float(np.clip(kp_l   * tx * bearing_gate,
+                                          -speed_cap, speed_cap))
+            cmd.linear.y  = float(np.clip(kp_lat * ty * bearing_gate,
+                                          -speed_cap, speed_cap))
+            cmd.angular.z = float(np.clip(kp_a * box_bearing, -max_a, max_a))
+            logline = (f'[ORBIT] perp_std={self._face_perp_std*100:.1f}cm '
+                       f'target=({tx:+.2f},{ty:+.2f}) d={dist_tgt:.2f}m '
+                       f'vel=({cmd.linear.x:+.2f},{cmd.linear.y:+.2f}) '
+                       f'bear={math.degrees(box_bearing):.1f}°')
+
         else:
-            # SEEK: no face at all — rotate toward camera-seen box centroid, no translation
+            # SEEK: no face from LiDAR — rotate to center the box in camera.
+            # Proportional rotation with a floor at seek_w to keep moving when
+            # the error is small, and clamped to max_a on top.
             state = 'SEEK'
             yaw_err = float(self._cam_angle) if self._cam_angle is not None else 0.0
-            cmd.linear.x  = 0.0
-            cmd.linear.y  = 0.0
-            cmd.angular.z = float(np.clip(-seek_w * math.copysign(1.0, yaw_err)
-                                          if abs(yaw_err) > tol_yaw else 0.0,
-                                          -max_a, max_a))
+            if abs(yaw_err) > tol_yaw:
+                w = kp_a * yaw_err
+                # ensure at least seek_w magnitude in the correct direction
+                if abs(w) < seek_w:
+                    w = math.copysign(seek_w, yaw_err)
+                cmd.angular.z = float(np.clip(w, -max_a, max_a))
+            else:
+                cmd.angular.z = 0.0
+            cmd.linear.x = 0.0
+            cmd.linear.y = 0.0
             logline = f'[SEEK] cam_angle={math.degrees(yaw_err):.1f}° (no face)'
 
-        # Emergency stop: forward range too close → no forward push
-        if self._min_front_range < safety_d and cmd.linear.x > 0.0:
+        # Overshoot guard: never push forward when we're already at/past the
+        # docking_distance standoff. Uses the tighter of (safety_stop_dist,
+        # target_d - tol_xy) so approach can still complete the last few cm.
+        overshoot_limit = max(safety_d, target_d - tol_xy)
+        if self._min_front_range < overshoot_limit and cmd.linear.x > 0.0:
             cmd.linear.x = 0.0
-            logline += f'  ⚠ STOP (front={self._min_front_range:.2f}m)'
+            logline += f'  ⚠ NO-FWD (front={self._min_front_range:.2f}m<{overshoot_limit:.2f})'
 
         self.cmd_pub.publish(cmd)
         self.get_logger().info(logline, throttle_duration_sec=0.5)
@@ -551,6 +685,13 @@ class CamLidarDockingNode(Node):
     # ── debug image ───────────────────────────────────────────────────────────
 
     def _publish_debug(self, bgr, mask, rect, depth, lateral):
+        import time as _time
+        now = _time.monotonic()
+        dt  = now - self._dbg_last_time
+        if dt > 0:
+            self._dbg_fps = 0.8 * self._dbg_fps + 0.2 * (1.0 / dt)
+        self._dbg_last_time = now
+
         debug   = bgr.copy()
         overlay = debug.copy()
         overlay[mask > 0] = (0, 200, 0)
@@ -595,6 +736,8 @@ class CamLidarDockingNode(Node):
                         (10, 86), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
         cv2.putText(debug, f'front_min: {self._min_front_range:.2f} m',
                     (10, 114), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (200, 200, 255), 2)
+        cv2.putText(debug, f'cam_raw FPS: {self._cam_fps:.1f}  dbg FPS: {self._dbg_fps:.1f}',
+                    (10, 142), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 128), 2)
 
         out          = Image()
         out.height   = debug.shape[0]

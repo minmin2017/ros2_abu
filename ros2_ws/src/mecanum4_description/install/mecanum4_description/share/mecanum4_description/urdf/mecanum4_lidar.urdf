@@ -267,9 +267,16 @@
   </gazebo>
 
   <gazebo reference="camera_link">
+    <!-- NOTE: Gazebo Classic renders the `camera` sensor via OGRE on the GPU
+         already; there is no `gpu_camera` type. `update_rate` is the frame
+         rate; higher values cost GPU time but also give RViz a smoother
+         stream. -->
     <sensor type="camera" name="camera_sensor">
-      <update_rate>15</update_rate>
-      <visualize>true</visualize>
+      <update_rate>60</update_rate>
+      <!-- visualize:false — do not render Gazebo's built-in camera preview
+           window; it costs another GL context on WSLg and the image is
+           already shown by rqt_image_view. -->
+      <visualize>false</visualize>
       <camera>
         <horizontal_fov>1.047</horizontal_fov>
         <image>

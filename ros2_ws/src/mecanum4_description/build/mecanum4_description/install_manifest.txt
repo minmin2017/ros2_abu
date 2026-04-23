@@ -1,4 +1,8 @@
 /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/mecanum4_lidar.urdf
+/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/target_item.urdf
+/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/meshes/Hand.stl
+/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/meshes/Fist.stl
+/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/meshes/Spear.stl
 /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/localization_bringup.launch.py
 /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/nav2_slam_bringup.launch.py
 /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/abu_stadium_spawn.launch.py

@@ -17,13 +17,13 @@ from launch_ros.actions import Node
 def generate_launch_description():
     pkg_path = get_package_share_directory("mecanum4_description")
     gazebo_pkg = get_package_share_directory("gazebo_ros")
-    nav2_bringup_dir = get_package_share_directory("nav2_bringup")
 
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
     default_world = "/home/minmin/gazabo/worlds/abu_stadium.world"
     nav2_params = os.path.join(pkg_path, "config", "nav2_params.yaml")
     map_file = "/home/minmin/map.yaml"
-    rviz_config = os.path.join(pkg_path, "config", "nav2_view.rviz")
+    nav2_bringup_dir = get_package_share_directory("nav2_bringup")
+    rviz_config = os.path.join(nav2_bringup_dir, "rviz", "nav2_default_view.rviz")
 
     with open(urdf_file, encoding="utf-8") as f:
         robot_description = ' '.join(f.read().split())
@@ -32,6 +32,12 @@ def generate_launch_description():
         "world",
         default_value=default_world,
         description="Gazebo world file path",
+    )
+    gui_arg = DeclareLaunchArgument(
+        "gui",
+        default_value="false",
+        description="Launch gzclient (Gazebo GUI). Default false on WSLg — "
+                    "gzclient competes with RViz for the d3d12 GL device.",
     )
 
     # ── Gazebo ────────────────────────────────────────────────────────────────
@@ -47,12 +53,20 @@ def generate_launch_description():
         "GAZEBO_RESOURCE_PATH",
         "/home/minmin/gazabo:/usr/share/gazebo-11",
     )
+    # GPU rendering pins (WSLg d3d12 → NVIDIA). Lidar stays on CPU ray.
+    libgl_hw = SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "0")
+    gallium_d3d12 = SetEnvironmentVariable("GALLIUM_DRIVER", "d3d12")
+    ogre_rtt = SetEnvironmentVariable("OGRE_RTT_MODE", "FBO")
+    mesa_adapter = SetEnvironmentVariable("MESA_D3D12_DEFAULT_ADAPTER_NAME", "NVIDIA")
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_pkg, "launch", "gazebo.launch.py")
         ),
-        launch_arguments={"world": LaunchConfiguration("world")}.items(),
+        launch_arguments={
+            "world": LaunchConfiguration("world"),
+            "gui": LaunchConfiguration("gui"),
+        }.items(),
     )
 
     # ── Robot state publisher ─────────────────────────────────────────────────
@@ -300,8 +314,57 @@ def generate_launch_description():
         ],
     )
 
+    # ── Camera viewers at t+24 s ─────────────────────────────────────────────
+    # Separate rqt_image_view processes (own Qt event loop each) so that
+    # image display doesn't starve RViz's main thread on WSLg d3d12.
+    camera_views = TimerAction(
+        period=24.0,
+        actions=[
+            ExecuteProcess(
+                cmd=["ros2", "run", "rqt_image_view", "rqt_image_view",
+                     "/camera/image_raw"],
+                name="rqt_image_raw",
+                output="log",
+            ),
+            ExecuteProcess(
+                cmd=["ros2", "run", "rqt_image_view", "rqt_image_view",
+                     "/camera/debug_image"],
+                name="rqt_image_debug",
+                output="log",
+            ),
+        ],
+    )
+
+    # ── Kidnap-spin recovery at t+25 s ──────────────────────────────────────────
+    # Starts after Nav2 behavior_server is active (t+18 s) so the Spin action
+    # server is available. startup_delay=60 s prevents false triggers while
+    # AMCL converges from the initial pose published at t+16 s.
+    kidnap_spin = TimerAction(
+        period=25.0,
+        actions=[
+            Node(
+                package="mecanum4_description",
+                executable="amcl_kidnap_spin.py",
+                name="amcl_kidnap_spin",
+                output="screen",
+                parameters=[
+                    {"use_sim_time": True},
+                    {"cov_threshold": 0.8},
+                    {"spin_dist": 12.57},
+                    {"cooldown_sec": 45.0},
+                    {"startup_delay": 60.0},
+                ],
+            )
+        ],
+    )
+
     return LaunchDescription([
         world_arg,
+        gui_arg,
+        libgl_hw,
+        gallium_d3d12,
+        ogre_rtt,
+        mesa_adapter,
         gazebo_model_path,
         gazebo_plugin_path,
         gazebo_resource_path,
@@ -315,4 +378,6 @@ def generate_launch_description():
         publish_initial_pose,
         nav2,
         rviz,
+        camera_views,
+        kidnap_spin,
     ])

@@ -59,6 +59,7 @@ import numpy as np
 import cv2
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan, Image
 from geometry_msgs.msg import Twist
 
@@ -106,7 +107,7 @@ class FusedDockingNode(Node):
         super().__init__('fused_docking_node')
 
         # ── Parameters ────────────────────────────────────────────────────────
-        self.declare_parameter('docking_distance', 0.35)
+        self.declare_parameter('docking_distance', 0.75)
         self.declare_parameter('cluster_eps',      0.05)
         self.declare_parameter('min_cluster_pts',  3)
         self.declare_parameter('max_cluster_pts',  40)
@@ -131,6 +132,7 @@ class FusedDockingNode(Node):
 
         # Latest processed values (written by sensor callbacks, read by timer)
         self._lidar_target: tuple | None = None   # (tx, ty, t_yaw) laser frame
+        self._lidar_center: tuple | None = None   # (cx, cy) box face centre in laser frame
         self._lidar_valid                = False
 
         self._cam_depth   : float | None = None   # metres
@@ -141,12 +143,13 @@ class FusedDockingNode(Node):
 
         # ── I/O ───────────────────────────────────────────────────────────────
         self.scan_sub = self.create_subscription(
-            LaserScan, '/scan',             self._scan_cb,  10)
+            LaserScan, '/scan',             self._scan_cb,  qos_profile_sensor_data)
         self.img_sub  = self.create_subscription(
-            Image,     '/camera/image_raw', self._image_cb, 10)
+            Image,     '/camera/image_raw', self._image_cb, qos_profile_sensor_data)
 
         self.cmd_pub = self.create_publisher(Twist, '/cmd_vel',            10)
-        self.dbg_pub = self.create_publisher(Image, '/camera/debug_image', 10)
+        self.dbg_pub = self.create_publisher(
+            Image, '/camera/debug_image', qos_profile_sensor_data)
 
         # Control loop at 20 Hz (separate from sensor callbacks)
         self.create_timer(0.05, self._control_cb)
@@ -177,6 +180,7 @@ class FusedDockingNode(Node):
         center, face_yaw       = self._estimate_pose(box)
         tx, ty, t_yaw          = self._docking_target(center, face_yaw)
         self._lidar_target     = (tx, ty, t_yaw)
+        self._lidar_center     = (float(center[0]), float(center[1]))
         self._lidar_valid      = True
 
     def _scan_to_xy(self, msg: LaserScan) -> np.ndarray:
@@ -463,6 +467,19 @@ class FusedDockingNode(Node):
 
             elif abs(yaw_err) > tol_yaw:
                 cmd.angular.z = float(np.clip(kp_a * yaw_err, -max_a, max_a))
+                # Safety: never allow creep closer than docking_distance.
+                # Push straight away from box centre if we're too close.
+                if self._lidar_center is not None:
+                    cx, cy   = self._lidar_center
+                    box_dist = math.hypot(cx, cy)
+                    d_set    = float(p('docking_distance').value)
+                    if box_dist < d_set - tol_xy:
+                        push = d_set - box_dist
+                        inv  = max(box_dist, 1e-6)
+                        cmd.linear.x = float(np.clip(
+                            -kp_l * push * cx / inv, -max_l * 0.3, max_l * 0.3))
+                        cmd.linear.y = float(np.clip(
+                            -kp_l * push * cy / inv, -max_l * 0.3, max_l * 0.3))
 
             else:
                 self.get_logger().info('DOCKED successfully.')
