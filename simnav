@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Source ROS 2 Humble
+source /opt/ros/humble/setup.bash
+
+# Source the workspace
+if [ -f $HOME/ros2_ws/install/setup.bash ]; then
+    source $HOME/ros2_ws/install/setup.bash
+fi
+
+# Run the navigation slam bringup
+ros2 launch mecanum4_description nav2_slam_bringup.launch.py "$@"

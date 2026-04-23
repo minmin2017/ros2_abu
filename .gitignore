@@ -3,6 +3,11 @@
 
 # Keep this file tracked
 !.gitignore
+!GEMINI.md
+!.bash_aliases
+!sim
+!simfull
+!simnav
 
 # Allow the requested workspaces
 !ros2_ws/
