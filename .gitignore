@@ -22,6 +22,14 @@
 !/gazabo/models/abu_stadium/meshes/
 !/gazabo/models/abu_stadium/meshes/*.stl
 
+# Allow camera project
+!my_camera_project/
+!my_camera_project/**
+# Ignore camera build artifacts
+my_camera_project/build/
+my_camera_project/install/
+my_camera_project/log/
+
 # Ignore ROS 2 build artifacts
 ros2_ws/build/
 ros2_ws/install/
