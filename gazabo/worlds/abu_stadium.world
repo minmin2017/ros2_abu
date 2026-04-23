@@ -47,6 +47,15 @@
       </link>
     </model>
 
+    <include>
+      <uri>model://fist</uri>
+      <pose>2.5 -1.8 0.2 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://spear</uri>
+      <pose>2.5 -2.0 0.2 0 0 0</pose>
+    </include>
+
     <gui fullscreen="0">
       <camera name="user_camera">
         <pose>0 -6 4 0 0.5 1.57</pose>
