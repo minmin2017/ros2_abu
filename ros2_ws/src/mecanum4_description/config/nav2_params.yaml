@@ -8,7 +8,7 @@ bt_navigator:
     default_server_timeout: 20
     wait_for_service_timeout: 1000
     default_bt_xml_filename: "navigate_to_pose_w_replanning_and_recovery.xml"
-    #default_nav_to_pose_bt_xml: "/home/minmin/ros2_ws/install/mecanum4_description/share/mecanum4_description/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    #default_nav_to_pose_bt_xml: "/home/poomjai/ros2_ws/install/mecanum4_description/share/mecanum4_description/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -110,13 +110,13 @@ controller_server:
       decel_lim_x: -2.5
       decel_lim_y: -2.5
       decel_lim_theta: -5.0
-      # Sample counts — balanced for holonomic diagonal motion
-      vx_samples: 5
-      vy_samples: 5
-      vtheta_samples: 5
-      sim_time: 0.8
-      linear_granularity: 0.05
-      angular_granularity: 0.025
+      # Sample counts — increased for heavy CPU load
+      vx_samples: 20
+      vy_samples: 20
+      vtheta_samples: 40
+      sim_time: 1.5
+      linear_granularity: 0.02
+      angular_granularity: 0.01
       transform_tolerance: 0.2
       xy_goal_tolerance: 0.25
       trans_stopped_velocity: 0.25
@@ -212,7 +212,7 @@ global_costmap:
 map_server:
   ros__parameters:
     use_sim_time: True
-    yaml_filename: "/home/minmin/map.yaml"
+    yaml_filename: "/home/poomjai/map.yaml"
 
 amcl:
   ros__parameters:
@@ -223,12 +223,12 @@ amcl:
     global_frame_id: "map"
     odom_frame_id: "odom"
     scan_topic: /scan
-    # Particle filter
-    min_particles: 500
-    max_particles: 2000
+    # Particle filter — increased for CPU load
+    min_particles: 2000
+    max_particles: 8000
     # Update thresholds (move before updating)
-    update_min_d: 0.25
-    update_min_a: 0.2
+    update_min_d: 0.1
+    update_min_a: 0.1
     # Odometry motion model noise (mecanum wheels drift more laterally)
     alpha1: 0.2   # rotation noise from rotation
     alpha2: 0.2   # rotation noise from translation
@@ -239,7 +239,7 @@ amcl:
     laser_model_type: "likelihood_field"
     laser_max_range: 12.0
     laser_min_range: 0.0
-    max_beams: 60
+    max_beams: 180
     z_hit: 0.5
     z_short: 0.05
     z_max: 0.05

@@ -19,7 +19,7 @@ def generate_launch_description():
     gazebo_pkg = get_package_share_directory("gazebo_ros")
 
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
-    default_world = "/home/minmin/gazabo/worlds/abu_stadium.world"
+    default_world = "/home/poomjai/gazabo/worlds/abu_stadium.world"
     default_map = os.path.join(
         os.path.expanduser("~"), "ros2_ws", "maps", "abu_stadium_map.yaml"
     )
@@ -49,14 +49,14 @@ def generate_launch_description():
     # ── Environment ───────────────────────────────────────────────────────────
     gazebo_model_path = SetEnvironmentVariable(
         "GAZEBO_MODEL_PATH",
-        "/home/minmin/gazabo/models:/usr/share/gazebo-11/models",
+        "/home/poomjai/gazabo/models:/usr/share/gazebo-11/models",
     )
     gazebo_plugin_path = SetEnvironmentVariable(
         "GAZEBO_PLUGIN_PATH", "/opt/ros/humble/lib"
     )
     gazebo_resource_path = SetEnvironmentVariable(
         "GAZEBO_RESOURCE_PATH",
-        "/home/minmin/gazabo:/usr/share/gazebo-11",
+        "/home/poomjai/gazabo:/usr/share/gazebo-11",
     )
     # GPU rendering pins (WSLg d3d12 → NVIDIA). Lidar stays on CPU ray.
     libgl_hw = SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "0")

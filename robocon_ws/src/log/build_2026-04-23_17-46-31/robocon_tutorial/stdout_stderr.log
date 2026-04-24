@@ -1,0 +1,21 @@
+running egg_info
+writing ../build/robocon_tutorial/robocon_tutorial.egg-info/PKG-INFO
+writing dependency_links to ../build/robocon_tutorial/robocon_tutorial.egg-info/dependency_links.txt
+writing entry points to ../build/robocon_tutorial/robocon_tutorial.egg-info/entry_points.txt
+writing requirements to ../build/robocon_tutorial/robocon_tutorial.egg-info/requires.txt
+writing top-level names to ../build/robocon_tutorial/robocon_tutorial.egg-info/top_level.txt
+reading manifest file '../build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+writing manifest file '../build/robocon_tutorial/robocon_tutorial.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/poomjai/robocon_ws/src/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../build/robocon_tutorial/robocon_tutorial.egg-info to /home/poomjai/robocon_ws/src/install/robocon_tutorial/lib/python3.10/site-packages/robocon_tutorial-0.0.0-py3.10.egg-info
+running install_scripts
+Installing mecanum_serial_odometry script to /home/poomjai/robocon_ws/src/install/robocon_tutorial/lib/robocon_tutorial
+Installing simple_publisher script to /home/poomjai/robocon_ws/src/install/robocon_tutorial/lib/robocon_tutorial
+Installing simple_subscriber script to /home/poomjai/robocon_ws/src/install/robocon_tutorial/lib/robocon_tutorial
+writing list of installed files to '/home/poomjai/robocon_ws/src/build/robocon_tutorial/install.log'

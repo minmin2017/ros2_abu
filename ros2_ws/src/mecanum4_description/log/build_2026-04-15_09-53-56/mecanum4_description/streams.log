@@ -1,4 +1,4 @@
-[0.037s] Invoking command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/minmin/ros2_ws/src/mecanum4_description -DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description
+[0.037s] Invoking command in '/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/poomjai/ros2_ws/src/mecanum4_description -DCMAKE_INSTALL_PREFIX=/home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description
 [0.960s] -- The C compiler identification is GNU 11.4.0
 [3.466s] -- The CXX compiler identification is GNU 11.4.0
 [5.133s] -- Detecting C compiler ABI info
@@ -25,45 +25,45 @@
 [7.116s] -- Added test 'xmllint' to check XML markup files
 [7.120s] -- Configuring done
 [7.136s] -- Generating done
-[7.141s] -- Build files have been written to: /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description
-[7.152s] Invoked command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/minmin/ros2_ws/src/mecanum4_description -DCMAKE_INSTALL_PREFIX=/home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description
-[7.159s] Invoking command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
-[7.250s] Invoked command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
-[7.276s] Invoking command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description
+[7.141s] -- Build files have been written to: /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description
+[7.152s] Invoked command in '/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/poomjai/ros2_ws/src/mecanum4_description -DCMAKE_INSTALL_PREFIX=/home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description
+[7.159s] Invoking command in '/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
+[7.250s] Invoked command in '/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
+[7.276s] Invoking command in '/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description
 [7.292s] -- Install configuration: ""
-[7.292s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf
-[7.296s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/mecanum4_lidar.urdf
-[7.298s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch
-[7.299s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/localization_bringup.launch.py
-[7.300s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/nav2_slam_bringup.launch.py
-[7.301s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/abu_stadium_spawn.launch.py
-[7.301s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/nav2_amcl_bringup.launch.py
-[7.302s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/sim_bringup.launch.py
-[7.302s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/display.launch.py
-[7.303s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/robot_state_publisher.launch.py
-[7.303s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config
-[7.304s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config/nav2_params.yaml
-[7.305s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config/slam_params.yaml
-[7.305s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config/mecanum_controllers.yaml
-[7.305s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/behavior_trees
-[7.306s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml
-[7.309s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/cmd_vel_to_wheels.py
-[7.309s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/teleop_gui.py
-[7.310s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/docking_node.py
-[7.311s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/camera_docking_node.py
-[7.315s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/ament_index/resource_index/package_run_dependencies/mecanum4_description
-[7.316s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/ament_index/resource_index/parent_prefix_path/mecanum4_description
-[7.318s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.sh
-[7.318s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.dsv
-[7.319s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/path.sh
-[7.319s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/path.dsv
-[7.319s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.bash
-[7.320s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.sh
-[7.320s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.zsh
-[7.321s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.dsv
-[7.321s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.dsv
-[7.323s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/ament_index/resource_index/packages/mecanum4_description
-[7.324s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig.cmake
-[7.324s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig-version.cmake
-[7.324s] -- Installing: /home/minmin/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.xml
-[7.330s] Invoked command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description
+[7.292s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf
+[7.296s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/urdf/mecanum4_lidar.urdf
+[7.298s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch
+[7.299s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/localization_bringup.launch.py
+[7.300s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/nav2_slam_bringup.launch.py
+[7.301s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/abu_stadium_spawn.launch.py
+[7.301s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/nav2_amcl_bringup.launch.py
+[7.302s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/sim_bringup.launch.py
+[7.302s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/display.launch.py
+[7.303s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/launch/robot_state_publisher.launch.py
+[7.303s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config
+[7.304s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config/nav2_params.yaml
+[7.305s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config/slam_params.yaml
+[7.305s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/config/mecanum_controllers.yaml
+[7.305s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/behavior_trees
+[7.306s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml
+[7.309s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/cmd_vel_to_wheels.py
+[7.309s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/teleop_gui.py
+[7.310s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/docking_node.py
+[7.311s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/lib/mecanum4_description/camera_docking_node.py
+[7.315s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/ament_index/resource_index/package_run_dependencies/mecanum4_description
+[7.316s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/ament_index/resource_index/parent_prefix_path/mecanum4_description
+[7.318s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.sh
+[7.318s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/ament_prefix_path.dsv
+[7.319s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/path.sh
+[7.319s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/environment/path.dsv
+[7.319s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.bash
+[7.320s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.sh
+[7.320s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.zsh
+[7.321s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/local_setup.dsv
+[7.321s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.dsv
+[7.323s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/ament_index/resource_index/packages/mecanum4_description
+[7.324s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig.cmake
+[7.324s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/cmake/mecanum4_descriptionConfig-version.cmake
+[7.324s] -- Installing: /home/poomjai/ros2_ws/src/mecanum4_description/install/mecanum4_description/share/mecanum4_description/package.xml
+[7.330s] Invoked command in '/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/minmin/ros2_ws/src/mecanum4_description
+CMAKE_SOURCE_DIR = /home/poomjai/ros2_ws/src/mecanum4_description
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description
+CMAKE_BINARY_DIR = /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description
 
 # Utility rule file for uninstall.
 
@@ -78,6 +78,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/minmin/ros2_ws/src/mecanum4_description /home/minmin/ros2_ws/src/mecanum4_description /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/poomjai/ros2_ws/src/mecanum4_description /home/poomjai/ros2_ws/src/mecanum4_description /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/uninstall.dir/depend
 

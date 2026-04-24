@@ -59,8 +59,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description",
-		"source" : "/home/minmin/ros2_ws/src/mecanum4_description"
+		"build" : "/home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description",
+		"source" : "/home/poomjai/ros2_ws/src/mecanum4_description"
 	},
 	"version" : 
 	{
