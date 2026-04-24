@@ -3,4 +3,4 @@ source /opt/ros/humble/setup.bash
 if [ -f $HOME/ros2_ws/install/setup.bash ]; then
     source $HOME/ros2_ws/install/setup.bash
 fi
-ros2 launch mecanum4_description abu_stadium_spawn.launch.py "$@"
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia ros2 launch mecanum4_description abu_stadium_spawn.launch.py "$@"

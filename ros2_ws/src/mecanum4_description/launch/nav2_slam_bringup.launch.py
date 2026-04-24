@@ -55,6 +55,10 @@ def generate_launch_description():
         "GAZEBO_RESOURCE_PATH",
         "/home/minmin/gazabo:/usr/share/gazebo-11",
     )
+    gazebo_no_online_models = SetEnvironmentVariable(
+        "GAZEBO_MODEL_DATABASE_URI",
+        "",
+    )
     # ── GPU rendering pins (WSLg: Mesa d3d12 → NVIDIA via DirectX 12) ─────────
     # Keeps the `camera` sensor, Gazebo client, and RViz on the GPU path even
     # if the shell that launched ros2 didn't export these. Lidar stays on the
@@ -71,6 +75,7 @@ def generate_launch_description():
         launch_arguments={
             "world": LaunchConfiguration("world"),
             "gui": LaunchConfiguration("gui"),
+            "extra_gazebo_args": "--ros-args -p robot_description:=" + robot_description
         }.items(),
     )
 
@@ -95,7 +100,7 @@ def generate_launch_description():
                 executable="spawn_entity.py",
                 arguments=[
                     "-entity", "mecanum4",
-                    "-topic", "robot_description",
+                    "-file", urdf_file,
                     "-x", "1.0",
                     "-y", "-0.5",
                     "-z", "0.2",
@@ -156,7 +161,7 @@ def generate_launch_description():
                 executable="spawner",
                 arguments=[
                     "wheel_controller",
-                    "--controller-manager", "/controller_manager",
+                    "--controller-manager", "controller_manager",
                     "--controller-manager-timeout", "120",
                 ],
                 output="screen",
@@ -324,6 +329,7 @@ def generate_launch_description():
         gallium_d3d12,
         ogre_rtt,
         mesa_adapter,
+        gazebo_no_online_models,
         gazebo_model_path,
         gazebo_plugin_path,
         gazebo_resource_path,

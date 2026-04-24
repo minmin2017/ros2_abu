@@ -58,6 +58,10 @@ def generate_launch_description():
         "GAZEBO_RESOURCE_PATH",
         "/home/minmin/gazabo:/usr/share/gazebo-11",
     )
+    gazebo_no_online_models = SetEnvironmentVariable(
+        "GAZEBO_MODEL_DATABASE_URI",
+        "",
+    )
     # GPU rendering pins (WSLg d3d12 → NVIDIA). Lidar stays on CPU ray.
     libgl_hw = SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "0")
     gallium_d3d12 = SetEnvironmentVariable("GALLIUM_DRIVER", "d3d12")
@@ -92,7 +96,7 @@ def generate_launch_description():
                 executable="spawn_entity.py",
                 arguments=[
                     "-entity", "mecanum4",
-                    "-topic", "robot_description",
+                    "-file", urdf_file,
                     "-x", "1.0",
                     "-y", "-0.5",
                     "-z", "0.2",
@@ -319,6 +323,7 @@ def generate_launch_description():
         gallium_d3d12,
         ogre_rtt,
         mesa_adapter,
+        gazebo_no_online_models,
         gazebo_model_path,
         gazebo_plugin_path,
         gazebo_resource_path,
@@ -332,6 +337,10 @@ def generate_launch_description():
         amcl,
         lifecycle_localization,
         nav2,
+        rviz,
+        camera_views,
+    ])
+    nav2,
         rviz,
         camera_views,
     ])

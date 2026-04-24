@@ -21,7 +21,6 @@
     </inertial>
   </link>
 
-  
   <link name="wheel_fl_link">
     <visual>
       <origin xyz="0 0 0" rpy="1.5707963 0 0"/>
@@ -114,7 +113,7 @@
     <dynamics damping="0.01" friction="0.0"/>
   </joint>
 
-    <link name="laser_frame">
+  <link name="laser_frame">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -140,7 +139,6 @@
     <origin xyz="0.10 0.00 0.20" rpy="0 0 0"/>
   </joint>
 
-  <!-- ── Forward camera ──────────────────────────────────────────────────── -->
   <link name="camera_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -159,7 +157,6 @@
     <origin xyz="0.21 0 0.15" rpy="0 0 0"/>
   </joint>
 
-  <!-- Optical frame: z-forward, x-right (ROS camera convention) -->
   <link name="camera_optical_link"/>
   <joint name="camera_optical_joint" type="fixed">
     <parent link="camera_link"/>
@@ -167,35 +164,18 @@
     <origin xyz="0 0 0" rpy="-1.5707963 0 -1.5707963"/>
   </joint>
 
-    <ros2_control name="GazeboSystem" type="system">
+  <!-- ros2_control is currently disabled to avoid parsing errors on Humble/WSLg -->
+  <!--
+  <ros2_control name="GazeboSystem" type="system">
     <hardware>
       <plugin>gazebo_ros2_control/GazeboSystem</plugin>
     </hardware>
-
-    <joint name="wheel_fl_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="velocity"/>
-      <state_interface name="position"/>
-    </joint>
-
-    <joint name="wheel_fr_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="velocity"/>
-      <state_interface name="position"/>
-    </joint>
-
-    <joint name="wheel_rl_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="velocity"/>
-      <state_interface name="position"/>
-    </joint>
-
-    <joint name="wheel_rr_joint">
-      <command_interface name="velocity"/>
-      <state_interface name="velocity"/>
-      <state_interface name="position"/>
-    </joint>
+    <joint name="wheel_fl_joint"><command_interface name="velocity"/><state_interface name="velocity"/><state_interface name="position"/></joint>
+    <joint name="wheel_fr_joint"><command_interface name="velocity"/><state_interface name="velocity"/><state_interface name="position"/></joint>
+    <joint name="wheel_rl_joint"><command_interface name="velocity"/><state_interface name="velocity"/><state_interface name="position"/></joint>
+    <joint name="wheel_rr_joint"><command_interface name="velocity"/><state_interface name="velocity"/><state_interface name="position"/></joint>
   </ros2_control>
+  -->
 
   <gazebo reference="base_link">
     <mu1>0.2</mu1>
@@ -220,62 +200,23 @@
     </plugin>
   </gazebo>
 
+  <!-- gazebo_ros2_control is currently disabled to avoid parsing errors on Humble/WSLg -->
+  <!--
   <gazebo>
     <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
       <parameters>/home/minmin/ros2_ws/src/mecanum4_description/config/mecanum_controllers.yaml</parameters>
     </plugin>
   </gazebo>
+  -->
 
-  <gazebo reference="wheel_fl_link">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-    <kp>100000.0</kp>
-    <kd>1.0</kd>
-    <minDepth>0.001</minDepth>
-    <maxVel>1.0</maxVel>
-    <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="wheel_fr_link">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-    <kp>100000.0</kp>
-    <kd>1.0</kd>
-    <minDepth>0.001</minDepth>
-    <maxVel>1.0</maxVel>
-    <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="wheel_rl_link">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-    <kp>100000.0</kp>
-    <kd>1.0</kd>
-    <minDepth>0.001</minDepth>
-    <maxVel>1.0</maxVel>
-    <material>Gazebo/Black</material>
-  </gazebo>
-
-  <gazebo reference="wheel_rr_link">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-    <kp>100000.0</kp>
-    <kd>1.0</kd>
-    <minDepth>0.001</minDepth>
-    <maxVel>1.0</maxVel>
-    <material>Gazebo/Black</material>
-  </gazebo>
+  <gazebo reference="wheel_fl_link"><mu1>0.0</mu1><mu2>0.0</mu2><kp>100000.0</kp><kd>1.0</kd><minDepth>0.001</minDepth><maxVel>1.0</maxVel><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="wheel_fr_link"><mu1>0.0</mu1><mu2>0.0</mu2><kp>100000.0</kp><kd>1.0</kd><minDepth>0.001</minDepth><maxVel>1.0</maxVel><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="wheel_rl_link"><mu1>0.0</mu1><mu2>0.0</mu2><kp>100000.0</kp><kd>1.0</kd><minDepth>0.001</minDepth><maxVel>1.0</maxVel><material>Gazebo/Black</material></gazebo>
+  <gazebo reference="wheel_rr_link"><mu1>0.0</mu1><mu2>0.0</mu2><kp>100000.0</kp><kd>1.0</kd><minDepth>0.001</minDepth><maxVel>1.0</maxVel><material>Gazebo/Black</material></gazebo>
 
   <gazebo reference="camera_link">
-    <!-- NOTE: Gazebo Classic renders the `camera` sensor via OGRE on the GPU
-         already; there is no `gpu_camera` type. `update_rate` is the frame
-         rate; higher values cost GPU time but also give RViz a smoother
-         stream. -->
     <sensor type="camera" name="camera_sensor">
       <update_rate>60</update_rate>
-      <!-- visualize:false — do not render Gazebo's built-in camera preview
-           window; it costs another GL context on WSLg and the image is
-           already shown by rqt_image_view. -->
       <visualize>false</visualize>
       <camera>
         <horizontal_fov>1.047</horizontal_fov>
@@ -300,7 +241,7 @@
     </sensor>
   </gazebo>
 
-    <gazebo reference="laser_frame">
+  <gazebo reference="laser_frame">
     <sensor type="ray" name="laser_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>

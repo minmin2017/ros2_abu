@@ -17,25 +17,34 @@ The following scripts have been created in the home directory and added to the P
 - `sim`: Launches basic simulation bringup.
 - `simfull`: Launches the full stadium simulation with robot spawning.
 - `simnav`: Launches the navigation and SLAM stack.
+- `teleop`: Launches the **Mecanum Command Center**, a graphical interface for 8-way movement and heading alignment.
 
 ### Usage
-Simply type the command name in any terminal:
+Simply type the command name in any terminal (after sourcing aliases):
 ```bash
-simnav
+teleop
 ```
-To pass additional arguments (e.g., to enable the GUI):
+
+**Features:**
+- **8-Way Control Pad**: Support for Forward, Backward, Strafing, and Diagonals.
+- **Heading Alignment**: Snap the robot to specific headings (0°, 90°, 180°, -90°) using odometry feedback.
+- **Real-time Status**: Monitor current velocities and robot heading directly in the GUI.
+- **Keyboard Bindings**: WASD for translation, Q/E or Arrows for rotation, Space for emergency STOP.
+
+To pass additional arguments (e.g., to change the topic):
 ```bash
-simnav gui:=true
+teleop --ros-args -p topic:=/cmd_vel_nav
 ```
 
 ## Setup & Installation
 
-Follow these steps to set up the environment on a new machine.
+Follow these steps to set up the environment on a new machine. **Note: You must build the workspaces for these commands to work.**
 
 ### 1. Install Dependencies
-Ensure you have ROS 2 Humble installed. Then, install the required system dependencies:
+Ensure you have ROS 2 Humble installed. Then, install the required system dependencies and GPU drivers:
 
 ```bash
+# Install System Dependencies
 sudo apt update && sudo apt install -y \
   ros-humble-desktop \
   ros-humble-navigation2 \
@@ -52,6 +61,13 @@ sudo apt update && sudo apt install -y \
   ros-humble-rqt-image-view \
   python3-serial \
   python3-pip
+
+# Install NVIDIA Drivers (Required for Gazebo/RViz performance)
+sudo apt install -y nvidia-driver-535
+# IMPORTANT: Restart the computer after installation!
+
+# Verify installation after restart:
+# nvidia-smi
 ```
 
 For YOLO detection:
@@ -90,6 +106,25 @@ chmod +x ~/sim ~/simfull ~/simnav
 # Source aliases
 source ~/.bash_aliases
 ```
+
+## GPU Configuration (WSL vs Native Linux)
+
+Depending on the environment, the GPU configuration in launch files and scripts must be adjusted for optimal performance.
+
+### Native Linux (Ubuntu)
+On native Linux with NVIDIA/AMD hybrid graphics, use **PRIME Render Offload** to force the simulation onto the high-performance GPU.
+- **Environment Variables**: 
+  - `__NV_PRIME_RENDER_OFFLOAD=1`
+  - `__GLX_VENDOR_LIBRARY_NAME=nvidia`
+- **Launch Files**: Disable WSL-specific drivers. Ensure `GALLIUM_DRIVER` is NOT set to `d3d12` and `MESA_D3D12_DEFAULT_ADAPTER_NAME` is commented out.
+
+### WSLg (Windows Subsystem for Linux)
+On WSLg, Gazebo and RViz should use the Windows DirectX 12 backend for hardware acceleration.
+- **Environment Variables**: (Typically handled within the launch file)
+  - `GALLIUM_DRIVER=d3d12`
+  - `MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA` (or your specific GPU)
+  - `LIBGL_ALWAYS_SOFTWARE=0`
+- **Known Issue**: In WSLg, `gzclient` and `rviz2` compete for the same d3d12 device. It is recommended to run Gazebo with `gui:=false` if using RViz extensively.
 
 ## Engineering Standards
 

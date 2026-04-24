@@ -21,7 +21,7 @@ def generate_launch_description():
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
     default_world = "/home/minmin/gazabo/worlds/abu_stadium.world"
     nav2_params = os.path.join(pkg_path, "config", "nav2_params.yaml")
-    map_file = "/home/minmin/map.yaml"
+    map_file = "/home/minmin/my_map.yaml"
     nav2_bringup_dir = get_package_share_directory("nav2_bringup")
     rviz_config = os.path.join(nav2_bringup_dir, "rviz", "nav2_default_view.rviz")
 
@@ -362,9 +362,9 @@ def generate_launch_description():
         world_arg,
         gui_arg,
         libgl_hw,
-        gallium_d3d12,
+        # gallium_d3d12,
         ogre_rtt,
-        mesa_adapter,
+        # mesa_adapter,
         gazebo_model_path,
         gazebo_plugin_path,
         gazebo_resource_path,

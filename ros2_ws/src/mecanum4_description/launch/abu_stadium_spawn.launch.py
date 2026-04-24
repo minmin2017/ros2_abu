@@ -29,6 +29,11 @@ def generate_launch_description():
         "/home/minmin/gazabo:/usr/share/gazebo-11",
     )
 
+    gazebo_no_online_models = SetEnvironmentVariable(
+        "GAZEBO_MODEL_DATABASE_URI",
+        "",
+    )
+
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_pkg, "launch", "gazebo.launch.py")
@@ -113,6 +118,7 @@ def generate_launch_description():
             gazebo_model_path,
             gazebo_plugin_path,
             gazebo_resource_path,
+            gazebo_no_online_models,
             gazebo,
             state_publisher,
             spawn_robot,

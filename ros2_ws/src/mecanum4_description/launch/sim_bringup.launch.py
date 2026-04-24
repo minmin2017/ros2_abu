@@ -33,6 +33,11 @@ def generate_launch_description():
         "/opt/ros/humble/lib",
     )
 
+    gazebo_no_online_models = SetEnvironmentVariable(
+        "GAZEBO_MODEL_DATABASE_URI",
+        "",
+    )
+
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gazebo_pkg, "launch", "gazebo.launch.py")
@@ -119,6 +124,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             world_arg,
+            gazebo_no_online_models,
             gazebo_plugin_path,
             gazebo,
             state_publisher,

@@ -29,7 +29,7 @@
         <collision name="collision">
           <geometry>
             <box>
-              <size>0.2 0.2 0.5</size>
+              <size>0.2 0.2 0.2</size>
             </box>
           </geometry>
         </collision>
@@ -47,13 +47,38 @@
       </link>
     </model>
 
+    <model name="new_support_box">
+      <pose>4.0 -2.0 0.1 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>1.5 0.5 0.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>1.5 0.5 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
     <include>
       <uri>model://fist</uri>
-      <pose>2.5 -1.8 0.2 0 0 0</pose>
+      <pose>3.7 -2.0 0.251 0 -3.1416 1.5708</pose>
     </include>
     <include>
       <uri>model://spear</uri>
-      <pose>2.5 -2.0 0.2 0 0 0</pose>
+      <pose>4.3 -2.0 0.251 1.5708 0 0</pose>
     </include>
 
     <gui fullscreen="0">

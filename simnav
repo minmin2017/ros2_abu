@@ -8,5 +8,5 @@ if [ -f $HOME/ros2_ws/install/setup.bash ]; then
     source $HOME/ros2_ws/install/setup.bash
 fi
 
-# Run the navigation slam bringup
-ros2 launch mecanum4_description nav2_slam_bringup.launch.py "$@"
+# Run the navigation amcl bringup with NVIDIA GPU offload
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia ros2 launch mecanum4_description nav2_amcl_bringup.launch.py "$@"
