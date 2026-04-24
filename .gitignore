@@ -5,6 +5,8 @@
 !.gitignore
 
 # Allow the requested workspaces
+!roboarm_ws/
+!roboarm_ws/**
 !ros2_ws/
 !ros2_ws/**
 !ross2_ws/
