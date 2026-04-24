@@ -30,6 +30,7 @@ install(
 install(
   PROGRAMS
     scripts/cmd_vel_to_wheels.py
+    scripts/cmd_vel_to_arduino.py
     scripts/teleop_gui.py
     scripts/amcl_kidnap_spin.py
     scripts/docking_node.py

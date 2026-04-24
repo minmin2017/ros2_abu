@@ -1,0 +1,6 @@
+[0.018s] Invoking command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/minmin/roboarm_ws/install/my_vision_system:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8
+[0.035s] [0mCMake Error: The current CMakeCache.txt directory /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description/CMakeCache.txt is different than the directory /home/poomjai/ros2_ws/src/mecanum4_description/build/mecanum4_description where CMakeCache.txt was created. This may result in binaries being created in the wrong place. If you are not sure, reedit the CMakeCache.txt[0m
+[0.051s] [0mCMake Error: The source directory "/home/poomjai/ros2_ws/src/mecanum4_description" does not exist.
+[0.051s] Specify --help for usage, or press the help button on the CMake GUI.[0m
+[0.053s] gmake: *** [Makefile:226: cmake_check_build_system] Error 1
+[0.058s] Invoked command in '/home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/minmin/roboarm_ws/install/my_vision_system:/opt/ros/humble /usr/bin/cmake --build /home/minmin/ros2_ws/src/mecanum4_description/build/mecanum4_description -- -j8 -l8

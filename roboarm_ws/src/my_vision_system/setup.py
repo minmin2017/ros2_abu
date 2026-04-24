@@ -15,7 +15,7 @@ setup(
         (os.path.join('share', package_name, 'models'), glob('my_vision_system/models/*.pt')),
     ],
     install_requires=['setuptools'],
-    zip_safe=True,
+    zip_safe=False,
     maintainer='poomjai',
     maintainer_email='poomjai@todo.todo',
     description='ROS2 YOLO Docking System',
