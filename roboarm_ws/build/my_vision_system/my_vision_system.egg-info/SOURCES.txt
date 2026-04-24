@@ -10,7 +10,9 @@ setup.py
 ../../build/my_vision_system/my_vision_system.egg-info/zip-safe
 my_vision_system/__init__.py
 my_vision_system/picking_node.py
+my_vision_system/yolo_docking_node.py
 my_vision_system/yolo_node.py
+my_vision_system/models/best.pt
 resource/my_vision_system
 test/test_copyright.py
 test/test_flake8.py

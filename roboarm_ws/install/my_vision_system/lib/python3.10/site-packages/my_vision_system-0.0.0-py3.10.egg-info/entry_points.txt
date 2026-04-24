@@ -1,3 +1,4 @@
 [console_scripts]
+yolo_docking_node = my_vision_system.yolo_docking_node:main
 yolo_node = my_vision_system.yolo_node:main
 

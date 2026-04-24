@@ -1,9 +1,15 @@
 # ROS2 Simulation Aliases
-alias sim='$HOME/sim'
-alias simfull='$HOME/simfull'
-alias simnav='$HOME/simnav'
-alias teleop='ros2 run mecanum4_description teleop_gui.py'
+alias sim='~/sim'
+alias simfull='~/simfull'
+alias simnav='~/simnav'
+alias teleop='~/teleop'
+alias armdock='ros2 run my_vision_system yolo_docking_node'
 
 # Workspace Sourcing
-source $HOME/ros2_ws/install/setup.bash
-
+source /opt/ros/humble/setup.bash
+if [ -f ~/ros2_ws/install/setup.bash ]; then
+    source ~/ros2_ws/install/setup.bash
+fi
+if [ -f ~/roboarm_ws/install/setup.bash ]; then
+    source ~/roboarm_ws/install/setup.bash
+fi

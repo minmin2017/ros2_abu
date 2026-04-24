@@ -4,8 +4,8 @@
 source /opt/ros/humble/setup.bash
 
 # Source the workspace
-if [ -f $HOME/ros2_ws/install/setup.bash ]; then
-    source $HOME/ros2_ws/install/setup.bash
+if [ -f ~/ros2_ws/install/setup.bash ]; then
+    source ~/ros2_ws/install/setup.bash
 fi
 
 # Run the navigation amcl bringup with NVIDIA GPU offload

@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'my_vision_system'
 
@@ -10,12 +12,13 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'models'), glob('my_vision_system/models/*.pt')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='poomjai',
     maintainer_email='poomjai@todo.todo',
-    description='TODO: Package description',
+    description='ROS2 YOLO Docking System',
     license='TODO: License declaration',
     extras_require={
         'test': [
@@ -24,7 +27,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'yolo_node = my_vision_system.yolo_node:main'
+            'yolo_node = my_vision_system.yolo_node:main',
+            'yolo_docking_node = my_vision_system.yolo_docking_node:main'
         ],
     },
 )
