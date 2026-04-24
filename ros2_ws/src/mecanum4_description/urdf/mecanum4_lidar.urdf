@@ -204,7 +204,7 @@
   <!--
   <gazebo>
     <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-      <parameters>/home/minmin/ros2_ws/src/mecanum4_description/config/mecanum_controllers.yaml</parameters>
+      <parameters>/home/poomjai/ros2_ws/src/mecanum4_description/config/mecanum_controllers.yaml</parameters>
     </plugin>
   </gazebo>
   -->

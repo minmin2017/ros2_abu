@@ -1,0 +1,21 @@
+[1.088s] Invoking command in '/home/poomjai/roboarm_ws/src/my_vision_system': PYTHONPATH=/home/poomjai/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_vision_system build --build-base /home/poomjai/roboarm_ws/build/my_vision_system/build install --record /home/poomjai/roboarm_ws/build/my_vision_system/install.log --single-version-externally-managed install_data
+[1.336s] running egg_info
+[1.337s] writing ../../build/my_vision_system/my_vision_system.egg-info/PKG-INFO
+[1.338s] writing dependency_links to ../../build/my_vision_system/my_vision_system.egg-info/dependency_links.txt
+[1.338s] writing entry points to ../../build/my_vision_system/my_vision_system.egg-info/entry_points.txt
+[1.338s] writing requirements to ../../build/my_vision_system/my_vision_system.egg-info/requires.txt
+[1.339s] writing top-level names to ../../build/my_vision_system/my_vision_system.egg-info/top_level.txt
+[1.341s] reading manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+[1.362s] writing manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+[1.362s] running build
+[1.362s] running build_py
+[1.362s] running install
+[1.363s] running install_lib
+[1.364s] running install_data
+[1.364s] running install_egg_info
+[1.366s] removing '/home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info' (and everything under it)
+[1.373s] Copying ../../build/my_vision_system/my_vision_system.egg-info to /home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info
+[1.375s] running install_scripts
+[1.401s] Installing yolo_node script to /home/poomjai/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[1.402s] writing list of installed files to '/home/poomjai/roboarm_ws/build/my_vision_system/install.log'
+[1.431s] Invoked command in '/home/poomjai/roboarm_ws/src/my_vision_system' returned '0': PYTHONPATH=/home/poomjai/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_vision_system build --build-base /home/poomjai/roboarm_ws/build/my_vision_system/build install --record /home/poomjai/roboarm_ws/build/my_vision_system/install.log --single-version-externally-managed install_data

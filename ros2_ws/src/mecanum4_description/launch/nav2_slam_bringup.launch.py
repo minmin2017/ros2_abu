@@ -20,7 +20,7 @@ def generate_launch_description():
     nav2_bringup_dir = get_package_share_directory("nav2_bringup")
 
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
-    default_world = "/home/minmin/gazabo/worlds/abu_stadium.world"
+    default_world = "/home/poomjai/gazabo/worlds/abu_stadium.world"
     nav2_params = os.path.join(pkg_path, "config", "nav2_params.yaml")
     slam_params = os.path.join(pkg_path, "config", "slam_params.yaml")
     rviz_config = os.path.join(pkg_path, "config", "nav2_view.rviz")
@@ -45,7 +45,7 @@ def generate_launch_description():
     # ── Gazebo ────────────────────────────────────────────────────────────────
     gazebo_model_path = SetEnvironmentVariable(
         "GAZEBO_MODEL_PATH",
-        "/home/minmin/gazabo/models:/usr/share/gazebo-11/models",
+        "/home/poomjai/gazabo/models:/usr/share/gazebo-11/models",
     )
     gazebo_plugin_path = SetEnvironmentVariable(
         "GAZEBO_PLUGIN_PATH",
@@ -53,7 +53,7 @@ def generate_launch_description():
     )
     gazebo_resource_path = SetEnvironmentVariable(
         "GAZEBO_RESOURCE_PATH",
-        "/home/minmin/gazabo:/usr/share/gazebo-11",
+        "/home/poomjai/gazabo:/usr/share/gazebo-11",
     )
     gazebo_no_online_models = SetEnvironmentVariable(
         "GAZEBO_MODEL_DATABASE_URI",

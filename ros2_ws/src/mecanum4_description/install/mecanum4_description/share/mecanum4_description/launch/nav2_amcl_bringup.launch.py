@@ -19,9 +19,9 @@ def generate_launch_description():
     gazebo_pkg = get_package_share_directory("gazebo_ros")
 
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
-    default_world = "/home/minmin/gazabo/worlds/abu_stadium.world"
+    default_world = "/home/poomjai/gazabo/worlds/abu_stadium.world"
     nav2_params = os.path.join(pkg_path, "config", "nav2_params.yaml")
-    map_file = "/home/minmin/map.yaml"
+    map_file = "/home/poomjai/map.yaml"
     nav2_bringup_dir = get_package_share_directory("nav2_bringup")
     rviz_config = os.path.join(nav2_bringup_dir, "rviz", "nav2_default_view.rviz")
 
@@ -43,7 +43,7 @@ def generate_launch_description():
     # ── Gazebo ────────────────────────────────────────────────────────────────
     gazebo_model_path = SetEnvironmentVariable(
         "GAZEBO_MODEL_PATH",
-        "/home/minmin/gazabo/models:/usr/share/gazebo-11/models",
+        "/home/poomjai/gazabo/models:/usr/share/gazebo-11/models",
     )
     gazebo_plugin_path = SetEnvironmentVariable(
         "GAZEBO_PLUGIN_PATH",
@@ -51,7 +51,7 @@ def generate_launch_description():
     )
     gazebo_resource_path = SetEnvironmentVariable(
         "GAZEBO_RESOURCE_PATH",
-        "/home/minmin/gazabo:/usr/share/gazebo-11",
+        "/home/poomjai/gazabo:/usr/share/gazebo-11",
     )
     # GPU rendering pins (WSLg d3d12 → NVIDIA). Lidar stays on CPU ray.
     libgl_hw = SetEnvironmentVariable("LIBGL_ALWAYS_SOFTWARE", "0")

@@ -1,0 +1,3 @@
+[console_scripts]
+yolo_node = my_vision_system.yolo_node:main
+
