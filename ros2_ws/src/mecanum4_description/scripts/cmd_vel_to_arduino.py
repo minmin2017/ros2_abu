@@ -24,12 +24,8 @@ class CmdVelToArduino(Node):
         self.odom_frame = self.get_parameter('odom_frame').value
         self.base_frame = self.get_parameter('base_frame').value
         
-        try:
-            self.ser = serial.Serial(port, baud, timeout=0.01)
-            self.get_logger().info(f'Connected to Arduino on {port} at {baud}')
-        except Exception as e:
-            self.get_logger().error(f'Failed to connect to Arduino: {e}')
-            exit()
+        self.ser = None
+        self.connect_to_arduino()
 
         # Pubs & Subs
         self.subscription = self.create_subscription(Twist, '/cmd_vel', self.cmd_vel_callback, 10)
@@ -44,28 +40,50 @@ class CmdVelToArduino(Node):
 
         # Timer for reading serial (50Hz)
         self.timer = self.create_timer(0.02, self.read_serial_callback)
+
+    def connect_to_arduino(self):
+        port = self.get_parameter('port').value
+        baud = self.get_parameter('baudrate').value
+        try:
+            if self.ser:
+                self.ser.close()
+            self.ser = serial.Serial(port, baud, timeout=0.01)
+            time.sleep(2.0)
+            self.get_logger().info(f'Connected to Arduino on {port} at {baud}')
+        except Exception as e:
+            # self.get_logger().error(f'Failed to connect to Arduino: {e}')
+            self.ser = None
         
     def cmd_vel_callback(self, msg):
-        data = f"V{msg.linear.x:.2f},{msg.linear.y:.2f},{msg.angular.z:.2f}\n"
-        try:
-            self.ser.write(data.encode())
-        except Exception as e:
-            self.get_logger().error(f'Serial write error: {e}')
+        if self.ser and self.ser.is_open:
+            data = f"V{msg.linear.x:.2f},{msg.linear.y:.2f},{msg.angular.z:.2f}\n"
+            try:
+                self.ser.write(data.encode())
+            except Exception as e:
+                self.get_logger().error(f'Serial write error: {e}')
+                self.ser = None # Trigger reconnect
 
     def read_serial_callback(self):
-        if self.ser.in_waiting > 0:
-            try:
-                line = self.ser.readline().decode('utf-8').strip()
+        if not self.ser or not self.ser.is_open:
+            self.connect_to_arduino()
+            return
+
+        try:
+            if self.ser.in_waiting > 0:
+                line = self.ser.readline().decode('utf-8', errors='ignore').strip()
                 if line.startswith('O'): # ข้อมูล Odom: O[vx],[vy],[wz]
                     line = line[1:] # ตัด O ออก
                     parts = line.split(',')
                     if len(parts) == 3:
-                        vx = float(parts[0])
-                        vy = float(parts[1])
-                        wz = float(parts[2])
-                        self.update_odometry(vx, vy, wz)
-            except Exception as e:
-                pass # ละเว้น error จากการ decode หรือ split
+                        try:
+                            vx = float(parts[0])
+                            vy = float(parts[1])
+                            wz = float(parts[2])
+                            self.update_odometry(vx, vy, wz)
+                        except ValueError:
+                            pass
+        except Exception:
+            pass
 
     def update_odometry(self, vx, vy, wz):
         current_time = self.get_clock().now()
