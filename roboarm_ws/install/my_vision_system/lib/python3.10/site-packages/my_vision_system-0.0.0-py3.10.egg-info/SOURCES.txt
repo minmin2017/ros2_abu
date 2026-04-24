@@ -9,6 +9,7 @@ setup.py
 ../../build/my_vision_system/my_vision_system.egg-info/top_level.txt
 ../../build/my_vision_system/my_vision_system.egg-info/zip-safe
 my_vision_system/__init__.py
+my_vision_system/picking_node.py
 my_vision_system/yolo_node.py
 resource/my_vision_system
 test/test_copyright.py

@@ -1,69 +1,96 @@
 import rclpy
 from rclpy.node import Node
-import cv2
-import os
-from ultralytics import YOLO
 from std_msgs.msg import Float32MultiArray
+import cv2
+from ultralytics import YOLO
 
 class YoloNode(Node):
     def __init__(self):
         super().__init__('yolo_node')
-        self.publisher_ = self.create_publisher(Float32MultiArray, '/detected_object', 10)        
         
-        # ชี้ไปที่โฟลเดอร์โมเดล
-        model_path = '/home/poomjai/roboarm_ws/src/my_vision_system/my_vision_system/models/best.pt'
+        # 1. สร้างท่อส่งข้อมูล
+        self.publisher_ = self.create_publisher(Float32MultiArray, '/detected_object', 10)
         
-        self.get_logger().info(f'Loading YOLO model from: {model_path}')
-        self.model = YOLO(model_path)
+        # 2. โหลดโมเดล AI (แก้ชื่อไฟล์ 'best.pt' ให้ตรงกับที่อยู่ไฟล์โมเดลของคุณ)
+        self.get_logger().info('กำลังโหลดโมเดล YOLO...')
+        self.model = YOLO('best.pt') 
         
-        self.cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
-        self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-        self.timer = self.create_timer(0.1, self.timer_callback) # รันทุก 0.1 วินาที
+        # 3. เปิดกล้อง (0 คือกล้องตัวแรก ถ้าใช้ USB Cam ใน WSL มักจะเป็น 0 หรือ 2)
+        self.cap = cv2.VideoCapture(0)
+        
+        # 4. ตั้งความเร็วในการจับภาพและประมวลผล (เช่น 0.1 วิ = 10 FPS)
+        self.timer = self.create_timer(0.1, self.timer_callback)
+        
+        # --- ตั้งค่าระบบความสำคัญ (Priority) ---
+        # สมมติว่า 0=Spear, 1=Rock, 2=Paper
+        # ค่าน้อยแปลว่าสำคัญมาก (Spear สำคัญอันดับ 1)
+        self.class_priority = {0: 1, 1: 2, 2: 3}
+        self.class_names = {0: 'SPEAR', 1: 'ROCK', 2: 'PAPER'}
+        
+        self.get_logger().info('YOLO Node พร้อมทำงาน! กำลังค้นหาเป้าหมาย...')
 
     def timer_callback(self):
         ret, frame = self.cap.read()
-        if ret:
-            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            frame = cv2.cvtColor(gray_frame, cv2.COLOR_GRAY2BGR)
-            
-            priority_map = {'spear': 1, 'rock': 2, 'paper': 3}
-            
-            # --- จุดที่แก้ไข 1: เพิ่ม conf=0.5 (แปลว่าถ้ามั่นใจไม่ถึง 50% ให้ตัดทิ้งไปเลย) ---
-            results = self.model(frame, verbose=False, conf=0.6) 
+        if not ret:
+            self.get_logger().warning('ไม่สามารถดึงภาพจากกล้องได้ กรุณาเช็คการเชื่อมต่อ USB')
+            return
 
-            best_box = None
-            best_priority = 99 
-            target_label = ""
+        # ให้ YOLO วิเคราะห์ภาพ
+        results = self.model(frame, verbose=False)
+        
+        best_det = None
+        highest_priority = 999 # ตั้งค่าเริ่มต้นไว้สูงๆ
 
-            for result in results:
-                for box in result.boxes:
-                    class_id = int(box.cls[0])
-                    label = result.names[class_id]
+        # วนลูปหาของทุกชิ้นในภาพ เพื่อหา "ชิ้นที่สำคัญที่สุด"
+        for r in results:
+            boxes = r.boxes
+            for box in boxes:
+                cls_id = int(box.cls[0])
+                conf = float(box.conf[0])
+                
+                # สนใจเฉพาะของที่ AI มั่นใจเกิน 60%
+                if conf > 0.60:
+                    priority = self.class_priority.get(cls_id, 999)
                     
-                    if label in priority_map:
-                        current_priority = priority_map[label]
-                        if current_priority < best_priority:
-                            best_priority = current_priority
-                            best_box = box
-                            target_label = label
+                    # ถ้าเจอของที่สำคัญกว่าชิ้นที่ถืออยู่ ให้แทนที่เลย
+                    if priority < highest_priority:
+                        highest_priority = priority
+                        best_det = (box, cls_id, conf)
 
-            if best_box is not None:
-                x_center = float(best_box.xywh[0][0])
-                y_center = float(best_box.xywh[0][1])
-                
-                # --- จุดที่แก้ไข 2: ดึงค่าเปอร์เซ็นต์ความมั่นใจออกมาดูด้วย ---
-                confidence = float(best_box.conf[0])
-                
-                msg = Float32MultiArray()
-                msg.data = [x_center, y_center]
-                self.publisher_.publish(msg)
-                
-                # --- จุดที่แก้ไข 3: เพิ่มแสดงค่า Conf ใน Terminal ---
-                self.get_logger().info(
-                    f"Target Locked: [{target_label.upper()}] | Conf: {confidence:.2f} | X: {x_center:>5.1f} | Y: {y_center:>5.1f}"
-                )
+        # ถ้าในภาพมีของที่เราสนใจอย่างน้อย 1 ชิ้น
+        if best_det is not None:
+            box, cls_id, conf = best_det
+            
+            # คำนวณหาจุดกึ่งกลาง (Sweet Spot ในมุมมองกล้อง)
+            x1, y1, x2, y2 = box.xyxy[0]
+            center_x = float((x1 + x2) / 2.0)
+            center_y = float((y1 + y2) / 2.0)
+            
+            # สร้างแพ็กเกจข้อความ [X, Y, Class_ID]
+            msg = Float32MultiArray()
+            msg.data = [center_x, center_y, float(cls_id)]
+            
+            # ส่งข้อมูลลงท่อให้ Picking Node เอาไปใช้
+            self.publisher_.publish(msg)
+            
+            class_name = self.class_names.get(cls_id, 'UNKNOWN')
+            self.get_logger().info(f'Target Locked: [{class_name}] | Conf: {conf:.2f} | X: {center_x:.1f} | Y: {center_y:.1f} | ส่ง Class_ID: {cls_id}')
+            
+            # --- ส่วนแสดงผลบนจอ (เอาไว้เช็คว่ากล้องเห็นอะไร) ---
+            # วาดกรอบสีเขียวและจุดแดงตรงกลาง
+            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+            cv2.circle(frame, (int(center_x), int(center_y)), 5, (0, 0, 255), -1)
+            cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+        # โชว์ภาพวิดีโอ (ถ้า WSL ของคุณเด้งหน้าต่างไม่ได้ ให้ใส่เครื่องหมาย # ปิด 2 บรรทัดนี้ไว้)
+        cv2.imshow('Robot Vision', frame)
+        cv2.waitKey(1)
+
+    def destroy_node(self):
+        # ปิดกล้องอย่างปลอดภัยเมื่อปิดโปรแกรม
+        self.cap.release()
+        cv2.destroyAllWindows()
+        super().destroy_node()
 
 def main(args=None):
     rclpy.init(args=args)

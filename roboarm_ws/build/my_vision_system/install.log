@@ -1,6 +1,8 @@
 /home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/yolo_node.py
+/home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/picking_node.py
 /home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/__init__.py
 /home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/__pycache__/yolo_node.cpython-310.pyc
+/home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/__pycache__/picking_node.cpython-310.pyc
 /home/poomjai/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/__pycache__/__init__.cpython-310.pyc
 /home/poomjai/roboarm_ws/install/my_vision_system/share/ament_index/resource_index/packages/my_vision_system
 /home/poomjai/roboarm_ws/install/my_vision_system/share/my_vision_system/package.xml
