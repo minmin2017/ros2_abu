@@ -1,0 +1,55 @@
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz_default_plugins/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Name: Grid
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Class: rviz_default_plugins/LaserScan
+      Color: 255; 25; 0
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Name: LaserScanFiltered
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.029999999329447746
+      Style: Flat Squares
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter Size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /scan_filtered
+      Use Fixed Frame: true
+      Use rainbow: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: laser_frame
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 10
+      Name: Current View
+      Pitch: 1.5707963705062866
+      Yaw: 0

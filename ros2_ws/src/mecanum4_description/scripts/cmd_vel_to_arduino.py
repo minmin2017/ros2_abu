@@ -5,6 +5,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist, TransformStamped, Quaternion
 from nav_msgs.msg import Odometry
 import serial
+import serial.tools.list_ports
 import time
 import math
 from tf2_ros import TransformBroadcaster
@@ -14,13 +15,12 @@ class CmdVelToArduino(Node):
         super().__init__('cmd_vel_to_arduino')
         
         # Parameters
-        self.declare_parameter('port', '/dev/ttyACM1') 
-        self.declare_parameter('baudrate', 250000)
+        self.declare_parameter('port', 'auto') 
+        self.declare_parameter('baudrate', 115200)
         self.declare_parameter('odom_frame', 'odom')
         self.declare_parameter('base_frame', 'base_footprint')
         
-        port = self.get_parameter('port').value
-        baud = self.get_parameter('baudrate').value
+        self.baudrate = self.get_parameter('baudrate').value
         self.odom_frame = self.get_parameter('odom_frame').value
         self.base_frame = self.get_parameter('base_frame').value
         
@@ -41,17 +41,37 @@ class CmdVelToArduino(Node):
         # Timer for reading serial (50Hz)
         self.timer = self.create_timer(0.02, self.read_serial_callback)
 
+    def find_arduino_port(self):
+        ports = list(serial.tools.list_ports.comports())
+        for p in ports:
+            # Check for CH340 (1A86:7523) or typical Arduinos
+            if "1A86:7523" in p.hwid or "USB VID:PID=2341" in p.hwid:
+                return p.device
+        
+        # Fallback: return the first /dev/ttyUSB or /dev/ttyACM if found
+        for p in ports:
+            if "ttyUSB" in p.device or "ttyACM" in p.device:
+                return p.device
+        return None
+
     def connect_to_arduino(self):
-        port = self.get_parameter('port').value
-        baud = self.get_parameter('baudrate').value
+        port_param = self.get_parameter('port').value
+        if port_param == 'auto':
+            port = self.find_arduino_port()
+            if not port:
+                self.get_logger().error('Could not auto-detect Arduino port')
+                return
+        else:
+            port = port_param
+
         try:
             if self.ser:
                 self.ser.close()
-            self.ser = serial.Serial(port, baud, timeout=0.01)
+            self.ser = serial.Serial(port, self.baudrate, timeout=0.01)
             time.sleep(2.0)
-            self.get_logger().info(f'Connected to Arduino on {port} at {baud}')
+            self.get_logger().info(f'Connected to Arduino on {port} at {self.baudrate}')
         except Exception as e:
-            # self.get_logger().error(f'Failed to connect to Arduino: {e}')
+            # self.get_logger().error(f'Failed to connect to Arduino on {port}: {e}')
             self.ser = None
         
     def cmd_vel_callback(self, msg):

@@ -20,12 +20,39 @@ The following scripts have been created in the home directory and added as alias
 - `simnav`: Launches the navigation and SLAM stack.
 - `teleop`: Launches the **Mecanum Command Center**, a GUI for 8-way movement.
 - `armdock`: Launches the **YOLO Docking Node**, which detects objects (Spear, Rock, Paper) using GPU and automatically docks the robot.
+- `lidar`: Launches the **YDLidar ROS 2 Driver** for the S2PRO lidar.
 
 ### Usage
 Simply type the command name in any terminal:
 ```bash
-armdock
+lidar
 ```
+
+## Hardware: YDLidar S2PRO
+The robot uses a YDLidar S2PRO connected via USB.
+
+### 1. Connection
+- **Port**: `/dev/ttyUSB0` (Mapped to `/dev/ydlidar` via udev).
+- **Baudrate**: `128000`.
+
+### 2. SDK & Driver Installation
+If the lidar driver is missing or needs to be re-setup:
+
+```bash
+# 1. Install YDLidar SDK
+git clone https://github.com/YDLIDAR/YDLidar-SDK.git
+cd YDLidar-SDK && mkdir build && cd build
+cmake .. && make && sudo make install
+
+# 2. Build ROS 2 Driver
+cd ~/ros2_ws
+colcon build --packages-select ydlidar_ros2_driver --cmake-args -Dydlidar_sdk_DIR=/usr/local/lib/cmake/ydlidar_sdk
+```
+
+### 3. Startup Scripts
+- **Start Script**: `~/ros2_ws/start_ydlidar.sh`
+- **Systemd Service**: `~/ros2_ws/ydlidar.service` (for automated background startup).
+
 
 ## Robotarm Integration (`robotarm_integrated` branch)
 The `robotarm_integrated` branch merges the core robot simulation with the vision-based robotic arm features. 

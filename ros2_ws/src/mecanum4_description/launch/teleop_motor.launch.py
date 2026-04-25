@@ -29,7 +29,7 @@ def generate_launch_description():
         name='cmd_vel_to_arduino',
         output='screen',
         parameters=[{
-            'port': '/dev/ttyUSB0',
+            'port': 'auto',
             'baudrate': 115200,
             'odom_frame': 'odom',
             'base_frame': 'base_footprint'
