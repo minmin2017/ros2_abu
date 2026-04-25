@@ -41,15 +41,15 @@ class YoloDockingNode(Node):
         from ament_index_python.packages import get_package_share_directory
         try:
             package_share_dir = get_package_share_directory('my_vision_system')
-            model_path = os.path.join(package_share_dir, 'models', model_name)
+            model_path = os.path.join(package_share_dir, 'models_upgrade', model_name)
             if not os.path.exists(model_path):
                 # Fallback to local path for dev
                 curr_dir = os.path.dirname(os.path.abspath(__file__))
-                model_path = os.path.join(curr_dir, 'models', model_name)
+                model_path = os.path.join(curr_dir, 'models_upgrade', model_name)
         except Exception:
             # Fallback if package not installed yet
             curr_dir = os.path.dirname(os.path.abspath(__file__))
-            model_path = os.path.join(curr_dir, 'models', model_name)
+            model_path = os.path.join(curr_dir, 'models_upgrade', model_name)
         
         self.get_logger().info(f'Loading YOLO model from {model_path}...')
         self.model = YOLO(model_path)

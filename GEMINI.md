@@ -54,6 +54,9 @@ colcon build --packages-select ydlidar_ros2_driver --cmake-args -Dydlidar_sdk_DI
 - **Start Script**: `~/ros2_ws/start_ydlidar.sh`
 - **Systemd Service**: `~/ros2_ws/ydlidar.service` (for automated background startup).
 
+### 4. Scan Filtering
+**Mandatory**: Must use `laser_filters` or a custom `scan_filter` to exclude angles that hit the robot's own wheels/chassis. Without filtering, the `yolo_docking_node` may receive false distance readings from its own wheels, causing incorrect docking behavior.
+
 
 ## Robotarm Integration (`robotarm_integrated` branch)
 The `robotarm_integrated` branch merges the core robot simulation with the vision-based robotic arm features. 
@@ -146,3 +149,79 @@ The YOLO detection system has been optimized for high-performance real-time trac
   - `0`: PAPER
   - `1`: ROCK
   - `2`: SPEAR
+
+## YOLO Model
+
+- **Path**: `roboarm_ws/src/my_vision_system/my_vision_system/models/best.pt`
+- **Installed path** (ที่ node โหลดจริง): `roboarm_ws/install/my_vision_system/share/my_vision_system/models/best.pt`
+- **ใช้ร่วมกัน**: `yolo_node`, `yolo_docking_node`, `yolo_select_node` โหลดจาก path เดียวกันผ่าน `get_package_share_directory`
+- **Last upgraded**: 2026-04-25 (จาก `models_upgrade/best.pt`)
+
+### อัปเกรดโมเดล
+
+```bash
+# วางไฟล์ใหม่ไว้ที่ models_upgrade/ แล้วรัน
+cp ~/roboarm_ws/src/my_vision_system/models_upgrade/best.pt \
+   ~/roboarm_ws/src/my_vision_system/my_vision_system/models/best.pt
+
+cd ~/roboarm_ws && colcon build --packages-select my_vision_system --symlink-install
+```
+
+## Picking Selection Node (`yolo_select_node`)
+
+Node สำหรับอ่าน layout ของวัตถุบน rack แล้วตัดสินใจว่าจะหยิบอันไหน ก่อนส่งผลผ่าน Serial ไป Arduino Mega
+
+**ไฟล์**: `roboarm_ws/src/my_vision_system/my_vision_system/yolo_select_node.py`
+
+**รัน**:
+```bash
+ros2 run my_vision_system yolo_select_node
+```
+
+### Pipeline
+
+1. **รอ Serial** — ถ้า Arduino Mega ยังไม่เชื่อมต่อ node จะหยุดรอและไม่ทำ inference ใดๆ
+2. **YOLO inference** — ตรวจจับวัตถุทุก frame (30 fps, MJPG 640×480)
+3. **Slot assignment** — sort detections จากซ้ายไปขวา (x-center) แล้ว infer ตำแหน่ง slot จาก gap: gap เล็กสุด = 1 slot unit, gap กว้างกว่า = มี slot ว่างคั่น
+4. **Stability check** — ต้องเห็น layout เดิมซ้ำ `stable_frames` (default 10) เฟรมติดต่อกัน
+5. **Decision** — เลือก class ตาม `priority_order` (default SPEAR > ROCK > PAPER) แล้วเลือก slot ซ้ายสุดของ class นั้น
+6. **Output** — ส่งผลทาง ROS topic และ Serial
+
+### Serial Protocol
+
+| ทิศทาง | Format | ตัวอย่าง |
+|---|---|---|
+| Pi → Arduino | `{slot}\n` | `1\n` |
+| Arduino → Pi | ใดๆ (log เท่านั้น) | `OK\n` |
+
+**Auto-detect Arduino Mega** (ลำดับความสำคัญ):
+1. `pyserial list_ports` — ตรวจ VID `0x2341` + PID `{0x0042, 0x0010, 0x0016}`
+2. `/dev/serial/by-id/` symlink ที่มีคำว่า `arduino` หรือ `mega`
+3. Parameter `serial_port` (fallback)
+
+**Autoreconnect**: ลองเชื่อมต่อใหม่ทุก ~5 วินาที ถ้า port หาย — ถ้าตัดสินใจไปแล้วจะ re-send slot ทันทีที่ reconnect สำเร็จ
+
+### ROS Topics
+
+| Topic | Type | รายละเอียด |
+|---|---|---|
+| `/picking_position` | `Int32` | slot 1-indexed ที่เลือก (TRANSIENT_LOCAL) |
+| `/picking_layout` | `String` | layout เช่น `1:SPEAR,2:ROCK,5:PAPER` (TRANSIENT_LOCAL) |
+| `/detected_object` | `Float32MultiArray` | `[cx, cy, cls_id, ...]` ทุก frame (เหมือน yolo_node) |
+
+### Parameters
+
+| Parameter | Default | รายละเอียด |
+|---|---|---|
+| `stable_frames` | `10` | จำนวน frame ที่ต้องเห็น layout เดิมก่อนตัดสินใจ |
+| `max_slots` | `6` | จำนวน slot สูงสุดใน rack |
+| `priority_order` | `[2, 1, 0]` | SPEAR > ROCK > PAPER |
+| `serial_baud` | `115200` | baud rate ของ Arduino Mega |
+| `serial_port` | `''` | hint port ถ้า auto-detect ไม่เจอ |
+| `conf_thresh` | `0.5` | confidence threshold ของ YOLO |
+| `cap_fps` | `30` | FPS ของกล้อง (Jieli max = 30) |
+
+### ข้อจำกัดของ Slot Inference
+
+- ถ้าเห็นวัตถุเพียง 1 ก้อน → assign เป็น slot 1 เสมอ (ไม่มี gap ให้เทียบ)
+- slot ที่หายที่ขอบซ้าย/ขวาสุดจะไม่ถูก detect (ต้องรู้ absolute x ของ slot endpoints)

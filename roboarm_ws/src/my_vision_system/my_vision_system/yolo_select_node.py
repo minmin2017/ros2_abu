@@ -53,7 +53,7 @@ class YoloSelectNode(Node):
         try:
             from ament_index_python.packages import get_package_share_directory
             package_share_directory = get_package_share_directory('my_vision_system')
-            model_path = os.path.join(package_share_directory, 'models', 'best.pt')
+            model_path = os.path.join(package_share_directory, 'models_upgrade', 'best.pt')
             self.get_logger().info(f'Model path: {model_path}')
             self.model = YOLO(model_path)
         except Exception as e:

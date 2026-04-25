@@ -30,9 +30,10 @@ class YoloDockingNode(Node):
         self.declare_parameter('model_path', 'best.pt')
         self.declare_parameter('target_class', 2)
         self.declare_parameter('conf_threshold', 0.5)
+        self.declare_parameter('grayscale', True)
 
         self.declare_parameter('approach_distance', 0.60)
-        self.declare_parameter('docking_distance', 0.40)
+        self.declare_parameter('docking_distance', 0.50)
         self.declare_parameter('safety_stop_dist', 0.20)
 
         self.declare_parameter('kp_linear', 0.8)
@@ -61,13 +62,13 @@ class YoloDockingNode(Node):
         model_name = self.get_parameter('model_path').value
         try:
             share_dir = get_package_share_directory('my_vision_system')
-            model_path = os.path.join(share_dir, 'models', model_name)
+            model_path = os.path.join(share_dir, 'models_upgrade', model_name)
             if not os.path.exists(model_path):
                 curr_dir = os.path.dirname(os.path.abspath(__file__))
-                model_path = os.path.join(curr_dir, 'models', model_name)
+                model_path = os.path.join(curr_dir, 'models_upgrade', model_name)
         except Exception:
             curr_dir = os.path.dirname(os.path.abspath(__file__))
-            model_path = os.path.join(curr_dir, 'models', model_name)
+            model_path = os.path.join(curr_dir, 'models_upgrade', model_name)
 
         self.get_logger().info(f'Loading YOLO: {model_path}')
         self.model = YOLO(model_path)
@@ -101,6 +102,10 @@ class YoloDockingNode(Node):
 
     def image_callback(self, msg):
         self.current_frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+        if self.get_parameter('grayscale').value:
+            gray = cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2GRAY)
+            self.current_frame = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 
         target_cls = self.get_parameter('target_class').value
         conf_th = self.get_parameter('conf_threshold').value
@@ -298,9 +303,15 @@ class YoloDockingNode(Node):
         max_a = self.get_parameter('max_angular').value
         cmd.angular.z = float(np.clip(-kp_a * angle_pixel, -max_a, max_a))
 
-        kp_lat = self.get_parameter('kp_lateral').value * 0.5
+        kp_lat = self.get_parameter('kp_lateral').value
         max_lat = self.get_parameter('max_lateral').value
-        cmd.linear.y = float(np.clip(-kp_lat * err_x_norm, -max_lat, max_lat))
+        y_vel = -kp_lat * err_x_norm * 2.0
+        if abs(err_x_norm) > 0.02:
+            if y_vel > 0 and y_vel < 0.05: y_vel = 0.05
+            elif y_vel < 0 and y_vel > -0.05: y_vel = -0.05
+        else:
+            y_vel = 0.0
+        cmd.linear.y = float(np.clip(y_vel, -max_lat, max_lat))
 
         approach_d = self.get_parameter('approach_distance').value
         dist = self.min_front_range
@@ -308,7 +319,13 @@ class YoloDockingNode(Node):
         kp_l = self.get_parameter('kp_linear').value
         if math.isfinite(dist):
             err_d = dist - approach_d
-            cmd.linear.x = float(np.clip(kp_l * err_d, -max_l, max_l))
+            x_vel = kp_l * err_d
+            if abs(err_d) > 0.01:
+                if x_vel > 0 and x_vel < 0.06: x_vel = 0.06
+                elif x_vel < 0 and x_vel > -0.08: x_vel = -0.08
+            else:
+                x_vel = 0.0
+            cmd.linear.x = float(np.clip(x_vel, -max_l, max_l))
         else:
             cmd.linear.x = 0.15
 
@@ -330,7 +347,13 @@ class YoloDockingNode(Node):
 
         kp_lat = self.get_parameter('kp_lateral').value
         max_lat = self.get_parameter('max_lateral').value
-        cmd.linear.y = float(np.clip(-kp_lat * err_x_norm, -max_lat, max_lat))
+        y_vel = -kp_lat * err_x_norm * 2.0
+        if abs(err_x_norm) > 0.02:
+            if y_vel > 0 and y_vel < 0.05: y_vel = 0.05
+            elif y_vel < 0 and y_vel > -0.05: y_vel = -0.05
+        else:
+            y_vel = 0.0
+        cmd.linear.y = float(np.clip(y_vel, -max_lat, max_lat))
 
         max_a = self.get_parameter('max_angular').value
         if base_angle is not None:
@@ -357,8 +380,15 @@ class YoloDockingNode(Node):
             raw = kp_l * err_d + ki_l * self.linear_integral
             if abs(raw) < max_l:
                 self.linear_integral += err_d * dt
-            cmd.linear.x = float(np.clip(kp_l * err_d + ki_l * self.linear_integral,
-                                         -max_l, max_l))
+            
+            x_vel = kp_l * err_d + ki_l * self.linear_integral
+            if abs(err_d) > 0.01:
+                if x_vel > 0 and x_vel < 0.06: x_vel = 0.06
+                elif x_vel < 0 and x_vel > -0.08: x_vel = -0.08
+            else:
+                x_vel = 0.0
+                
+            cmd.linear.x = float(np.clip(x_vel, -max_l, max_l))
             dist_ok = abs(err_d) < self.get_parameter('dist_deadband').value
         else:
             self.linear_integral = 0.0
