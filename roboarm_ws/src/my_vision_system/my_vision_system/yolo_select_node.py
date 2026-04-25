@@ -6,8 +6,13 @@ import cv2
 import os
 import glob
 import time
+import logging
 from collections import deque
+
+os.environ['YOLO_VERBOSE'] = 'False'
 from ultralytics import YOLO
+from ultralytics.utils import LOGGER as _ULTRA_LOGGER
+_ULTRA_LOGGER.setLevel(logging.WARNING)
 
 try:
     import serial as pyserial
