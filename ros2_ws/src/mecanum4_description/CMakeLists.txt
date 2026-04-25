@@ -38,6 +38,7 @@ install(
     scripts/fused_docking_node.py
     scripts/cam_lidar_docking_node.py
     scripts/scan_filter.py
+    scripts/bt_sequence_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

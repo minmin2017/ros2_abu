@@ -12,7 +12,7 @@ def generate_launch_description():
     ydlidar_pkg = get_package_share_directory("ydlidar_ros2_driver")
     
     urdf_file = os.path.join(pkg_path, "urdf", "mecanum4_lidar.urdf")
-    slam_params = os.path.join(pkg_path, "config", "slam_params.yaml")
+    slam_params = os.path.join(pkg_path, "config", "slam_params_real.yaml")
     lidar_params = os.path.join(ydlidar_pkg, "params", "ydlidar.yaml")
     rviz_config = os.path.join(pkg_path, "config", "nav2_view.rviz")
 
@@ -40,23 +40,17 @@ def generate_launch_description():
         arguments=['0', '0', '0', '0', '0', '0', 'base_footprint', 'base_link']
     )
 
-    # 2. YDLidar Driver
+    # 2. YDLidar Driver — S2PRO is single-channel; load full params file then override port
     ydlidar_node = Node(
         package='ydlidar_ros2_driver',
         executable='ydlidar_ros2_driver_node',
         name='ydlidar_ros2_driver_node',
         output='screen',
         emulate_tty=True,
-        parameters=[{
-            'port': '/dev/ydlidar', # ใช้ชื่อถาวรที่สร้างจาก udev
+        parameters=[lidar_params, {
+            'port': '/dev/ydlidar',
             'frame_id': 'laser_frame',
-            'baudrate': 128000,
-            'lidar_type': 1,
-            'device_type': 0,
-            'sample_rate': 5,
-            'range_max': 12.0,
-            'range_min': 0.8,
-            'use_sim_time': False
+            'use_sim_time': False,
         }],
     )
 
@@ -66,9 +60,17 @@ def generate_launch_description():
         executable='cmd_vel_to_arduino.py',
         name='cmd_vel_to_arduino',
         parameters=[{
-            'port': '/dev/arduino', # ใช้ชื่อถาวรที่สร้างจาก udev
+            'port': '/dev/ttyUSB1', # /dev/arduino symlink หาย ใช้ raw tty ไปก่อน
             'baudrate': 250000
         }]
+    )
+
+    # 3.5 Scan Filter (/scan -> /scan_filtered) — slam_params_real.yaml subscribes to /scan_filtered
+    scan_filter_node = Node(
+        package='mecanum4_description',
+        executable='scan_filter.py',
+        name='scan_filter_node',
+        output='screen',
     )
 
     # 4. SLAM Toolbox
@@ -95,6 +97,7 @@ def generate_launch_description():
         static_tf_base,
         ydlidar_node,
         arduino_node,
+        scan_filter_node,
         slam_toolbox,
         rviz,
     ])

@@ -12,7 +12,8 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join('share', package_name, 'models'), glob('my_vision_system/models/*.pt')),
+        (os.path.join('share', package_name, 'models'), glob('models/*.pt')),
+        (os.path.join('share', package_name, 'models_upgrade'), glob('models_upgrade/*.pt')),
     ],
     install_requires=['setuptools'],
     zip_safe=False,
@@ -28,7 +29,8 @@ setup(
     entry_points={
         'console_scripts': [
             'yolo_node = my_vision_system.yolo_node:main',
-            'yolo_docking_node = my_vision_system.yolo_docking_node:main'
+            'yolo_docking_node = my_vision_system.yolo_docking_node:main',
+            'yolo_select_node = my_vision_system.yolo_select_node:main'
         ],
     },
 )

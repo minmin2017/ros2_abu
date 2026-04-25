@@ -1,0 +1,283 @@
+import rclpy
+from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSDurabilityPolicy, QoSReliabilityPolicy, QoSHistoryPolicy
+from std_msgs.msg import Float32MultiArray, Int32, String
+import cv2
+import glob
+import os
+import torch
+from collections import deque
+from ultralytics import YOLO
+
+
+class YoloSelectNode(Node):
+    """
+    Clone of yolo_node + decision mode.
+
+    Pipeline:
+      1. YOLO inference each frame (same as yolo_node).
+      2. Sort detections left-to-right by x-center, infer slot positions
+         from the gaps between detections (a missing object widens a gap,
+         so its slot is skipped).
+      3. When the same layout signature repeats for `stable_frames`
+         consecutive frames, enter DECIDED mode and pick a slot using
+         `priority_order` (default SPEAR > ROCK > PAPER), preferring the
+         leftmost slot if a class appears more than once.
+      4. Publish the chosen 1-indexed slot on /picking_position (Int32)
+         and the resolved layout "slot:CLASS,slot:CLASS,..." on
+         /picking_layout (String). /detected_object is still published
+         every frame for backwards compatibility.
+    """
+
+    def __init__(self):
+        super().__init__('yolo_select_node')
+
+        self.publisher_ = self.create_publisher(Float32MultiArray, '/detected_object', 10)
+        # Latched QoS so late subscribers still get the decision
+        latched_qos = QoSProfile(
+            depth=1,
+            reliability=QoSReliabilityPolicy.RELIABLE,
+            durability=QoSDurabilityPolicy.TRANSIENT_LOCAL,
+            history=QoSHistoryPolicy.KEEP_LAST,
+        )
+        self.position_pub = self.create_publisher(Int32, '/picking_position', latched_qos)
+        self.layout_pub = self.create_publisher(String, '/picking_layout', latched_qos)
+
+        self.get_logger().info('กำลังโหลดโมเดล YOLO...')
+        try:
+            from ament_index_python.packages import get_package_share_directory
+            package_share_directory = get_package_share_directory('my_vision_system')
+            model_path = os.path.join(package_share_directory, 'models', 'best.pt')
+            self.get_logger().info(f'Model path: {model_path}')
+            self.model = YOLO(model_path)
+        except Exception as e:
+            self.get_logger().error(f'Failed to load model: {str(e)}')
+            self.model = YOLO('best.pt')
+
+        self.device = 0 if torch.cuda.is_available() else 'cpu'
+        if self.device == 0:
+            self.model.to('cuda')
+            self.model.predict(torch.zeros(1, 3, 640, 640, device='cuda'), verbose=False)
+            self.get_logger().info(f'YOLO ใช้ GPU: {torch.cuda.get_device_name(0)}')
+        else:
+            self.get_logger().warning('ไม่พบ CUDA — ใช้ CPU')
+
+        self.declare_parameter('camera_match', 'Jieli')
+        self.declare_parameter('camera_path', '')
+        self.declare_parameter('cap_width', 640)
+        self.declare_parameter('cap_height', 480)
+        self.declare_parameter('cap_fps', 30)
+        self.declare_parameter('imgsz', 640)
+        self.declare_parameter('conf_thresh', 0.5)
+        self.declare_parameter('grayscale', True)
+        self.declare_parameter('stable_frames', 10)
+        self.declare_parameter('max_slots', 6)
+        # Priority list, highest first. Default: SPEAR(2) > ROCK(1) > PAPER(0)
+        self.declare_parameter('priority_order', [2, 1, 0])
+
+        self.cap = None
+        self.cam_path = None
+        self._open_camera()
+
+        self.timer = self.create_timer(1.0 / 60.0, self.timer_callback)
+
+        self.class_names = {0: 'PAPER', 1: 'ROCK', 2: 'SPEAR'}
+
+        self.prev_time = self.get_clock().now()
+        self.frame_count = 0
+        self.show_every_n = 5
+
+        sf = self.get_parameter('stable_frames').value
+        self.history = deque(maxlen=sf)
+        self.decided = False
+        self.selected_slot = -1
+        self.selected_class = -1
+        self.final_layout = []
+
+        self.get_logger().info('YOLO Select Node พร้อมทำงาน! (Stability + Decision Mode)')
+
+    def _resolve_camera_path(self):
+        explicit = self.get_parameter('camera_path').get_parameter_value().string_value
+        if explicit and os.path.exists(explicit):
+            return explicit
+        match = self.get_parameter('camera_match').get_parameter_value().string_value
+        candidates = sorted(glob.glob('/dev/v4l/by-id/*'))
+        for link in candidates:
+            if match.lower() in os.path.basename(link).lower() and 'index0' in link:
+                return link
+        return None
+
+    def _open_camera(self):
+        if self.cap is not None:
+            self.cap.release()
+        path = self._resolve_camera_path()
+        if path is None:
+            return False
+        cap = cv2.VideoCapture(path, cv2.CAP_V4L2)
+        if not cap.isOpened():
+            return False
+        cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH,  self.get_parameter('cap_width').value)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.get_parameter('cap_height').value)
+        cap.set(cv2.CAP_PROP_FPS,          self.get_parameter('cap_fps').value)
+        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+        self.cap = cap
+        self.cam_path = path
+        return True
+
+    def _assign_slots(self, dets_sorted, max_slots):
+        # dets_sorted: list[(x_center, cls_id)] ascending by x_center.
+        # Use the smallest non-zero gap as the "1 slot" unit, then
+        # round each gap to an integer step. Missing slots therefore
+        # show up as an extra step.
+        if not dets_sorted:
+            return []
+        if len(dets_sorted) == 1:
+            return [(1, dets_sorted[0][1])]
+
+        xs = [d[0] for d in dets_sorted]
+        gaps = [xs[i+1] - xs[i] for i in range(len(xs)-1)]
+        positive = [g for g in gaps if g > 0]
+        unit = min(positive) if positive else 1.0
+
+        slots = [1]
+        for g in gaps:
+            step = max(1, int(round(g / unit)))
+            slots.append(slots[-1] + step)
+
+        return [(min(slots[i], max_slots), dets_sorted[i][1]) for i in range(len(dets_sorted))]
+
+    def _decide(self, layout, priority):
+        # layout: list[(slot, cls_id)]; priority: list[int] highest-first
+        cls_to_slots = {}
+        for slot, cls_id in layout:
+            cls_to_slots.setdefault(cls_id, []).append(slot)
+        for cls_id in priority:
+            if cls_id in cls_to_slots:
+                return (min(cls_to_slots[cls_id]), cls_id)
+        return (-1, -1)
+
+    def timer_callback(self):
+        if self.cap is None or not self.cap.isOpened():
+            self._open_camera()
+            return
+        ret, frame = self.cap.read()
+        if not ret:
+            self._open_camera()
+            return
+
+        if self.get_parameter('grayscale').value:
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frame = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+
+        current_time = self.get_clock().now()
+        diff = (current_time - self.prev_time).nanoseconds / 1e9
+        fps = 1.0 / diff if diff > 0 else 0.0
+        self.prev_time = current_time
+        self.frame_count += 1
+
+        cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+        results = self.model.predict(
+            frame,
+            device=self.device,
+            imgsz=self.get_parameter('imgsz').value,
+            conf=self.get_parameter('conf_thresh').value,
+            half=True if self.device == 0 else False,
+            verbose=False,
+        )
+
+        detections_data = []
+        dets = []  # (cx, cy, cls_id, conf, x1, y1, x2, y2)
+        for r in results:
+            for box in r.boxes:
+                cls_id = int(box.cls[0])
+                conf = float(box.conf[0])
+                x1, y1, x2, y2 = box.xyxy[0]
+                cx = float((x1 + x2) / 2.0)
+                cy = float((y1 + y2) / 2.0)
+                detections_data.extend([cx, cy, float(cls_id)])
+                dets.append((cx, cy, cls_id, conf, float(x1), float(y1), float(x2), float(y2)))
+
+                if self.frame_count % self.show_every_n == 0:
+                    class_name = self.class_names.get(cls_id, 'UNKNOWN')
+                    cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
+                    cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1)-10),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+        max_slots = self.get_parameter('max_slots').value
+        sorted_dets = sorted(dets, key=lambda d: d[0])
+        simple = [(d[0], d[2]) for d in sorted_dets]
+        layout = self._assign_slots(simple, max_slots)
+        sig = tuple(layout)
+
+        if not self.decided:
+            self.history.append(sig)
+            stable_frames = self.get_parameter('stable_frames').value
+            stable = (
+                len(self.history) == stable_frames
+                and len(set(self.history)) == 1
+                and len(layout) > 0
+            )
+            if stable:
+                priority = list(self.get_parameter('priority_order').value)
+                slot, cls_id = self._decide(layout, priority)
+                if slot > 0:
+                    self.decided = True
+                    self.selected_slot = slot
+                    self.selected_class = cls_id
+                    self.final_layout = layout
+                    layout_str = ','.join(f'{s}:{self.class_names.get(c, "?")}' for s, c in layout)
+                    self.get_logger().info(
+                        f'DECIDED layout=[{layout_str}] -> pick {self.class_names.get(cls_id, "?")} at slot {slot}'
+                    )
+                    pmsg = Int32(); pmsg.data = int(slot); self.position_pub.publish(pmsg)
+                    smsg = String(); smsg.data = layout_str; self.layout_pub.publish(smsg)
+            else:
+                seen_unique = len(set(self.history))
+                cv2.putText(frame, f"Stab: {len(self.history)}/{stable_frames} uniq={seen_unique}",
+                            (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+        else:
+            if self.frame_count % 30 == 0:
+                pmsg = Int32(); pmsg.data = int(self.selected_slot); self.position_pub.publish(pmsg)
+            cv2.putText(frame,
+                        f"DECIDED: slot {self.selected_slot} ({self.class_names.get(self.selected_class, '?')})",
+                        (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+
+        if len(detections_data) > 0:
+            msg = Float32MultiArray()
+            msg.data = detections_data
+            self.publisher_.publish(msg)
+            self.get_logger().info(
+                f'Detected {len(detections_data)//3} objects | FPS: {fps:.1f} | decided={self.decided}'
+            )
+            if self.frame_count % self.show_every_n == 0:
+                cv2.imwrite('/home/minmin/roboarm_ws/yolo_select_debug.png', frame)
+        else:
+            self.get_logger().info(f'Searching... | FPS: {fps:.1f}', throttle_duration_sec=1.0)
+
+        if self.frame_count % self.show_every_n == 0:
+            cv2.imwrite('/home/minmin/roboarm_ws/camera_test.png', frame)
+            cv2.imshow('Robot Vision (Select)', frame)
+            cv2.waitKey(1)
+
+    def destroy_node(self):
+        if self.cap is not None:
+            self.cap.release()
+        cv2.destroyAllWindows()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = YoloSelectNode()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    node.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

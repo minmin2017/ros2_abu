@@ -8,11 +8,13 @@ setup.py
 ../../build/my_vision_system/my_vision_system.egg-info/not-zip-safe
 ../../build/my_vision_system/my_vision_system.egg-info/requires.txt
 ../../build/my_vision_system/my_vision_system.egg-info/top_level.txt
+models_upgrade/best.pt
 my_vision_system/__init__.py
 my_vision_system/picking_node.py
 my_vision_system/yolo_docking_node.py
 my_vision_system/yolo_docking_node_v1_backup.py
 my_vision_system/yolo_node.py
+my_vision_system/yolo_select_node.py
 my_vision_system/models/best.pt
 resource/my_vision_system
 test/test_copyright.py

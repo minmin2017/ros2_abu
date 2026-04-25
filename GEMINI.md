@@ -21,6 +21,7 @@ The following scripts have been created in the home directory and added as alias
 - `teleop`: Launches the **Mecanum Command Center**, a GUI for 8-way movement.
 - `armdock`: Launches the **YOLO Docking Node**, which detects objects (Spear, Rock, Paper) using GPU and automatically docks the robot.
 - `lidar`: Launches the **YDLidar ROS 2 Driver** for the S2PRO lidar.
+- `yolostart`: Launches the **Optimized YOLO Detection Node** with 60 FPS performance tuning.
 
 ### Usage
 Simply type the command name in any terminal:
@@ -129,3 +130,19 @@ source ~/.bash_aliases
 - **Sourcing:** Always ensure `source /opt/ros/humble/setup.bash` and the relevant workspace `install/setup.bash` are called.
 - **Paths:** Use `$HOME` instead of hardcoded absolute paths in scripts to ensure portability.
 - **Vision:** The `yolo_docking_node` subscribes to `/camera/image_raw` and `/scan`. Debug output is published to `/camera/debug_image`.
+
+## Optimized Vision System (`yolo_node`)
+
+The YOLO detection system has been optimized for high-performance real-time tracking:
+
+- **Command**: `yolostart` (Alias for `~/yolostart`)
+- **Performance**: Targeted 60 FPS using GPU (GTX 1650).
+- **Optimizations**:
+  - **Resolution**: 640x480 capture for reduced USB/CPU overhead.
+  - **Inference**: 640px input size with FP16 (Half Precision) enabled.
+  - **Visual Feedback**: Screen updates and image saves are throttled (every 5 frames) to maximize processing speed.
+  - **Multi-Detection**: Supports detecting and publishing multiple objects in a single frame.
+- **Class Mapping**: 
+  - `0`: PAPER
+  - `1`: ROCK
+  - `2`: SPEAR

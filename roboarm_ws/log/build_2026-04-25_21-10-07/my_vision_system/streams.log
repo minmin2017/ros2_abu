@@ -1,0 +1,26 @@
+[1.254s] Invoking command in '/home/minmin/roboarm_ws/src/my_vision_system': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_vision_system build --build-base /home/minmin/roboarm_ws/build/my_vision_system/build install --record /home/minmin/roboarm_ws/build/my_vision_system/install.log --single-version-externally-managed install_data
+[1.680s] running egg_info
+[1.681s] writing ../../build/my_vision_system/my_vision_system.egg-info/PKG-INFO
+[1.682s] writing dependency_links to ../../build/my_vision_system/my_vision_system.egg-info/dependency_links.txt
+[1.682s] writing entry points to ../../build/my_vision_system/my_vision_system.egg-info/entry_points.txt
+[1.683s] writing requirements to ../../build/my_vision_system/my_vision_system.egg-info/requires.txt
+[1.683s] writing top-level names to ../../build/my_vision_system/my_vision_system.egg-info/top_level.txt
+[1.694s] reading manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+[1.695s] writing manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+[1.695s] running build
+[1.696s] running build_py
+[1.696s] copying my_vision_system/yolo_select_node.py -> /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system
+[1.696s] running install
+[1.697s] running install_lib
+[1.699s] copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/yolo_select_node.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.701s] byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/yolo_select_node.py to yolo_select_node.cpython-310.pyc
+[1.706s] running install_data
+[1.706s] running install_egg_info
+[1.711s] removing '/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info' (and everything under it)
+[1.712s] Copying ../../build/my_vision_system/my_vision_system.egg-info to /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info
+[1.714s] running install_scripts
+[1.752s] Installing yolo_docking_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[1.752s] Installing yolo_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[1.753s] Installing yolo_select_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[1.753s] writing list of installed files to '/home/minmin/roboarm_ws/build/my_vision_system/install.log'
+[1.825s] Invoked command in '/home/minmin/roboarm_ws/src/my_vision_system' returned '0': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_vision_system build --build-base /home/minmin/roboarm_ws/build/my_vision_system/build install --record /home/minmin/roboarm_ws/build/my_vision_system/install.log --single-version-externally-managed install_data
