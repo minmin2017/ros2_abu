@@ -37,6 +37,7 @@ install(
     scripts/camera_docking_node.py
     scripts/fused_docking_node.py
     scripts/cam_lidar_docking_node.py
+    scripts/scan_filter.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
