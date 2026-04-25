@@ -52,35 +52,48 @@ class PickingNode(Node):
         if not self.is_docked or self.is_picking:
             return
 
-        if len(msg.data) >= 3:
-            x = msg.data[0]
-            obj_class = msg.data[2]
+        # ตรวจสอบว่ามีข้อมูลส่งมาไหม (มาเป็นชุดละ 3 ค่า: X, Y, Class)
+        num_items = len(msg.data) // 3
+        if num_items == 0:
+            return
+
+        # เลือกหยิบชิ้นแรกที่เจอในลิสต์ (หรือคุณสามารถเพิ่มลอจิกเลือกชิ้นที่ใกล้ที่สุดได้)
+        # เราจะวนลูปหาชิ้นแรกที่มี Class_ID ตรงกับที่เราตั้งค่าไว้
+        found_target = False
+        for i in range(num_items):
+            base_idx = i * 3
+            x = msg.data[base_idx]
+            # y = msg.data[base_idx + 1] # ไม่ได้ใช้ในโปรเจกต์นี้
+            obj_class = msg.data[base_idx + 2]
 
             if obj_class in self.target_x_map:
                 target_x = self.target_x_map[obj_class]
-                obj_name = "SPEAR" if obj_class == 0 else "ROCK" if obj_class == 1 else "PAPER"
-            else:
-                return 
+                obj_name = "PAPER" if obj_class == 0 else "ROCK" if obj_class == 1 else "SPEAR"
+                found_target = True
+                break # เจอเป้าหมายแล้ว หยุดหาในลิสต์นี้
 
-            # --- ลอจิกควบคุมตัวรถ ---
-            if x < (target_x - self.margin_x):
-                self.get_logger().info(f'[{obj_name}] X: {x:.1f} | สั่งถอยหลัง (B)')
-                self.send_command_to_arduino('B')
-                
-            elif x > (target_x + self.margin_x):
-                self.get_logger().info(f'[{obj_name}] X: {x:.1f} | สั่งเดินหน้า (F)')
-                self.send_command_to_arduino('F')
-                
-            else:
-                self.get_logger().info(f'[{obj_name}] ตรงเป้าหมายที่ X={x:.1f}! | สั่งหยุดและหนีบ (S -> P)')
-                self.is_picking = True # ล็อคสถานะไว้ จะได้ไม่ส่งคำสั่งซ้ำ
-                
-                # 1. สั่งหยุดรถ
-                self.send_command_to_arduino('S')
-                time.sleep(0.5) # รอรถหยุดสนิท
-                
-                # 2. สั่งแขนกลหนีบ
-                self.execute_fixed_picking()
+        if not found_target:
+            return
+
+        # --- ลอจิกควบคุมตัวรถ (ใช้ค่า x ของเป้าหมายที่เลือกมา) ---
+        if x < (target_x - self.margin_x):
+            self.get_logger().info(f'[{obj_name}] X: {x:.1f} | สั่งถอยหลัง (B)')
+            self.send_command_to_arduino('B')
+            
+        elif x > (target_x + self.margin_x):
+            self.get_logger().info(f'[{obj_name}] X: {x:.1f} | สั่งเดินหน้า (F)')
+            self.send_command_to_arduino('F')
+            
+        else:
+            self.get_logger().info(f'[{obj_name}] ตรงเป้าหมายที่ X={x:.1f}! | สั่งหยุดและหนีบ (S -> P)')
+            self.is_picking = True # ล็อคสถานะไว้ จะได้ไม่ส่งคำสั่งซ้ำ
+            
+            # 1. สั่งหยุดรถ
+            self.send_command_to_arduino('S')
+            time.sleep(0.5) # รอรถหยุดสนิท
+            
+            # 2. สั่งแขนกลหนีบ
+            self.execute_fixed_picking()
 
     def execute_fixed_picking(self):
         self.get_logger().info('🦾 กำลังทำท่าหนีบแบบ Fixed Pose...')
