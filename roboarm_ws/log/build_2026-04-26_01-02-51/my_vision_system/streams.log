@@ -1,0 +1,20 @@
+[1.455s] Invoking command in '/home/minmin/roboarm_ws/build/my_vision_system': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/minmin/roboarm_ws/build/my_vision_system/build --no-deps symlink_data
+[2.021s] running develop
+[2.443s] running egg_info
+[2.444s] writing my_vision_system.egg-info/PKG-INFO
+[2.444s] writing dependency_links to my_vision_system.egg-info/dependency_links.txt
+[2.445s] writing entry points to my_vision_system.egg-info/entry_points.txt
+[2.445s] writing requirements to my_vision_system.egg-info/requires.txt
+[2.446s] writing top-level names to my_vision_system.egg-info/top_level.txt
+[2.450s] reading manifest file 'my_vision_system.egg-info/SOURCES.txt'
+[2.452s] writing manifest file 'my_vision_system.egg-info/SOURCES.txt'
+[2.457s] running build_ext
+[2.458s] Creating /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my-vision-system.egg-link (link to .)
+[2.460s] Installing yolo_docking_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[2.461s] Installing yolo_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[2.461s] Installing yolo_real_cam_debug script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[2.461s] Installing yolo_select_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[2.462s] 
+[2.462s] Installed /home/minmin/roboarm_ws/build/my_vision_system
+[2.463s] running symlink_data
+[2.572s] Invoked command in '/home/minmin/roboarm_ws/build/my_vision_system' returned '0': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/minmin/roboarm_ws/build/my_vision_system/build --no-deps symlink_data

@@ -1,11 +1,11 @@
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile, QoSDurabilityPolicy, QoSReliabilityPolicy, QoSHistoryPolicy
 from std_msgs.msg import Float32MultiArray, Int32, String
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 import cv2
-import glob
 import os
-import torch
+import glob
+import time
 from collections import deque
 from ultralytics import YOLO
 
@@ -15,86 +15,52 @@ try:
 except ImportError:
     _SERIAL_OK = False
 
-
 class YoloSelectNode(Node):
-    """
-    Clone of yolo_node + decision mode.
-
-    Pipeline:
-      1. YOLO inference each frame (same as yolo_node).
-      2. Sort detections left-to-right by x-center, infer slot positions
-         from the gaps between detections (a missing object widens a gap,
-         so its slot is skipped).
-      3. When the same layout signature repeats for `stable_frames`
-         consecutive frames, enter DECIDED mode and pick a slot using
-         `priority_order` (default SPEAR > ROCK > PAPER), preferring the
-         leftmost slot if a class appears more than once.
-      4. Publish the chosen 1-indexed slot on /picking_position (Int32)
-         and the resolved layout "slot:CLASS,slot:CLASS,..." on
-         /picking_layout (String). /detected_object is still published
-         every frame for backwards compatibility.
-    """
-
     def __init__(self):
         super().__init__('yolo_select_node')
 
-        self.publisher_ = self.create_publisher(Float32MultiArray, '/detected_object', 10)
-        # Latched QoS so late subscribers still get the decision
-        latched_qos = QoSProfile(
-            depth=1,
-            reliability=QoSReliabilityPolicy.RELIABLE,
-            durability=QoSDurabilityPolicy.TRANSIENT_LOCAL,
-            history=QoSHistoryPolicy.KEEP_LAST,
-        )
-        self.position_pub = self.create_publisher(Int32, '/picking_position', latched_qos)
-        self.layout_pub = self.create_publisher(String, '/picking_layout', latched_qos)
-
-        self.get_logger().info('กำลังโหลดโมเดล YOLO...')
-        try:
-            from ament_index_python.packages import get_package_share_directory
-            package_share_directory = get_package_share_directory('my_vision_system')
-            model_path = os.path.join(package_share_directory, 'models_upgrade', 'best.pt')
-            self.get_logger().info(f'Model path: {model_path}')
-            self.model = YOLO(model_path)
-        except Exception as e:
-            self.get_logger().error(f'Failed to load model: {str(e)}')
-            self.model = YOLO('best.pt')
-
-        self.device = 0 if torch.cuda.is_available() else 'cpu'
-        if self.device == 0:
-            self.model.to('cuda')
-            self.model.predict(torch.zeros(1, 3, 640, 640, device='cuda'), verbose=False)
-            self.get_logger().info(f'YOLO ใช้ GPU: {torch.cuda.get_device_name(0)}')
-        else:
-            self.get_logger().warning('ไม่พบ CUDA — ใช้ CPU')
-
+        # Parameters
+        self.declare_parameter('model_path', '/home/minmin/roboarm_ws/src/my_vision_system/my_vision_system/models/best.pt')
         self.declare_parameter('camera_match', 'Jieli')
+        self.declare_parameter('camera_skip', 'Azurewave,Integrated,IMC,Microsoft,Logitech_BRIO_Webcam_Front')
         self.declare_parameter('camera_path', '')
         self.declare_parameter('cap_width', 640)
         self.declare_parameter('cap_height', 480)
         self.declare_parameter('cap_fps', 30)
-        self.declare_parameter('imgsz', 640)
-        self.declare_parameter('conf_thresh', 0.5)
-        self.declare_parameter('grayscale', True)
-        self.declare_parameter('stable_frames', 10)
+        self.declare_parameter('conf_threshold', 0.5)
+        self.declare_parameter('stable_frames', 30)
         self.declare_parameter('max_slots', 6)
-        # Priority list, highest first. Default: SPEAR(2) > ROCK(1) > PAPER(0)
-        self.declare_parameter('priority_order', [2, 1, 0])
-        # Serial to Arduino Mega (serial_port = hint/fallback ถ้า auto-detect ไม่เจอ)
+        self.declare_parameter('priority_order', [1, 2, 0])  # Paper, Rock, Spear
+        self.declare_parameter('grayscale', False)
+
+        # Serial Parameters
         self.declare_parameter('serial_port', '')
         self.declare_parameter('serial_baud', 115200)
 
+        # QoS for decision latching
+        latched_qos = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=1
+        )
+
+        # Publishers
+        self.publisher_ = self.create_publisher(Float32MultiArray, '/detected_object', 10)
+        self.position_pub = self.create_publisher(Int32, '/picking_position', latched_qos)
+        self.layout_pub = self.create_publisher(String, '/picking_layout', latched_qos)
+
+        # YOLO Setup
+        model_p = self.get_parameter('model_path').get_parameter_value().string_value
+        self.get_logger().info(f'Loading model: {model_p}')
+        self.model = YOLO(model_p)
+        self.class_names = self.model.names
+        self.device = 0 # force CPU for stability or 0 for GPU
+
+        # Camera & Serial State
+        self.cap = None
         self.serial = None
         self._serial_buf = ''
         self._init_serial()
-
-        self.cap = None
-        self.cam_path = None
-        self._open_camera()
-
-        self.timer = self.create_timer(1.0 / 60.0, self.timer_callback)
-
-        self.class_names = {0: 'PAPER', 1: 'ROCK', 2: 'SPEAR'}
 
         self.prev_time = self.get_clock().now()
         self.frame_count = 0
@@ -109,84 +75,77 @@ class YoloSelectNode(Node):
         self.stage1_ready = False
 
         self.get_logger().info('YOLO Select Node พร้อมทำงาน! (Stability + Decision Mode)')
+        self.timer = self.create_timer(0.01, self.timer_callback)
 
     def _find_arduino_port(self):
-        """หา port ของ Arduino Mega อัตโนมัติ (VID/PID → by-id symlink → hint parameter)"""
+        """หา port ของ Arduino Mega อัตโนมัติ"""
         ARDUINO_VID = 0x2341
-        MEGA_PIDS = {0x0042, 0x0010, 0x0016}  # Mega2560 / old bootloader / Mega ADK
+        MEGA_PIDS = {0x0042, 0x0010, 0x0016}
+        CH340_VID = 0x1A86
+        CH340_PID = 0x7523
 
-        # 1. pyserial list_ports — แม่นที่สุด
         if _SERIAL_OK:
             try:
                 from serial.tools import list_ports
-                for p in list_ports.comports():
+                all_ports = list(list_ports.comports())
+                for p in all_ports:
                     if p.vid == ARDUINO_VID and p.pid in MEGA_PIDS:
                         return p.device
+                for p in all_ports:
+                    if p.vid == CH340_VID and p.pid == CH340_PID:
+                        self.get_logger().info(f'พบ Arduino Clone (CH340) ที่ {p.device}')
+                        return p.device
+                for p in all_ports:
                     desc = (p.description or '').lower()
                     if 'arduino' in desc or 'mega' in desc:
                         return p.device
-            except Exception:
-                pass
+                usb_ports = [p.device for p in all_ports if 'USB' in (p.description or '') or 'ttyUSB' in p.device or 'ttyACM' in p.device]
+                if len(usb_ports) == 1:
+                    return usb_ports[0]
+            except Exception as e:
+                self.get_logger().error(f'Error searching ports: {e}')
 
-        # 2. /dev/serial/by-id/ symlinks
         for link in sorted(glob.glob('/dev/serial/by-id/*')):
             name = os.path.basename(link).lower()
-            if 'arduino' in name or 'mega' in name:
+            if 'arduino' in name or 'mega' in name or 'ch340' in name or 'usb-serial' in name:
                 return os.path.realpath(link)
 
-        # 3. hint parameter
-        hint = self.get_parameter('serial_port').get_parameter_value().string_value
-        if hint and os.path.exists(hint):
-            return hint
+        for dev in ['/dev/ttyUSB0', '/dev/ttyACM0']:
+            if os.path.exists(dev): return dev
 
+        hint = self.get_parameter('serial_port').get_parameter_value().string_value
+        if hint and os.path.exists(hint): return hint
         return None
 
     def _init_serial(self):
-        if not _SERIAL_OK:
-            self.get_logger().warning('pyserial ไม่ได้ติดตั้ง — ไม่มี Serial (pip install pyserial)')
-            return
+        if not _SERIAL_OK: return
         port = self._find_arduino_port()
-        if port is None:
-            self.get_logger().warning('ไม่พบ Arduino Mega — จะลองใหม่อัตโนมัติทุก 5 วิ')
-            return
+        if port is None: return
         baud = self.get_parameter('serial_baud').value
         try:
-            if self.serial is not None:
-                try: self.serial.close()
-                except Exception: pass
+            if self.serial is not None: self.serial.close()
             self.serial = pyserial.Serial(port, baud, timeout=0)
             self.get_logger().info(f'Serial เชื่อมต่อ Arduino Mega ที่ {port} @ {baud}')
-            # ถ้าตัดสินใจไปแล้วก่อน reconnect → ส่ง slot ซ้ำ
-            if self.decided and self.selected_slot > 0:
-                self._send_slot(self.selected_slot)
         except Exception as e:
             self.get_logger().warning(f'Serial เปิดไม่ได้ ({port}): {e}')
             self.serial = None
 
     def _send_slot(self, slot):
-        if self.serial is None or not self.serial.is_open:
-            return
+        if self.serial is None or not self.serial.is_open: return
+        mapping = {1: 'C', 2: 'B', 3: 'A', 4: 'D', 5: 'E', 6: 'F'}
+        cmd = mapping.get(slot, str(slot))
         try:
-            self.serial.write(f'{slot}\n'.encode())
-            self.get_logger().info(f'Serial → Arduino: slot {slot}')
+            self.serial.write(f'{cmd}\n'.encode())
+            self.get_logger().info(f'🚀 [SENDING] -> Arduino: Slot {slot} mapped to Character "{cmd}"')
         except Exception as e:
             self.get_logger().warning(f'Serial write error: {e}')
-            try: self.serial.close()
-            except Exception: pass
             self.serial = None
 
     def _poll_serial(self):
-        """อ่าน ACK จาก Arduino non-blocking + autoreconnect ทุก ~5 วิ"""
-        if not _SERIAL_OK:
-            return
-
-        # Autoreconnect เมื่อ port หาย (~150 frames ≈ 5 วิ ที่ 30 fps)
+        if not _SERIAL_OK: return
         if self.serial is None or not self.serial.is_open:
-            if self.frame_count % 150 == 0:
-                self.get_logger().info('Serial: ลองเชื่อมต่อ Arduino ใหม่...')
-                self._init_serial()
+            if self.frame_count % 150 == 0: self._init_serial()
             return
-
         try:
             if self.serial.in_waiting > 0:
                 self._serial_buf += self.serial.read(self.serial.in_waiting).decode(errors='ignore')
@@ -195,24 +154,40 @@ class YoloSelectNode(Node):
                     line = line.strip()
                     if line:
                         self.get_logger().info(f'Serial ← Arduino: "{line}"')
-                        if 'stage1' in line.lower():
+                        if 'state1' in line.lower():
                             self.stage1_ready = True
-                            self.get_logger().info('✅ ได้รับ "stage1" จาก Arduino — เริ่มทำงานได้!')
-        except Exception as e:
-            self.get_logger().warning(f'Serial read error: {e} — จะ reconnect')
-            try: self.serial.close()
-            except Exception: pass
+                            self.get_logger().info('✅ ได้รับ "state1" จาก Arduino — เริ่มทำงานได้!')
+        except Exception:
             self.serial = None
 
     def _resolve_camera_path(self):
         explicit = self.get_parameter('camera_path').get_parameter_value().string_value
         if explicit and os.path.exists(explicit):
             return explicit
+
         match = self.get_parameter('camera_match').get_parameter_value().string_value
+        skip_csv = self.get_parameter('camera_skip').get_parameter_value().string_value
+        skip_list = [s.strip().lower() for s in skip_csv.split(',') if s.strip()]
         candidates = sorted(glob.glob('/dev/v4l/by-id/*'))
-        for link in candidates:
-            if match.lower() in os.path.basename(link).lower() and 'index0' in link:
+        index0 = [c for c in candidates if 'index0' in c]
+
+        # 1) preferred match (e.g. Jieli)
+        for link in index0:
+            if match.lower() in os.path.basename(link).lower():
+                self.get_logger().info(f"เลือกกล้อง (match='{match}'): {os.path.basename(link)}", throttle_duration_sec=5.0)
                 return link
+
+        # 2) fallback: any external cam that is NOT in skip list (built-in webcams)
+        for link in index0:
+            name = os.path.basename(link).lower()
+            if not any(s in name for s in skip_list):
+                self.get_logger().warning(f"ไม่เจอ '{match}' — ใช้กล้องสำรอง: {os.path.basename(link)}", throttle_duration_sec=5.0)
+                return link
+
+        self.get_logger().error(
+            f"Cannot find camera matching '{match}' (skip={skip_list}). Available: {[os.path.basename(c) for c in index0]}",
+            throttle_duration_sec=3.0,
+        )
         return None
 
     def _open_camera(self):
@@ -221,6 +196,8 @@ class YoloSelectNode(Node):
         path = self._resolve_camera_path()
         if path is None:
             return False
+
+        self.get_logger().info(f'กำลังพยายามเปิดกล้องที่: {path}')
         cap = cv2.VideoCapture(path, cv2.CAP_V4L2)
         if not cap.isOpened():
             return False
@@ -231,59 +208,45 @@ class YoloSelectNode(Node):
         cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
         self.cap = cap
         self.cam_path = path
+        self.get_logger().info('✅ เปิดกล้องสำเร็จ!')
         return True
 
-    def _assign_slots(self, dets_sorted, max_slots):
-        # dets_sorted: list[(x_center, cls_id)] ascending by x_center.
-        # Use the smallest non-zero gap as the "1 slot" unit, then
-        # round each gap to an integer step. Missing slots therefore
-        # show up as an extra step.
-        if not dets_sorted:
-            return []
-        if len(dets_sorted) == 1:
-            return [(1, dets_sorted[0][1])]
-
-        xs = [d[0] for d in dets_sorted]
-        gaps = [xs[i+1] - xs[i] for i in range(len(xs)-1)]
-        positive = [g for g in gaps if g > 0]
-        unit = min(positive) if positive else 1.0
-
-        slots = [1]
-        for g in gaps:
-            step = max(1, int(round(g / unit)))
-            slots.append(slots[-1] + step)
-
-        return [(min(slots[i], max_slots), dets_sorted[i][1]) for i in range(len(dets_sorted))]
+    def _assign_slots(self, dets, max_slots):
+        # simple heuristic: divide width into max_slots
+        if not dets: return []
+        slots = []
+        for cx, cls_id in dets:
+            slot_idx = int((cx / 640.0) * max_slots) + 1
+            slot_idx = max(1, min(slot_idx, max_slots))
+            slots.append((slot_idx, cls_id))
+        return slots
 
     def _decide(self, layout, priority):
-        # layout: list[(slot, cls_id)]; priority: list[int] highest-first
-        cls_to_slots = {}
-        for slot, cls_id in layout:
-            cls_to_slots.setdefault(cls_id, []).append(slot)
-        for cls_id in priority:
-            if cls_id in cls_to_slots:
-                return (min(cls_to_slots[cls_id]), cls_id)
+        for p_cls in priority:
+            cls_to_slots = {}
+            for slot, cls_id in layout:
+                if cls_id not in cls_to_slots: cls_to_slots[cls_id] = []
+                cls_to_slots[cls_id].append(slot)
+            if p_cls in cls_to_slots:
+                return (min(cls_to_slots[p_cls]), p_cls)
         return (-1, -1)
 
     def timer_callback(self):
-        # รอ Serial ก่อน — ยังไม่เชื่อมต่อ Arduino ไม่ทำอะไรทั้งนั้น
+        # 1. Check Arduino
         self._poll_serial()
         if self.serial is None or not self.serial.is_open:
-            self.frame_count += 1
-            self.get_logger().info('รอเชื่อมต่อ Arduino Mega...', throttle_duration_sec=3.0)
-            return
+            self.get_logger().error('❌ [CRITICAL] เชื่อมต่อ Arduino Mega ไม่ได้!', throttle_duration_sec=3.0)
+            # return # Uncomment if you want to strictly stop here
 
-        if not self.stage1_ready:
-            self.frame_count += 1
-            self.get_logger().info('รอกสัญญาณ "stage1" จาก Arduino...', throttle_duration_sec=3.0)
-            return
-
+        # 2. Check & Open Camera
         if self.cap is None or not self.cap.isOpened():
-            self._open_camera()
-            return
+            if not self._open_camera():
+                self.get_logger().error('❌ [CRITICAL] เปิดกล้องไม่ได้!', throttle_duration_sec=3.0)
+                return
+
         ret, frame = self.cap.read()
         if not ret:
-            self._open_camera()
+            self.get_logger().error('Failed to read frame from camera', throttle_duration_sec=3.0)
             return
 
         if self.get_parameter('grayscale').value:
@@ -296,19 +259,19 @@ class YoloSelectNode(Node):
         self.prev_time = current_time
         self.frame_count += 1
 
-        cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
-
+        # YOLO Inference
+        conf_t = self.get_parameter('conf_threshold').value
         results = self.model.predict(
-            frame,
+            source=frame,
+            conf=conf_t,
             device=self.device,
-            imgsz=self.get_parameter('imgsz').value,
-            conf=self.get_parameter('conf_thresh').value,
+            imgsz=640,
             half=True if self.device == 0 else False,
             verbose=False,
         )
 
         detections_data = []
-        dets = []  # (cx, cy, cls_id, conf, x1, y1, x2, y2)
+        dets = []
         for r in results:
             for box in r.boxes:
                 cls_id = int(box.cls[0])
@@ -334,11 +297,8 @@ class YoloSelectNode(Node):
         if not self.decided:
             self.history.append(sig)
             stable_frames = self.get_parameter('stable_frames').value
-            stable = (
-                len(self.history) == stable_frames
-                and len(set(self.history)) == 1
-                and len(layout) > 0
-            )
+            stable = (len(self.history) == stable_frames and len(set(self.history)) == 1 and len(layout) > 0)
+
             if stable:
                 priority = list(self.get_parameter('priority_order').value)
                 slot, cls_id = self._decide(layout, priority)
@@ -347,60 +307,35 @@ class YoloSelectNode(Node):
                     self.selected_slot = slot
                     self.selected_class = cls_id
                     self.final_layout = layout
-                    layout_str = ','.join(f'{s}:{self.class_names.get(c, "?")}' for s, c in layout)
-                    self.get_logger().info(
-                        f'DECIDED layout=[{layout_str}] -> pick {self.class_names.get(cls_id, "?")} at slot {slot}'
-                    )
-                    pmsg = Int32(); pmsg.data = int(slot); self.position_pub.publish(pmsg)
-                    smsg = String(); smsg.data = layout_str; self.layout_pub.publish(smsg)
                     self._send_slot(slot)
             else:
                 seen_unique = len(set(self.history))
                 cv2.putText(frame, f"Stab: {len(self.history)}/{stable_frames} uniq={seen_unique}",
                             (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
         else:
-            if self.frame_count % 30 == 0:
-                pmsg = Int32(); pmsg.data = int(self.selected_slot); self.position_pub.publish(pmsg)
-            cv2.putText(frame,
-                        f"DECIDED: slot {self.selected_slot} ({self.class_names.get(self.selected_class, '?')})",
-                        (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+            cv2.putText(frame, f"DECIDED: slot {self.selected_slot}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
         if len(detections_data) > 0:
             msg = Float32MultiArray()
             msg.data = detections_data
             self.publisher_.publish(msg)
-            self.get_logger().info(
-                f'Detected {len(detections_data)//3} objects | FPS: {fps:.1f} | decided={self.decided}'
-            )
-            if self.frame_count % self.show_every_n == 0:
-                cv2.imwrite('/home/minmin/roboarm_ws/yolo_select_debug.png', frame)
-        else:
-            self.get_logger().info(f'Searching... | FPS: {fps:.1f}', throttle_duration_sec=1.0)
 
-        if self.frame_count % self.show_every_n == 0:
-            cv2.imwrite('/home/minmin/roboarm_ws/camera_test.png', frame)
-            cv2.imshow('Robot Vision (Select)', frame)
-            cv2.waitKey(1)
+        cv2.imshow('Robot Vision (Select)', frame)
+        cv2.waitKey(1)
 
     def destroy_node(self):
-        if self.cap is not None:
-            self.cap.release()
-        if self.serial is not None and self.serial.is_open:
-            self.serial.close()
+        if self.cap: self.cap.release()
+        if self.serial: self.serial.close()
         cv2.destroyAllWindows()
         super().destroy_node()
-
 
 def main(args=None):
     rclpy.init(args=args)
     node = YoloSelectNode()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    try: rclpy.spin(node)
+    except KeyboardInterrupt: pass
     node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()

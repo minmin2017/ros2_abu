@@ -196,10 +196,11 @@ yoloselect
 
 ### Serial Protocol
 
-| ทิศทาง | Format | ตัวอย่าง |
+| ทิศทาง | Format | รายละเอียด |
 |---|---|---|
-| Pi → Arduino | `{slot}\n` | `1\n` |
-| Arduino → Pi | ใดๆ (log เท่านั้น) | `OK\n` |
+| Pi → Arduino | `{cmd}\n` | ส่งตัวอักษรตาม Slot: 1→D, 2→E, 3→F, 4→A, 5→B, 6→C |
+| Arduino → Pi | `stage1` | สัญญาณเริ่มทำงาน (Pi จะรอก่อนเริ่ม YOLO) |
+| Arduino → Pi | อื่นๆ | Log แสดงผลบน Terminal ของ Pi |
 
 **Auto-detect Arduino Mega** (ลำดับความสำคัญ):
 1. `pyserial list_ports` — ตรวจ VID `0x2341` + PID `{0x0042, 0x0010, 0x0016}`

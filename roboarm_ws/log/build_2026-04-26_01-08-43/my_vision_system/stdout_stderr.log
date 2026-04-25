@@ -1,0 +1,18 @@
+running develop
+running egg_info
+writing my_vision_system.egg-info/PKG-INFO
+writing dependency_links to my_vision_system.egg-info/dependency_links.txt
+writing entry points to my_vision_system.egg-info/entry_points.txt
+writing requirements to my_vision_system.egg-info/requires.txt
+writing top-level names to my_vision_system.egg-info/top_level.txt
+reading manifest file 'my_vision_system.egg-info/SOURCES.txt'
+writing manifest file 'my_vision_system.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my-vision-system.egg-link (link to .)
+Installing yolo_docking_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_real_cam_debug script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_select_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+
+Installed /home/minmin/roboarm_ws/build/my_vision_system
+running symlink_data

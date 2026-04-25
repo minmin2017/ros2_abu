@@ -106,34 +106,64 @@ class YoloSelectNode(Node):
         self.selected_slot = -1
         self.selected_class = -1
         self.final_layout = []
+        self.stage1_ready = False
 
         self.get_logger().info('YOLO Select Node พร้อมทำงาน! (Stability + Decision Mode)')
 
     def _find_arduino_port(self):
         """หา port ของ Arduino Mega อัตโนมัติ (VID/PID → by-id symlink → hint parameter)"""
+        # Official Arduino VID/PIDs
         ARDUINO_VID = 0x2341
         MEGA_PIDS = {0x0042, 0x0010, 0x0016}  # Mega2560 / old bootloader / Mega ADK
+        
+        # Common Clone (CH340) VID/PID
+        CH340_VID = 0x1A86
+        CH340_PID = 0x7523
 
         # 1. pyserial list_ports — แม่นที่สุด
         if _SERIAL_OK:
             try:
                 from serial.tools import list_ports
-                for p in list_ports.comports():
+                all_ports = list(list_ports.comports())
+                
+                # Check for official Arduino Mega
+                for p in all_ports:
                     if p.vid == ARDUINO_VID and p.pid in MEGA_PIDS:
                         return p.device
+                
+                # Check for CH340 (Common on Mega clones)
+                for p in all_ports:
+                    if p.vid == CH340_VID and p.pid == CH340_PID:
+                        self.get_logger().info(f'พบ Arduino Clone (CH340) ที่ {p.device}')
+                        return p.device
+
+                # Check for "arduino" or "mega" in description
+                for p in all_ports:
                     desc = (p.description or '').lower()
                     if 'arduino' in desc or 'mega' in desc:
                         return p.device
-            except Exception:
-                pass
+                
+                # Fallback: if there is only one USB Serial device, use it
+                usb_ports = [p.device for p in all_ports if 'USB' in (p.description or '') or 'ttyUSB' in p.device or 'ttyACM' in p.device]
+                if len(usb_ports) == 1:
+                    self.get_logger().info(f'พบ Serial port เพียงหนึ่งเดียว ({usb_ports[0]}) จะลองใช้พอร์ตนี้')
+                    return usb_ports[0]
+
+            except Exception as e:
+                self.get_logger().error(f'Error searching ports: {e}')
 
         # 2. /dev/serial/by-id/ symlinks
         for link in sorted(glob.glob('/dev/serial/by-id/*')):
             name = os.path.basename(link).lower()
-            if 'arduino' in name or 'mega' in name:
+            if 'arduino' in name or 'mega' in name or 'ch340' in name or 'usb-serial' in name:
                 return os.path.realpath(link)
 
-        # 3. hint parameter
+        # 3. /dev fallback (Common locations)
+        for dev in ['/dev/ttyUSB0', '/dev/ttyACM0', '/dev/ttyUSB1', '/dev/ttyACM1']:
+            if os.path.exists(dev):
+                return dev
+
+        # 4. hint parameter
         hint = self.get_parameter('serial_port').get_parameter_value().string_value
         if hint and os.path.exists(hint):
             return hint
@@ -165,9 +195,14 @@ class YoloSelectNode(Node):
     def _send_slot(self, slot):
         if self.serial is None or not self.serial.is_open:
             return
+        
+        # Map slot 1-6 to C, B, A, D, E, F
+        mapping = {1: 'C', 2: 'B', 3: 'A', 4: 'D', 5: 'E', 6: 'F'}
+        cmd = mapping.get(slot, str(slot))
+
         try:
-            self.serial.write(f'{slot}\n'.encode())
-            self.get_logger().info(f'Serial → Arduino: slot {slot}')
+            self.serial.write(f'{cmd}\n'.encode())
+            self.get_logger().info(f'🚀 [SENDING] -> Arduino: Slot {slot} mapped to Character "{cmd}"')
         except Exception as e:
             self.get_logger().warning(f'Serial write error: {e}')
             try: self.serial.close()
@@ -194,6 +229,9 @@ class YoloSelectNode(Node):
                     line = line.strip()
                     if line:
                         self.get_logger().info(f'Serial ← Arduino: "{line}"')
+                        if 'state1' in line.lower():
+                            self.stage1_ready = True
+                            self.get_logger().info('✅ ได้รับ "state1" จาก Arduino — เริ่มทำงานได้!')
         except Exception as e:
             self.get_logger().warning(f'Serial read error: {e} — จะ reconnect')
             try: self.serial.close()
@@ -269,7 +307,13 @@ class YoloSelectNode(Node):
             self.get_logger().info('รอเชื่อมต่อ Arduino Mega...', throttle_duration_sec=3.0)
             return
 
+        if not self.stage1_ready:
+            self.frame_count += 1
+            self.get_logger().info('รอกสัญญาณ "state1" จาก Arduino...', throttle_duration_sec=3.0)
+            return
+
         if self.cap is None or not self.cap.isOpened():
+            self.get_logger().info('ได้รับ state1 แล้ว! กำลังเปิดกล้องเพื่อเริ่มประมวลผล YOLO...')
             self._open_camera()
             return
         ret, frame = self.cap.read()
@@ -370,8 +414,10 @@ class YoloSelectNode(Node):
 
         if self.frame_count % self.show_every_n == 0:
             cv2.imwrite('/home/minmin/roboarm_ws/camera_test.png', frame)
-            cv2.imshow('Robot Vision (Select)', frame)
-            cv2.waitKey(1)
+        
+        # แสดงหน้าต่าง Debug ทุกเฟรมเพื่อให้ภาพไม่กระตุก
+        cv2.imshow('Robot Vision (Select)', frame)
+        cv2.waitKey(1)
 
     def destroy_node(self):
         if self.cap is not None:

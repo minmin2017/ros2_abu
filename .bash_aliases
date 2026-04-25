@@ -21,3 +21,4 @@ if [ -f ~/roboarm_ws/install/setup.bash ]; then
     source ~/roboarm_ws/install/setup.bash
 fi
 alias yolostart='~/yolostart'
+alias yoloselect='source ~/roboarm_ws/install/setup.bash && ros2 run my_vision_system yolo_select_node'
