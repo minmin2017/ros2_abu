@@ -9,6 +9,12 @@ import torch
 from collections import deque
 from ultralytics import YOLO
 
+try:
+    import serial as pyserial
+    _SERIAL_OK = True
+except ImportError:
+    _SERIAL_OK = False
+
 
 class YoloSelectNode(Node):
     """
@@ -74,6 +80,13 @@ class YoloSelectNode(Node):
         self.declare_parameter('max_slots', 6)
         # Priority list, highest first. Default: SPEAR(2) > ROCK(1) > PAPER(0)
         self.declare_parameter('priority_order', [2, 1, 0])
+        # Serial to Arduino Mega (serial_port = hint/fallback ถ้า auto-detect ไม่เจอ)
+        self.declare_parameter('serial_port', '')
+        self.declare_parameter('serial_baud', 115200)
+
+        self.serial = None
+        self._serial_buf = ''
+        self._init_serial()
 
         self.cap = None
         self.cam_path = None
@@ -95,6 +108,97 @@ class YoloSelectNode(Node):
         self.final_layout = []
 
         self.get_logger().info('YOLO Select Node พร้อมทำงาน! (Stability + Decision Mode)')
+
+    def _find_arduino_port(self):
+        """หา port ของ Arduino Mega อัตโนมัติ (VID/PID → by-id symlink → hint parameter)"""
+        ARDUINO_VID = 0x2341
+        MEGA_PIDS = {0x0042, 0x0010, 0x0016}  # Mega2560 / old bootloader / Mega ADK
+
+        # 1. pyserial list_ports — แม่นที่สุด
+        if _SERIAL_OK:
+            try:
+                from serial.tools import list_ports
+                for p in list_ports.comports():
+                    if p.vid == ARDUINO_VID and p.pid in MEGA_PIDS:
+                        return p.device
+                    desc = (p.description or '').lower()
+                    if 'arduino' in desc or 'mega' in desc:
+                        return p.device
+            except Exception:
+                pass
+
+        # 2. /dev/serial/by-id/ symlinks
+        for link in sorted(glob.glob('/dev/serial/by-id/*')):
+            name = os.path.basename(link).lower()
+            if 'arduino' in name or 'mega' in name:
+                return os.path.realpath(link)
+
+        # 3. hint parameter
+        hint = self.get_parameter('serial_port').get_parameter_value().string_value
+        if hint and os.path.exists(hint):
+            return hint
+
+        return None
+
+    def _init_serial(self):
+        if not _SERIAL_OK:
+            self.get_logger().warning('pyserial ไม่ได้ติดตั้ง — ไม่มี Serial (pip install pyserial)')
+            return
+        port = self._find_arduino_port()
+        if port is None:
+            self.get_logger().warning('ไม่พบ Arduino Mega — จะลองใหม่อัตโนมัติทุก 5 วิ')
+            return
+        baud = self.get_parameter('serial_baud').value
+        try:
+            if self.serial is not None:
+                try: self.serial.close()
+                except Exception: pass
+            self.serial = pyserial.Serial(port, baud, timeout=0)
+            self.get_logger().info(f'Serial เชื่อมต่อ Arduino Mega ที่ {port} @ {baud}')
+            # ถ้าตัดสินใจไปแล้วก่อน reconnect → ส่ง slot ซ้ำ
+            if self.decided and self.selected_slot > 0:
+                self._send_slot(self.selected_slot)
+        except Exception as e:
+            self.get_logger().warning(f'Serial เปิดไม่ได้ ({port}): {e}')
+            self.serial = None
+
+    def _send_slot(self, slot):
+        if self.serial is None or not self.serial.is_open:
+            return
+        try:
+            self.serial.write(f'{slot}\n'.encode())
+            self.get_logger().info(f'Serial → Arduino: slot {slot}')
+        except Exception as e:
+            self.get_logger().warning(f'Serial write error: {e}')
+            try: self.serial.close()
+            except Exception: pass
+            self.serial = None
+
+    def _poll_serial(self):
+        """อ่าน ACK จาก Arduino non-blocking + autoreconnect ทุก ~5 วิ"""
+        if not _SERIAL_OK:
+            return
+
+        # Autoreconnect เมื่อ port หาย (~150 frames ≈ 5 วิ ที่ 30 fps)
+        if self.serial is None or not self.serial.is_open:
+            if self.frame_count % 150 == 0:
+                self.get_logger().info('Serial: ลองเชื่อมต่อ Arduino ใหม่...')
+                self._init_serial()
+            return
+
+        try:
+            if self.serial.in_waiting > 0:
+                self._serial_buf += self.serial.read(self.serial.in_waiting).decode(errors='ignore')
+                while '\n' in self._serial_buf:
+                    line, self._serial_buf = self._serial_buf.split('\n', 1)
+                    line = line.strip()
+                    if line:
+                        self.get_logger().info(f'Serial ← Arduino: "{line}"')
+        except Exception as e:
+            self.get_logger().warning(f'Serial read error: {e} — จะ reconnect')
+            try: self.serial.close()
+            except Exception: pass
+            self.serial = None
 
     def _resolve_camera_path(self):
         explicit = self.get_parameter('camera_path').get_parameter_value().string_value
@@ -158,6 +262,13 @@ class YoloSelectNode(Node):
         return (-1, -1)
 
     def timer_callback(self):
+        # รอ Serial ก่อน — ยังไม่เชื่อมต่อ Arduino ไม่ทำอะไรทั้งนั้น
+        self._poll_serial()
+        if self.serial is None or not self.serial.is_open:
+            self.frame_count += 1
+            self.get_logger().info('รอเชื่อมต่อ Arduino Mega...', throttle_duration_sec=3.0)
+            return
+
         if self.cap is None or not self.cap.isOpened():
             self._open_camera()
             return
@@ -233,6 +344,7 @@ class YoloSelectNode(Node):
                     )
                     pmsg = Int32(); pmsg.data = int(slot); self.position_pub.publish(pmsg)
                     smsg = String(); smsg.data = layout_str; self.layout_pub.publish(smsg)
+                    self._send_slot(slot)
             else:
                 seen_unique = len(set(self.history))
                 cv2.putText(frame, f"Stab: {len(self.history)}/{stable_frames} uniq={seen_unique}",
@@ -264,6 +376,8 @@ class YoloSelectNode(Node):
     def destroy_node(self):
         if self.cap is not None:
             self.cap.release()
+        if self.serial is not None and self.serial.is_open:
+            self.serial.close()
         cv2.destroyAllWindows()
         super().destroy_node()
 
