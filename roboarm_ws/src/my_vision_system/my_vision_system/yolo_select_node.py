@@ -20,7 +20,7 @@ class YoloSelectNode(Node):
         super().__init__('yolo_select_node')
 
         # Parameters
-        self.declare_parameter('model_path', '/home/minmin/roboarm_ws/src/my_vision_system/my_vision_system/models/best.pt')
+        self.declare_parameter('model_path', '/home/minmin/roboarm_ws/src/my_vision_system/models_upgrade/best.pt')
         self.declare_parameter('camera_match', 'Jieli')
         self.declare_parameter('camera_skip', 'Azurewave,Integrated,IMC,Microsoft,Logitech_BRIO_Webcam_Front')
         self.declare_parameter('camera_path', '')
@@ -31,7 +31,7 @@ class YoloSelectNode(Node):
         self.declare_parameter('stable_frames', 30)
         self.declare_parameter('max_slots', 6)
         self.declare_parameter('priority_order', [1, 2, 0])  # Paper, Rock, Spear
-        self.declare_parameter('grayscale', False)
+        self.declare_parameter('grayscale', True)
 
         # Serial Parameters
         self.declare_parameter('serial_port', '')
@@ -235,10 +235,17 @@ class YoloSelectNode(Node):
         # 1. Check Arduino
         self._poll_serial()
         if self.serial is None or not self.serial.is_open:
-            self.get_logger().error('❌ [CRITICAL] เชื่อมต่อ Arduino Mega ไม่ได้!', throttle_duration_sec=3.0)
-            # return # Uncomment if you want to strictly stop here
+            self.frame_count += 1
+            self.get_logger().info('รอเชื่อมต่อ Arduino Mega...', throttle_duration_sec=3.0)
+            return
 
-        # 2. Check & Open Camera
+        # 2. Wait for "state1" from Arduino before running YOLO
+        if not self.stage1_ready:
+            self.frame_count += 1
+            self.get_logger().info('รอสัญญาณ "state1" จาก Arduino...', throttle_duration_sec=3.0)
+            return
+
+        # 3. Check & Open Camera
         if self.cap is None or not self.cap.isOpened():
             if not self._open_camera():
                 self.get_logger().error('❌ [CRITICAL] เปิดกล้องไม่ได้!', throttle_duration_sec=3.0)
@@ -282,11 +289,10 @@ class YoloSelectNode(Node):
                 detections_data.extend([cx, cy, float(cls_id)])
                 dets.append((cx, cy, cls_id, conf, float(x1), float(y1), float(x2), float(y2)))
 
-                if self.frame_count % self.show_every_n == 0:
-                    class_name = self.class_names.get(cls_id, 'UNKNOWN')
-                    cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
-                    cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1)-10),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                class_name = self.class_names.get(cls_id, 'UNKNOWN')
+                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
+                cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1)-10),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
         max_slots = self.get_parameter('max_slots').value
         sorted_dets = sorted(dets, key=lambda d: d[0])
