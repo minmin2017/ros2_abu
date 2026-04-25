@@ -106,6 +106,7 @@ class YoloSelectNode(Node):
         self.selected_slot = -1
         self.selected_class = -1
         self.final_layout = []
+        self.stage1_ready = False
 
         self.get_logger().info('YOLO Select Node พร้อมทำงาน! (Stability + Decision Mode)')
 
@@ -194,6 +195,9 @@ class YoloSelectNode(Node):
                     line = line.strip()
                     if line:
                         self.get_logger().info(f'Serial ← Arduino: "{line}"')
+                        if 'stage1' in line.lower():
+                            self.stage1_ready = True
+                            self.get_logger().info('✅ ได้รับ "stage1" จาก Arduino — เริ่มทำงานได้!')
         except Exception as e:
             self.get_logger().warning(f'Serial read error: {e} — จะ reconnect')
             try: self.serial.close()
@@ -267,6 +271,11 @@ class YoloSelectNode(Node):
         if self.serial is None or not self.serial.is_open:
             self.frame_count += 1
             self.get_logger().info('รอเชื่อมต่อ Arduino Mega...', throttle_duration_sec=3.0)
+            return
+
+        if not self.stage1_ready:
+            self.frame_count += 1
+            self.get_logger().info('รอกสัญญาณ "stage1" จาก Arduino...', throttle_duration_sec=3.0)
             return
 
         if self.cap is None or not self.cap.isOpened():
