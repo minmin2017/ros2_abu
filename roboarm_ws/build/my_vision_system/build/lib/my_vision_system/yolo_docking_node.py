@@ -1,369 +1,434 @@
-import rclpy
-from rclpy.node import Node
-from sensor_msgs.msg import Image, LaserScan
-from geometry_msgs.msg import Twist
-from std_msgs.msg import Bool
-from cv_bridge import CvBridge
-import cv2
-import torch
-import numpy as np
-from ultralytics import YOLO
 import math
 import os
+from enum import Enum
+
+import cv2
+import numpy as np
+import rclpy
+import torch
+from ament_index_python.packages import get_package_share_directory
+from cv_bridge import CvBridge
+from geometry_msgs.msg import Twist
+from rclpy.node import Node
+from rclpy.executors import ExternalShutdownException
+from sensor_msgs.msg import Image, LaserScan
+from std_msgs.msg import Bool, String
+from ultralytics import YOLO
+
+
+class DockState(Enum):
+    SEARCH = 'SEARCH'
+    APPROACH = 'APPROACH'
+    FINAL_ALIGN = 'FINAL_ALIGN'
+    DOCKED = 'DOCKED'
+
 
 class YoloDockingNode(Node):
     def __init__(self):
         super().__init__('yolo_docking_node')
-        
-        # Parameters
-        self.declare_parameter('model_path', 'best.pt')
-        self.declare_parameter('target_classes', [0, 1, 2]) # paper, rock, spear
-        self.declare_parameter('docking_distance', 0.90)
-        self.declare_parameter('kp_linear', 1.0)
-        self.declare_parameter('ki_linear', 0.5)
-        self.declare_parameter('kp_lateral', 0.6)
-        self.declare_parameter('kp_angular', 0.8)
-        self.declare_parameter('max_linear', 0.5)
-        self.declare_parameter('max_lateral', 0.3)
-        self.declare_parameter('max_angular', 0.6)
-        self.declare_parameter('dist_deadband', 0.05)  # ±5cm deadband around docking_distance
-        self.declare_parameter('angle_deadband', 0.005)  # degrees (fallback)
-        self.declare_parameter('tilt_deadband', 0.03)   # base-rectangle tilt threshold
-        self.declare_parameter('errx_deadband', 0.05)   # normalized 0-1
-        self.declare_parameter('img_width', 640)
-        self.declare_parameter('hfov', 1.047) # 60 degrees
-        self.declare_parameter('safety_stop_dist', 0.25)
 
-        # Load YOLO model
+        self.declare_parameter('model_path', 'best.pt')
+        self.declare_parameter('target_class', 2)
+        self.declare_parameter('conf_threshold', 0.5)
+
+        self.declare_parameter('approach_distance', 0.60)
+        self.declare_parameter('docking_distance', 0.40)
+        self.declare_parameter('safety_stop_dist', 0.20)
+
+        self.declare_parameter('kp_linear', 0.8)
+        self.declare_parameter('ki_linear', 0.3)
+        self.declare_parameter('kp_lateral', 0.7)
+        self.declare_parameter('kp_angular_pixel', 1.0)
+        self.declare_parameter('kp_angular_edge', 1.4)
+        self.declare_parameter('max_linear', 0.35)
+        self.declare_parameter('max_lateral', 0.25)
+        self.declare_parameter('max_angular', 0.5)
+
+        self.declare_parameter('dist_deadband', 0.03)
+        self.declare_parameter('errx_deadband', 0.05)
+        self.declare_parameter('angle_deadband_rad', 0.035)
+        self.declare_parameter('docked_frames_required', 5)
+
+        self.declare_parameter('detection_hold_sec', 0.6)
+        self.declare_parameter('lost_timeout_sec', 2.0)
+
+        self.declare_parameter('hfov', 1.047)
+        self.declare_parameter('search_angular_speed', 0.3)
+
+        self.declare_parameter('tilt_sign', -1)
+        self.declare_parameter('ema_alpha', 0.4)
+
         model_name = self.get_parameter('model_path').value
-        
-        # Try to find the model in the share directory (after install)
-        from ament_index_python.packages import get_package_share_directory
         try:
-            package_share_dir = get_package_share_directory('my_vision_system')
-            model_path = os.path.join(package_share_dir, 'models', model_name)
+            share_dir = get_package_share_directory('my_vision_system')
+            model_path = os.path.join(share_dir, 'models', model_name)
             if not os.path.exists(model_path):
-                # Fallback to local path for dev
                 curr_dir = os.path.dirname(os.path.abspath(__file__))
                 model_path = os.path.join(curr_dir, 'models', model_name)
         except Exception:
-            # Fallback if package not installed yet
             curr_dir = os.path.dirname(os.path.abspath(__file__))
             model_path = os.path.join(curr_dir, 'models', model_name)
-        
-        self.get_logger().info(f'Loading YOLO model from {model_path}...')
+
+        self.get_logger().info(f'Loading YOLO: {model_path}')
         self.model = YOLO(model_path)
-        
-        # Force GPU if available
-        if torch.cuda.is_available():
-            self.model.to('cuda')
-            self.get_logger().info('Using GPU for YOLO')
-        else:
-            self.get_logger().info('GPU not available, using CPU')
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.model.to(self.device)
+        self.get_logger().info(f'YOLO device: {self.device}, class names: {self.model.names}')
 
         self.bridge = CvBridge()
-        self.target_classes = self.get_parameter('target_classes').value
-        
-        # State variables
+        self.state = DockState.SEARCH
         self.current_frame = None
-        self.last_detection = None # (center_x, center_y, class_id, conf, box_w)
+        self.last_detection = None
+        self.last_detection_time = self.get_clock().now()
         self.min_front_range = float('inf')
-        self.linear_error_integral = 0.0
+        self.linear_integral = 0.0
         self.last_control_time = self.get_clock().now()
-        
-        # Subscriptions
-        self.image_sub = self.create_subscription(Image, '/camera/image_raw', self.image_callback, 10)
-        self.scan_sub = self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
-        
-        # Publishers
+        self.docked_counter = 0
+        self.sm_cx = None
+        self.sm_angle = None
+
+        self.image_sub = self.create_subscription(
+            Image, '/camera/image_raw', self.image_callback, 10)
+        self.scan_sub = self.create_subscription(
+            LaserScan, '/scan', self.scan_callback, 10)
         self.cmd_pub = self.create_publisher(Twist, '/cmd_vel', 10)
         self.debug_pub = self.create_publisher(Image, '/camera/debug_image', 10)
         self.status_pub = self.create_publisher(Bool, '/docking_status', 10)
+        self.state_pub = self.create_publisher(String, '/docking_state', 10)
 
-        # Timer for control loop (20Hz)
         self.create_timer(0.05, self.control_loop)
-        
-        self.get_logger().info('Yolo Docking Node Initialized')
+        self.get_logger().info('YoloDockingNode (spear) initialized')
 
     def image_callback(self, msg):
         self.current_frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
-        # Run YOLO to find the "Model" (Spear, Rock, Paper)
-        results = self.model(self.current_frame, verbose=False, conf=0.5)
+        target_cls = self.get_parameter('target_class').value
+        conf_th = self.get_parameter('conf_threshold').value
+        results = self.model(self.current_frame, verbose=False, conf=conf_th)
 
-        best_model_det = None
-        max_conf = 0
-        detected_any = False
-
+        best = None
+        best_conf = 0.0
         for r in results:
-            boxes = r.boxes
-            if len(boxes) > 0:
-                detected_any = True
-            for box in boxes:
+            for box in r.boxes:
                 cls_id = int(box.cls[0])
-                if cls_id in self.target_classes:
-                    conf = float(box.conf[0])
-                    if conf > max_conf:
-                        max_conf = conf
-                        x1, y1, x2, y2 = box.xyxy[0]
-                        cx = float((x1 + x2) / 2.0)
-                        cy = float((y1 + y2) / 2.0)
-                        bw = float(x2 - x1)
-                        bh = float(y2 - y1)
-                        bbox = (int(x1), int(y1), int(x2), int(y2))
-                        best_model_det = {'cx': cx, 'cy': cy, 'id': cls_id, 'conf': conf, 'bw': bw, 'bh': bh, 'bbox': bbox}
+                if cls_id != target_cls:
+                    continue
+                conf = float(box.conf[0])
+                if conf > best_conf:
+                    best_conf = conf
+                    x1, y1, x2, y2 = [float(v) for v in box.xyxy[0]]
+                    best = {
+                        'cx': (x1 + x2) / 2.0,
+                        'cy': (y1 + y2) / 2.0,
+                        'bw': x2 - x1,
+                        'bh': y2 - y1,
+                        'bbox': (int(x1), int(y1), int(x2), int(y2)),
+                        'conf': conf,
+                    }
 
-        if best_model_det:
-            # Step 1: Found the model
-            self.get_logger().info(f"YOLO Found: ID {best_model_det['id']} (conf: {best_model_det['conf']:.2f})", throttle_duration_sec=1.0)
-            
-            # Step 2: Look for the Rectangular Base below it
-            tilt, corners = self.detect_base_rectangle(self.current_frame, best_model_det['bbox'])
-            
-            if corners is not None:
-                # Found both Model and Base
-                base_pts = np.array(corners)
-                base_cx = np.mean(base_pts[:, 0])
-                base_cy = np.mean(base_pts[:, 1])
-                
-                # Verify if model is "on" the base
-                dist_x = abs(best_model_det['cx'] - base_cx)
-                threshold = best_model_det['bw'] * 2.0 # More forgiving
-                
-                if dist_x < threshold:
-                    self.get_logger().info("Target Locked: Model on Base", throttle_duration_sec=1.0)
-                    self.last_detection = (base_cx, base_cy, best_model_det['id'], best_model_det['conf'], 
-                                          best_model_det['bw'], best_model_det['bbox'], tilt, corners)
-                else:
-                    self.get_logger().warn(f"Model found but not aligned with base (DistX: {dist_x:.2f} > {threshold:.2f})", throttle_duration_sec=1.0)
-                    self.last_detection = None
-            else:
-                # Fallback: If we see the model but NO BASE, maybe we are too close.
-                # Use YOLO center but with NO TILT correction (tilt=None)
-                self.get_logger().info("Model found but NO BASE - using YOLO fallback", throttle_duration_sec=1.0)
-                self.last_detection = (best_model_det['cx'], best_model_det['cy'], best_model_det['id'], best_model_det['conf'],
-                                      best_model_det['bw'], best_model_det['bbox'], None, None)
-        else:
-            if detected_any:
-                self.get_logger().info("YOLO detected objects but none in target_classes", throttle_duration_sec=2.0)
-            self.last_detection = None
+        if best is None:
+            return
 
-    def detect_base_rectangle(self, frame, bbox):
-        """
-        Search for a rectangular base beneath the YOLO object using minAreaRect.
-        Constrained ROI and aspect ratio to prevent detecting the floor.
-        """
-        x1, y1, x2, y2 = bbox
-        bw = x2 - x1
+        base_angle, base_edge = self.detect_base_top_edge(
+            self.current_frame, best['bbox'])
+        best['base_angle'] = base_angle
+        best['base_edge'] = base_edge
+
+        alpha = self.get_parameter('ema_alpha').value
+        self.sm_cx = best['cx'] if self.sm_cx is None else alpha * best['cx'] + (1 - alpha) * self.sm_cx
+        if base_angle is not None:
+            self.sm_angle = base_angle if self.sm_angle is None else alpha * base_angle + (1 - alpha) * self.sm_angle
+        best['sm_cx'] = self.sm_cx
+        best['sm_angle'] = self.sm_angle
+
+        self.last_detection = best
+        self.last_detection_time = self.get_clock().now()
+
+    def detect_base_top_edge(self, frame, spear_bbox):
+        x1, y1, x2, y2 = spear_bbox
         bh = y2 - y1
         h, w = frame.shape[:2]
 
-        # ROI: Look just below the model, not the entire bottom of the screen
-        sy1 = max(0, y2 - int(bh * 0.2)) # Start slightly inside the bottom of the bbox
-        sy2 = min(h, y2 + int(bh * 1.5)) # Look down further
-        sx1 = max(0, x1 - int(bw * 2.0)) # Look wider
-        sx2 = min(w, x2 + int(bw * 2.0))
-
-        roi = frame[sy1:sy2, sx1:sx2]
-        if roi.size == 0:
+        sy1 = max(0, y2 - int(bh * 0.1))
+        sy2 = min(h, y2 + int(max(bh * 1.2, 40)))
+        if sy2 - sy1 < 8:
             return None, None
 
+        roi = frame[sy1:sy2, 0:w]
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-        
-        # Use simple threshold + Canny for better stability
-        _, thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        edges = cv2.Canny(blurred, 30, 100)
-        combined = cv2.bitwise_or(thresh, edges)
-        
-        contours, _ = cv2.findContours(combined, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        if not contours:
+        gray = cv2.GaussianBlur(gray, (5, 5), 0)
+        edges = cv2.Canny(gray, 40, 120)
+
+        lines = cv2.HoughLinesP(
+            edges, 1, np.pi / 180, threshold=35,
+            minLineLength=int(w * 0.18), maxLineGap=20,
+        )
+        if lines is None:
             return None, None
 
-        contours = sorted(contours, key=cv2.contourArea, reverse=True)
-        # Size constraints relative to ROI - more forgiving when close
-        min_area = 0.02 * (sx2 - sx1) * (sy2 - sy1)
-        max_area = 0.95 * (sx2 - sx1) * (sy2 - sy1) 
-
-        for cnt in contours[:5]:
-            area = cv2.contourArea(cnt)
-            if area < min_area or area > max_area:
+        best_line = None
+        best_length = 0
+        for L in lines:
+            lx1, ly1, lx2, ly2 = L[0]
+            dx = lx2 - lx1
+            dy = ly2 - ly1
+            if dx == 0:
                 continue
-            
-            # Use minAreaRect to get 4 corners
-            rect = cv2.minAreaRect(cnt)
-            (rcx, rcy), (rw, rh), rangle = rect
-            
-            # Enforce it to be a horizontal-ish rectangle (Base)
-            if min(rw, rh) == 0: continue
-            aspect_ratio = max(rw, rh) / min(rw, rh)
-            if aspect_ratio < 1.1: # More forgiving
-                continue 
-                
-            box = cv2.boxPoints(rect)
-            box = np.int0(box)
-            
-            # Sort corners: tl, tr, br, bl
-            pts = box.astype(np.float32)
-            s = pts.sum(axis=1)
-            tl = pts[np.argmin(s)]
-            br = pts[np.argmax(s)]
-            diff = np.diff(pts, axis=1)
-            tr = pts[np.argmin(diff)]
-            bl = pts[np.argmax(diff)]
+            if dx < 0:
+                lx1, lx2 = lx2, lx1
+                ly1, ly2 = ly2, ly1
+                dx = -dx
+                dy = -dy
+            angle = math.atan2(dy, dx)
+            if abs(angle) > math.radians(30):
+                continue
+            length = math.hypot(dx, dy)
+            if length > best_length:
+                best_length = length
+                best_line = (lx1, ly1 + sy1, lx2, ly2 + sy1, angle)
 
-            offset = np.array([sx1, sy1], dtype=np.float32)
-            tl, tr, br, bl = tl + offset, tr + offset, br + offset, bl + offset
-
-            # Calculate tilt based on height difference of left and right edges
-            lh = float(np.linalg.norm(bl - tl))
-            rh = float(np.linalg.norm(br - tr))
-            
-            if lh + rh > 1e-3:
-                tilt = (lh - rh) / (lh + rh)
-                return tilt, (tl, tr, br, bl)
-                    
-        return None, None
+        if best_line is None:
+            return None, None
+        bx1, by1, bx2, by2, angle = best_line
+        return angle, ((bx1, by1), (bx2, by2))
 
     def scan_callback(self, msg):
-        # Compute min range in front cone (approx 30 degrees)
         ranges = np.array(msg.ranges)
-        # Assuming lidar is oriented with 0 index at front
-        # If not, need to check angle_min and angle_increment
-        angles = msg.angle_min + np.arange(len(msg.ranges)) * msg.angle_increment
-        front_mask = np.abs(angles) < math.radians(25)
-        front_ranges = ranges[front_mask]
-        valid_ranges = front_ranges[np.isfinite(front_ranges) & (front_ranges > msg.range_min)]
-        
-        if len(valid_ranges) > 0:
-            self.min_front_range = np.min(valid_ranges)
-        else:
-            self.min_front_range = float('inf')
+        angles = msg.angle_min + np.arange(len(ranges)) * msg.angle_increment
+        front_mask = np.abs(angles) < math.radians(20)
+        front = ranges[front_mask]
+        valid = front[np.isfinite(front) & (front > msg.range_min)]
+        self.min_front_range = float(np.min(valid)) if len(valid) > 0 else float('inf')
+
+    def have_detection(self):
+        if self.last_detection is None:
+            return False
+        hold = self.get_parameter('detection_hold_sec').value
+        elapsed = (self.get_clock().now() - self.last_detection_time).nanoseconds / 1e9
+        return elapsed < hold
+
+    def is_lost(self):
+        if self.last_detection is None:
+            return True
+        timeout = self.get_parameter('lost_timeout_sec').value
+        elapsed = (self.get_clock().now() - self.last_detection_time).nanoseconds / 1e9
+        return elapsed > timeout
 
     def control_loop(self):
         if self.current_frame is None:
             return
 
-        cmd = Twist()
-        debug_img = self.current_frame.copy()
-        
-        if self.last_detection:
-            cx, cy, cls_id, conf, bw, bbox, tilt, corners = self.last_detection
-            img_w = self.current_frame.shape[1]
-            hfov = self.get_parameter('hfov').value
+        now = self.get_clock().now()
+        dt = (now - self.last_control_time).nanoseconds / 1e9
+        self.last_control_time = now
+        dt = max(min(dt, 0.1), 1e-3)
 
-            # Draw YOLO bbox
-            cv2.rectangle(debug_img, (bbox[0], bbox[1]), (bbox[2], bbox[3]), (0, 255, 0), 2)
-            cv2.putText(debug_img, f'ID:{cls_id} {conf:.2f}', (bbox[0], bbox[1]-10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        s = String()
+        s.data = self.state.value
+        self.state_pub.publish(s)
 
-            # Draw base rectangle (magenta) if found
-            if corners is not None:
-                poly = np.array(corners, dtype=np.int32)
-                cv2.polylines(debug_img, [poly], True, (255, 0, 255), 2)
-                for pt in corners:
-                    cv2.circle(debug_img, tuple(pt.astype(int)), 4, (0, 255, 255), -1)
-
-            # Normalized horizontal error (-1.0 = far left, +1.0 = far right)
-            error_x_norm = (cx - (img_w / 2.0)) / (img_w / 2.0)
-
-            # Angular control: use base-rectangle tilt if available, else pixel-based
-            kp_a = self.get_parameter('kp_angular').value
-            max_ang = self.get_parameter('max_angular').value
-            if tilt is not None:
-                # FIXED: Corrected sign to turn TOWARDS the target
-                cmd.angular.z = float(np.clip(kp_a * tilt, -max_ang, max_ang))
-                angle_err = 0.0  # not used when tilt available
+        if self.state == DockState.SEARCH:
+            if self.have_detection():
+                self.state = DockState.APPROACH
+                self.linear_integral = 0.0
+                self.get_logger().info('SEARCH -> APPROACH')
+        elif self.state == DockState.APPROACH:
+            if self.is_lost():
+                self._reset_to_search('APPROACH -> SEARCH (lost)')
             else:
-                angle_err = error_x_norm * (hfov / 2.0)
-                cmd.angular.z = float(np.clip(-kp_a * angle_err, -max_ang, max_ang))
+                approach_d = self.get_parameter('approach_distance').value
+                if math.isfinite(self.min_front_range) and self.min_front_range < approach_d:
+                    self.state = DockState.FINAL_ALIGN
+                    self.get_logger().info('APPROACH -> FINAL_ALIGN')
+        elif self.state == DockState.FINAL_ALIGN:
+            if self.is_lost():
+                self._reset_to_search('FINAL_ALIGN -> SEARCH (lost)')
 
-            # Lateral control: strafe left/right (mecanum)
-            kp_lat = self.get_parameter('kp_lateral').value
-            max_lat = self.get_parameter('max_lateral').value
-            cmd.linear.y = float(np.clip(-kp_lat * error_x_norm, -max_lat, max_lat))
-
-            # Linear control: PI forward/backward based on lidar distance
-            kp_l = self.get_parameter('kp_linear').value
-            ki_l = self.get_parameter('ki_linear').value
-            dock_dist = self.get_parameter('docking_distance').value
-            dist = self.min_front_range
-
-            now = self.get_clock().now()
-            dt = (now - self.last_control_time).nanoseconds / 1e9
-            self.last_control_time = now
-
-            deadband = self.get_parameter('dist_deadband').value
-            if dist != float('inf'):
-                error_dist = dist - dock_dist
-                angle_db = self.get_parameter('angle_deadband').value
-                tilt_db = self.get_parameter('tilt_deadband').value
-                errx_db = self.get_parameter('errx_deadband').value
-                if tilt is not None:
-                    angle_ok = abs(tilt) < tilt_db
-                else:
-                    angle_ok = abs(math.degrees(angle_err)) < angle_db
-                docked = (abs(error_dist) < deadband and
-                          angle_ok and
-                          abs(error_x_norm) < errx_db)
-                if docked:
-                    cmd.linear.x = 0.0
-                    cmd.linear.y = 0.0
-                    cmd.angular.z = 0.0
-                    self.linear_error_integral = 0.0
-                    cv2.putText(debug_img, "DOCKED", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-                    self.get_logger().info('DOCKED', throttle_duration_sec=1.0)
-                    self.cmd_pub.publish(cmd)
-                    
-                    # Publish status for other nodes (like picking_node)
-                    status_msg = Bool()
-                    status_msg.data = True
-                    self.status_pub.publish(status_msg)
-                    return
-                else:
-                    self.linear_error_integral += error_dist * dt
-                    cmd.linear.x = float(np.clip(kp_l * error_dist + ki_l * self.linear_error_integral,
-                                                  -self.get_parameter('max_linear').value,
-                                                  self.get_parameter('max_linear').value))
-            else:
-                self.linear_error_integral = 0.0
-                cmd.linear.x = 0.1  # creep forward if lidar has no reading
-
-            # Safety stop
-            if dist < self.get_parameter('safety_stop_dist').value:
-                cmd.linear.x = 0.0
-                cmd.linear.y = 0.0
-                cmd.angular.z = 0.0
-                cv2.putText(debug_img, "SAFETY STOP", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-
-            tilt_str = f'{tilt:+.3f}' if tilt is not None else 'N/A'
-            cv2.putText(debug_img, f'Dist:{dist:.2f} Tilt:{tilt_str} ErrX:{error_x_norm:+.2f}', (10, 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
-            self.get_logger().info(
-                f'Dist={dist:.2f} Tilt={tilt_str} ErrX={error_x_norm:+.2f}',
-                throttle_duration_sec=1.0)
+        debug = self.current_frame.copy()
+        if self.state == DockState.SEARCH:
+            cmd = self._act_search(debug)
+        elif self.state == DockState.APPROACH:
+            cmd = self._act_approach(debug, dt)
+        elif self.state == DockState.FINAL_ALIGN:
+            cmd = self._act_final_align(debug, dt)
         else:
-            # Search mode - rotate slowly
-            cmd.angular.z = 0.15
-            self.get_logger().info('Searching for target...', throttle_duration_sec=2.0)
+            cmd = Twist()
+            self._publish_docked(debug)
+
+        if self.state != DockState.DOCKED:
+            safety = self.get_parameter('safety_stop_dist').value
+            if math.isfinite(self.min_front_range) and self.min_front_range < safety:
+                if cmd.linear.x > 0.0:
+                    cmd.linear.x = 0.0
+                cv2.putText(debug, 'SAFETY', (50, 80),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
         self.cmd_pub.publish(cmd)
+        self._draw_overlay(debug, cmd)
+        small = cv2.resize(debug, (320, 320))
+        self.debug_pub.publish(self.bridge.cv2_to_imgmsg(small, encoding='bgr8'))
 
-        # Publish debug image at 20Hz
-        small = cv2.resize(debug_img, (320, 320))
-        debug_msg = self.bridge.cv2_to_imgmsg(small, encoding='bgr8')
-        self.debug_pub.publish(debug_msg)
+    def _reset_to_search(self, reason):
+        self.state = DockState.SEARCH
+        self.docked_counter = 0
+        self.linear_integral = 0.0
+        self.sm_cx = None
+        self.sm_angle = None
+        self.get_logger().info(reason)
+
+    def _act_search(self, debug):
+        cmd = Twist()
+        cmd.angular.z = self.get_parameter('search_angular_speed').value
+        cv2.putText(debug, 'SEARCH', (10, 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+        self.docked_counter = 0
+        return cmd
+
+    def _act_approach(self, debug, dt):
+        cmd = Twist()
+        d = self.last_detection
+        img_w = self.current_frame.shape[1]
+        hfov = self.get_parameter('hfov').value
+
+        cx = d.get('sm_cx', d['cx'])
+        err_x_norm = (cx - img_w / 2.0) / (img_w / 2.0)
+        angle_pixel = err_x_norm * (hfov / 2.0)
+
+        kp_a = self.get_parameter('kp_angular_pixel').value
+        max_a = self.get_parameter('max_angular').value
+        cmd.angular.z = float(np.clip(-kp_a * angle_pixel, -max_a, max_a))
+
+        kp_lat = self.get_parameter('kp_lateral').value * 0.5
+        max_lat = self.get_parameter('max_lateral').value
+        cmd.linear.y = float(np.clip(-kp_lat * err_x_norm, -max_lat, max_lat))
+
+        approach_d = self.get_parameter('approach_distance').value
+        dist = self.min_front_range
+        max_l = self.get_parameter('max_linear').value
+        kp_l = self.get_parameter('kp_linear').value
+        if math.isfinite(dist):
+            err_d = dist - approach_d
+            cmd.linear.x = float(np.clip(kp_l * err_d, -max_l, max_l))
+        else:
+            cmd.linear.x = 0.15
+
+        cv2.putText(debug, 'APPROACH', (10, 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+        return cmd
+
+    def _act_final_align(self, debug, dt):
+        cmd = Twist()
+        d = self.last_detection
+        img_w = self.current_frame.shape[1]
+
+        cx = d.get('sm_cx', d['cx'])
+        err_x_norm = (cx - img_w / 2.0) / (img_w / 2.0)
+
+        base_angle = d.get('sm_angle')
+        if base_angle is None:
+            base_angle = d.get('base_angle')
+
+        kp_lat = self.get_parameter('kp_lateral').value
+        max_lat = self.get_parameter('max_lateral').value
+        cmd.linear.y = float(np.clip(-kp_lat * err_x_norm, -max_lat, max_lat))
+
+        max_a = self.get_parameter('max_angular').value
+        if base_angle is not None:
+            kp_a = self.get_parameter('kp_angular_edge').value
+            tilt_sign = self.get_parameter('tilt_sign').value
+            cmd.angular.z = float(np.clip(kp_a * tilt_sign * base_angle, -max_a, max_a))
+            angle_ok = abs(base_angle) < self.get_parameter('angle_deadband_rad').value
+        else:
+            hfov = self.get_parameter('hfov').value
+            angle_pixel = err_x_norm * (hfov / 2.0)
+            kp_a = self.get_parameter('kp_angular_pixel').value
+            cmd.angular.z = float(np.clip(-kp_a * angle_pixel, -max_a, max_a))
+            angle_ok = abs(angle_pixel) < self.get_parameter('angle_deadband_rad').value
+
+        dock_d = self.get_parameter('docking_distance').value
+        dist = self.min_front_range
+        kp_l = self.get_parameter('kp_linear').value
+        ki_l = self.get_parameter('ki_linear').value
+        max_l = self.get_parameter('max_linear').value * 0.7
+
+        dist_ok = False
+        if math.isfinite(dist):
+            err_d = dist - dock_d
+            raw = kp_l * err_d + ki_l * self.linear_integral
+            if abs(raw) < max_l:
+                self.linear_integral += err_d * dt
+            cmd.linear.x = float(np.clip(kp_l * err_d + ki_l * self.linear_integral,
+                                         -max_l, max_l))
+            dist_ok = abs(err_d) < self.get_parameter('dist_deadband').value
+        else:
+            self.linear_integral = 0.0
+            cmd.linear.x = 0.05
+
+        errx_ok = abs(err_x_norm) < self.get_parameter('errx_deadband').value
+
+        if dist_ok and errx_ok and angle_ok:
+            self.docked_counter += 1
+        else:
+            self.docked_counter = 0
+
+        need = self.get_parameter('docked_frames_required').value
+        if self.docked_counter >= need:
+            self.state = DockState.DOCKED
+            self.get_logger().info('FINAL_ALIGN -> DOCKED')
+            cmd = Twist()
+
+        cv2.putText(debug, 'FINAL_ALIGN', (10, 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
+        ang_str = f'{base_angle:+.3f}' if base_angle is not None else 'N/A'
+        cv2.putText(debug,
+                    f'd={dist:.2f} ex={err_x_norm:+.2f} a={ang_str} ok[{int(dist_ok)}{int(errx_ok)}{int(angle_ok)}] n={self.docked_counter}',
+                    (10, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.42, (200, 200, 200), 1)
+        return cmd
+
+    def _publish_docked(self, debug):
+        cv2.putText(debug, 'DOCKED', (50, 50),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 3)
+        msg = Bool()
+        msg.data = True
+        self.status_pub.publish(msg)
+
+    def _draw_overlay(self, debug, cmd):
+        h, w = debug.shape[:2]
+        cv2.line(debug, (w // 2, 0), (w // 2, h), (128, 128, 128), 1)
+
+        if self.last_detection is not None:
+            d = self.last_detection
+            x1, y1, x2, y2 = d['bbox']
+            cv2.rectangle(debug, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            cv2.putText(debug, f'spear {d["conf"]:.2f}', (x1, max(0, y1 - 5)),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0), 1)
+            cv2.circle(debug, (int(d['cx']), int(d['cy'])), 4, (0, 255, 0), -1)
+            edge = d.get('base_edge')
+            if edge is not None:
+                p1, p2 = edge
+                cv2.line(debug, p1, p2, (255, 0, 255), 2)
+
+        cv2.putText(debug, f'vx={cmd.linear.x:+.2f} vy={cmd.linear.y:+.2f} wz={cmd.angular.z:+.2f}',
+                    (10, h - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 255), 1)
+
 
 def main(args=None):
     rclpy.init(args=args)
     node = YoloDockingNode()
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
-    node.cmd_pub.publish(Twist())
+    try:
+        node.cmd_pub.publish(Twist())
+    except Exception:
+        pass
     node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.shutdown()
+    except Exception:
+        pass
+
 
 if __name__ == '__main__':
     main()

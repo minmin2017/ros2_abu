@@ -1,1 +1,0 @@
-/home/minmin/roboarm_ws/src/my_vision_system/setup.py

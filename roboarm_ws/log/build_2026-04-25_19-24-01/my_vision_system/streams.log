@@ -1,0 +1,41 @@
+[0.740s] Invoking command in '/home/minmin/roboarm_ws/build/my_vision_system': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/minmin/roboarm_ws/build/my_vision_system/build
+[1.022s] running develop
+[1.209s] Removing /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my-vision-system.egg-link (link to .)
+[1.249s] Invoked command in '/home/minmin/roboarm_ws/build/my_vision_system' returned '0': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/minmin/roboarm_ws/build/my_vision_system/build
+[1.252s] Invoking command in '/home/minmin/roboarm_ws/src/my_vision_system': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_vision_system build --build-base /home/minmin/roboarm_ws/build/my_vision_system/build install --record /home/minmin/roboarm_ws/build/my_vision_system/install.log --single-version-externally-managed install_data --force
+[1.517s] running egg_info
+[1.518s] writing ../../build/my_vision_system/my_vision_system.egg-info/PKG-INFO
+[1.519s] writing dependency_links to ../../build/my_vision_system/my_vision_system.egg-info/dependency_links.txt
+[1.519s] writing entry points to ../../build/my_vision_system/my_vision_system.egg-info/entry_points.txt
+[1.519s] writing requirements to ../../build/my_vision_system/my_vision_system.egg-info/requires.txt
+[1.519s] writing top-level names to ../../build/my_vision_system/my_vision_system.egg-info/top_level.txt
+[1.522s] reading manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+[1.523s] writing manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+[1.524s] running build
+[1.524s] running build_py
+[1.524s] copying my_vision_system/picking_node.py -> /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system
+[1.524s] copying my_vision_system/yolo_node.py -> /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system
+[1.524s] running install
+[1.525s] running install_lib
+[1.526s] creating /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.526s] copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/picking_node.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.526s] copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/yolo_docking_node_v1_backup.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.526s] copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/__init__.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.527s] copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/yolo_docking_node.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.527s] copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/yolo_node.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+[1.527s] byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/picking_node.py to picking_node.cpython-310.pyc
+[1.528s] byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/yolo_docking_node_v1_backup.py to yolo_docking_node_v1_backup.cpython-310.pyc
+[1.532s] byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/__init__.py to __init__.cpython-310.pyc
+[1.533s] byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/yolo_docking_node.py to yolo_docking_node.cpython-310.pyc
+[1.536s] byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/yolo_node.py to yolo_node.cpython-310.pyc
+[1.538s] running install_data
+[1.538s] copying resource/my_vision_system -> /home/minmin/roboarm_ws/install/my_vision_system/share/ament_index/resource_index/packages
+[1.538s] copying package.xml -> /home/minmin/roboarm_ws/install/my_vision_system/share/my_vision_system
+[1.539s] copying my_vision_system/models/best.pt -> /home/minmin/roboarm_ws/install/my_vision_system/share/my_vision_system/models
+[1.564s] running install_egg_info
+[1.566s] Copying ../../build/my_vision_system/my_vision_system.egg-info to /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info
+[1.567s] running install_scripts
+[1.588s] Installing yolo_docking_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[1.588s] Installing yolo_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+[1.588s] writing list of installed files to '/home/minmin/roboarm_ws/build/my_vision_system/install.log'
+[1.623s] Invoked command in '/home/minmin/roboarm_ws/src/my_vision_system' returned '0': PYTHONPATH=/home/minmin/roboarm_ws/build/my_vision_system/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/my_vision_system build --build-base /home/minmin/roboarm_ws/build/my_vision_system/build install --record /home/minmin/roboarm_ws/build/my_vision_system/install.log --single-version-externally-managed install_data --force
