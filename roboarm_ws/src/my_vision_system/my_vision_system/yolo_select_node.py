@@ -216,15 +216,26 @@ class YoloSelectNode(Node):
         self.get_logger().info('✅ เปิดกล้องสำเร็จ!')
         return True
 
-    def _assign_slots(self, dets, max_slots):
-        # simple heuristic: divide width into max_slots
-        if not dets: return []
-        slots = []
-        for cx, cls_id in dets:
-            slot_idx = int((cx / 640.0) * max_slots) + 1
-            slot_idx = max(1, min(slot_idx, max_slots))
-            slots.append((slot_idx, cls_id))
-        return slots
+    def _assign_slots(self, dets_sorted, max_slots):
+        # dets_sorted: list[(x_center, cls_id)] ascending by x_center.
+        # Leftmost = slot 1. Use the smallest gap as the "1 slot" unit;
+        # a much larger gap means a slot was skipped.
+        if not dets_sorted:
+            return []
+        if len(dets_sorted) == 1:
+            return [(1, dets_sorted[0][1])]
+
+        xs = [d[0] for d in dets_sorted]
+        gaps = [xs[i+1] - xs[i] for i in range(len(xs)-1)]
+        positive = [g for g in gaps if g > 0]
+        unit = min(positive) if positive else 1.0
+
+        slots = [1]
+        for g in gaps:
+            step = max(1, int(round(g / unit)))
+            slots.append(slots[-1] + step)
+
+        return [(min(slots[i], max_slots), dets_sorted[i][1]) for i in range(len(dets_sorted))]
 
     def _decide(self, layout, priority):
         for p_cls in priority:
