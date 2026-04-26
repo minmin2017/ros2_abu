@@ -32,12 +32,13 @@ class YoloSelectNode(Node):
         self.declare_parameter('camera_path', '')
         self.declare_parameter('cap_width', 640)
         self.declare_parameter('cap_height', 480)
-        self.declare_parameter('cap_fps', 30)
-        self.declare_parameter('conf_threshold', 0.5)
-        self.declare_parameter('stable_frames', 30)
+        self.declare_parameter('cap_fps', 60) # เพิ่มเป็น 60 FPS
+        self.declare_parameter('conf_threshold', 0.8)
+        self.declare_parameter('stable_frames', 20)
         self.declare_parameter('max_slots', 6)
-        self.declare_parameter('priority_order', [1, 2, 0])  # Paper, Rock, Spear
+        self.declare_parameter('priority_order', [0, 1, 2])  # Paper, Rock, Spear
         self.declare_parameter('grayscale', True)
+        self.declare_parameter('imgsz', 640)
         # Physical layout: number of evenly-spaced slots across the frame.
         # Used to map detection x-center → absolute slot index (handles missing middle).
         self.declare_parameter('expected_slots', 3)
@@ -146,13 +147,25 @@ class YoloSelectNode(Node):
             self.get_logger().warning(f'Serial เปิดไม่ได้ ({port}): {e}')
             self.serial = None
 
-    def _send_slot(self, slot):
+    def _send_slot(self, slot, cls_id, layout):
         if self.serial is None or not self.serial.is_open: return
-        mapping = {1: 'C', 2: 'B', 3: 'A', 4: 'D', 5: 'E', 6: 'F'}
-        cmd = mapping.get(slot, str(slot))
+        
+        # ปรับเป็น Class-based Mapping: Paper=C, Rock=B, Spear=A
+        class_to_cmd = {0: 'C', 1: 'B', 2: 'A'}
+        cmd = class_to_cmd.get(cls_id, 'A')
+        
+        # [SPECIAL RULE] If ONLY spears are detected, always send 'A'
+        all_spears = all(d[1] == 2 for d in layout)
+        
+        if all_spears and cls_id == 2:
+            cmd = 'A'
+            self.get_logger().info(f'🎯 [SPEAR ONLY] -> Arduino: Character "{cmd}" (Override for Spear-only layout)')
+        else:
+            class_name = self.class_names.get(cls_id, f'Class {cls_id}')
+            self.get_logger().info(f'🚀 [SENDING] -> Arduino: Class {class_name} mapped to Character "{cmd}"')
+            
         try:
             self.serial.write(f'{cmd}\n'.encode())
-            self.get_logger().info(f'🚀 [SENDING] -> Arduino: Slot {slot} mapped to Character "{cmd}"')
         except Exception as e:
             self.get_logger().warning(f'Serial write error: {e}')
             self.serial = None
@@ -378,11 +391,14 @@ class YoloSelectNode(Node):
 
         # YOLO inference always-on
         conf_t = self.get_parameter('conf_threshold').value
+        img_size = self.get_parameter('imgsz').value
         results = self.model.predict(
             source=frame,
             conf=conf_t,
             device=self.device,
-            imgsz=640,
+            imgsz=img_size,
+            iou=0.45,
+            agnostic_nms=True, # ป้องกันการสลับ Class ไปมาในจุดเดียว
             half=True if self.device == 0 else False,
             verbose=False,
         )
@@ -425,30 +441,43 @@ class YoloSelectNode(Node):
             simple = [(d[0], d[2]) for d in sorted_dets]
             layout = self._assign_slots(simple, max_slots)
             sig = tuple(layout)
-
-            if not self.decided:
+            
+            if layout:
+                self.missed_frames = 0
                 self.history.append(sig)
-                stable_frames = self.get_parameter('stable_frames').value
-                stable = (len(self.history) == stable_frames
-                          and len(set(self.history)) == 1
-                          and len(layout) > 0)
-
-                if stable:
-                    priority = list(self.get_parameter('priority_order').value)
-                    slot, cls_id = self._decide(layout, priority)
-                    if slot > 0:
-                        self.decided = True
-                        self.selected_slot = slot
-                        self.selected_class = cls_id
-                        self.final_layout = layout
-                        self._send_slot(slot)
-                else:
-                    seen_unique = len(set(self.history))
-                    cv2.putText(frame, f"Stab: {len(self.history)}/{stable_frames} uniq={seen_unique}",
-                                (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
             else:
-                cv2.putText(frame, f"DECIDED: slot {self.selected_slot}",
-                            (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+                self.missed_frames = getattr(self, 'missed_frames', 0) + 1
+                if self.missed_frames > 10:
+                    self.history.clear()
+                    self.decided = False
+
+            stable_frames = self.get_parameter('stable_frames').value
+            if len(self.history) >= 5:
+                counts = {}
+                for s in self.history:
+                    counts[s] = counts.get(s, 0) + 1
+                
+                most_common_sig = max(counts, key=counts.get)
+                frequency = counts[most_common_sig]
+
+                if not self.decided:
+                    if frequency >= (len(self.history) * 0.75) and len(self.history) >= 10:
+                        priority = list(self.get_parameter('priority_order').value)
+                        layout_list = list(most_common_sig)
+                        slot, cls_id = self._decide(layout_list, priority)
+                        if slot > 0:
+                            self.decided = True
+                            self.selected_slot = slot
+                            self.selected_class = cls_id
+                            self.final_layout = layout_list
+                            self._send_slot(slot, cls_id, layout_list)
+                    else:
+                        pct = int(frequency/len(self.history)*100)
+                        cv2.putText(frame, f"COLLECTING: {len(self.history)} ({pct}%)",
+                                    (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 165, 255), 2)
+                else:
+                    cv2.putText(frame, f"DECIDED: slot {self.selected_slot}",
+                                (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
         cv2.imshow('Robot Vision (Select)', frame)
         cv2.waitKey(1)

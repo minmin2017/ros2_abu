@@ -6,6 +6,7 @@ import glob
 import os
 import torch
 from ultralytics import YOLO
+from collections import deque
 
 class YoloNode(Node):
     def __init__(self):
@@ -42,8 +43,11 @@ class YoloNode(Node):
         self.declare_parameter('cap_height', 480)
         self.declare_parameter('cap_fps', 60)
         self.declare_parameter('imgsz', 640)
-        self.declare_parameter('conf_thresh', 0.5)
-        self.declare_parameter('grayscale', True)
+        self.declare_parameter('conf_thresh', 0.8) # เพิ่มเป็น 0.8 เพื่อความแม่นยำสูงสุด ลดการจับมั่ว
+        self.declare_parameter('grayscale', True) # กลับไปใช้ภาพขาวดำตามเดิม
+        self.declare_parameter('expected_slots', 3)
+        self.declare_parameter('priority_order', [0, 1, 2]) # Paper, Rock, Spear
+        self.declare_parameter('stable_frames', 20) # ขยายหน้าต่างเป็น 20 เฟรมเพื่อทำ Majority Vote
         
         self.cap = None
         self.cam_path = None
@@ -59,7 +63,14 @@ class YoloNode(Node):
         self.frame_count = 0
         self.show_every_n = 5 # อัปเดต Feedback ทุก 5 เฟรม
         
-        self.get_logger().info('YOLO Node พร้อมทำงาน! (Optimized Mode)')
+        # Stability logic
+        sf = self.get_parameter('stable_frames').value
+        self.history = deque(maxlen=sf)
+        self.decided = False
+        self.last_decision_text = ""
+        self.last_decision_color = (0, 255, 0)
+        
+        self.get_logger().info('YOLO Node พร้อมทำงาน! (Optimized Mode with 30-frame Stability)')
 
     def _resolve_camera_path(self):
         explicit = self.get_parameter('camera_path').get_parameter_value().string_value
@@ -90,6 +101,30 @@ class YoloNode(Node):
         self.cam_path = path
         return True
 
+    def _assign_slots(self, dets_sorted):
+        expected = int(self.get_parameter('expected_slots').value)
+        cw = float(self.get_parameter('cap_width').value)
+        if expected <= 0 or cw <= 0:
+            return [(i + 1, d[1]) for i, d in enumerate(dets_sorted)]
+        slot_width = cw / expected
+        result = []
+        for d in dets_sorted:
+            cx = d[0]
+            slot = int(cx / slot_width) + 1
+            slot = max(1, min(slot, expected))
+            result.append((slot, d[1]))
+        return result
+
+    def _decide(self, layout, priority):
+        for p_cls in priority:
+            cls_to_slots = {}
+            for slot, cls_id in layout:
+                if cls_id not in cls_to_slots: cls_to_slots[cls_id] = []
+                cls_to_slots[cls_id].append(slot)
+            if p_cls in cls_to_slots:
+                return (min(cls_to_slots[p_cls]), p_cls)
+        return (-1, -1)
+
     def timer_callback(self):
         if self.cap is None or not self.cap.isOpened():
             self._open_camera()
@@ -110,51 +145,109 @@ class YoloNode(Node):
         self.prev_time = current_time
         self.frame_count += 1
 
-        # วาด FPS ลงบนเฟรมเสมอ (เพื่อให้ติดไปกับ debug image และ imshow)
-        cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+        cv2.putText(frame, f"FPS: {fps:.1f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
-        # Inference (ใช้ FP16)
+        # Inference (ใช้ FP16 + Agnostic NMS)
         results = self.model.predict(
             frame,
             device=self.device,
             imgsz=self.get_parameter('imgsz').value,
             conf=self.get_parameter('conf_thresh').value,
+            iou=0.45,
+            agnostic_nms=True, # ป้องกันการจับซ้ำซ้อนหลาย Class ในจุดเดียว
             half=True if self.device == 0 else False,
             verbose=False,
         )
         
         detections_data = []
+        dets = []
         for r in results:
             for box in r.boxes:
                 cls_id = int(box.cls[0])
                 conf = float(box.conf[0])
                 x1, y1, x2, y2 = box.xyxy[0]
-                center_x = float((x1 + x2) / 2.0)
-                center_y = float((y1 + y2) / 2.0)
-                detections_data.extend([center_x, center_y, float(cls_id)])
+                cx = float((x1 + x2) / 2.0)
+                cy = float((y1 + y2) / 2.0)
+                detections_data.extend([cx, cy, float(cls_id)])
+                dets.append((cx, cy, cls_id))
                 
-                # วาดกรอบเฉพาะเฟรมที่จะโชว์
-                if self.frame_count % self.show_every_n == 0:
-                    class_name = self.class_names.get(cls_id, 'UNKNOWN')
-                    cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
-                    cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+                class_name = self.class_names.get(cls_id, 'UNKNOWN')
+                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
+                cv2.putText(frame, f"{class_name} {conf:.2f}", (int(x1), int(y1)-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+        # Logic from yolo_select_node (Only count frames with detections)
+        if len(dets) > 0:
+            self.missed_frames = 0 # เจอแล้ว รีเซ็ตตัวนับพลาด
+            sorted_dets = sorted(dets, key=lambda d: d[0])
+            simple = [(d[0], d[2]) for d in sorted_dets]
+            layout = self._assign_slots(simple)
+            sig = tuple(layout)
+            self.history.append(sig)
+        else:
+            self.missed_frames = getattr(self, 'missed_frames', 0) + 1
+            # ถ้าพลาดติดต่อกัน 10 เฟรม ถือว่าของหายไปจริงๆ
+            if self.missed_frames > 10:
+                self.history.clear()
+                self.decided = False
+                self.last_decision_text = "SEARCHING..."
+                self.last_decision_color = (0, 0, 255)
+
+        # คำนวณความเสถียร (Majority Vote เฉพาะเฟรมที่มีข้อมูล)
+        stable_frames = self.get_parameter('stable_frames').value
+        if len(self.history) >= 5: # เริ่มคิด Majority เมื่อมีข้อมูลอย่างน้อย 5 เฟรม
+            counts = {}
+            for s in self.history:
+                counts[s] = counts.get(s, 0) + 1
+            
+            most_common_sig = max(counts, key=counts.get)
+            frequency = counts[most_common_sig]
+            
+            # ถ้าแบบที่เห็นบ่อยที่สุดมีเกิน 75% และมีข้อมูลมากพอ
+            if frequency >= (len(self.history) * 0.75) and len(self.history) >= 10:
+                if not self.decided:
+                    layout_list = list(most_common_sig)
+                    priority = list(self.get_parameter('priority_order').value)
+                    slot, cls_id = self._decide(layout_list, priority)
+
+                    if slot > 0:
+                        self.decided = True
+                        # ปรับเป็น Class-based Mapping: Paper=C, Rock=B, Spear=A
+                        class_to_cmd = {0: 'C', 1: 'B', 2: 'A'}
+                        cmd = class_to_cmd.get(cls_id, 'A')
+                        
+                        all_spears = all(d[1] == 2 for d in layout_list)
+                        if all_spears and cls_id == 2:
+                            self.last_decision_text = f"DECISION: {cmd} (SPEAR ONLY)"
+                            self.last_decision_color = (0, 255, 255)
+                        else:
+                            self.last_decision_text = f"DECISION: {cmd} ({self.class_names.get(cls_id)})"
+                            self.last_decision_color = (0, 255, 0)
+                
+                # แสดงความมั่นใจของ Majority Vote
+                pct = int(frequency/len(self.history)*100)
+                current_layout_str = " | ".join([f"S{s}:{self.class_names.get(c, '??')}" for s, c in list(most_common_sig)])
+                cv2.putText(frame, f"Match: {current_layout_str} ({pct}%)", (10, frame.shape[0]-20), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+            else:
+                if not self.decided:
+                    self.last_decision_text = f"COLLECTING DATA: {len(self.history)}/{stable_frames}"
+                    self.last_decision_color = (0, 165, 255)
+
+        # Display decision/status on frame
+        cv2.putText(frame, self.last_decision_text, (10, 60), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, self.last_decision_color, 2)
 
         # ส่งข้อมูล
         if len(detections_data) > 0:
             msg = Float32MultiArray()
             msg.data = detections_data
             self.publisher_.publish(msg)
-            self.get_logger().info(f'Detected {len(detections_data)//3} objects | FPS: {fps:.1f}')
-            if self.frame_count % self.show_every_n == 0:
-                cv2.imwrite('/home/minmin/roboarm_ws/yolo_detection_debug.png', frame)
         else:
             self.get_logger().info(f'Searching... | FPS: {fps:.1f}', throttle_duration_sec=1.0)
 
-        # อัปเดตจอ
-        if self.frame_count % self.show_every_n == 0:
-            cv2.imwrite('/home/minmin/roboarm_ws/camera_test.png', frame)
-            cv2.imshow('Robot Vision', frame)
-            cv2.waitKey(1)
+        # อัปเดตจอ (แสดงทุกเฟรมเพื่อให้ลื่นไหล)
+        cv2.imshow('Robot Vision', frame)
+        cv2.waitKey(1)
 
     def destroy_node(self):
         if self.cap is not None:
