@@ -23,6 +23,7 @@ The following scripts have been created in the home directory and added as alias
 - `lidar`: Launches the **YDLidar ROS 2 Driver** for the S2PRO lidar.
 - `yolostart`: Launches the **Optimized YOLO Detection Node** with 60 FPS performance tuning.
 - `yoloselect`: Launches the **Picking Selection Node** which sends slot 1-6 to Arduino Mega.
+- `yoloa`: Launches the **YOLO A Node** which always sends "A" and stops after detection.
 
 ### Usage
 Simply type the command name in any terminal:
@@ -184,6 +185,7 @@ ros2 run my_vision_system yolo_select_node
 yoloselect
 ```
 *(เพิ่มใน `~/.bashrc`: `alias yoloselect='source ~/roboarm_ws/install/setup.bash && ros2 run my_vision_system yolo_select_node'`)*
+*(เพิ่มใน `~/.bashrc`: `alias yoloa='source ~/roboarm_ws/install/setup.bash && ros2 run my_vision_system yolo_a_node'`)*
 
 ### Pipeline
 

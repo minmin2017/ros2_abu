@@ -84,6 +84,7 @@ class YoloDockingNode(Node):
         self.min_front_range = float('inf')
         self.linear_integral = 0.0
         self.last_control_time = self.get_clock().now()
+        self.last_cmd_vy = 0.0
         self.docked_counter = 0
         self.sm_cx = None
         self.sm_angle = None
@@ -268,6 +269,13 @@ class YoloDockingNode(Node):
                 cv2.putText(debug, 'SAFETY', (50, 80),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
+        # slew-rate limit on lateral cmd to kill stutter from step changes
+        max_dvy = 0.8 * dt
+        dvy = cmd.linear.y - self.last_cmd_vy
+        if abs(dvy) > max_dvy:
+            cmd.linear.y = self.last_cmd_vy + math.copysign(max_dvy, dvy)
+        self.last_cmd_vy = cmd.linear.y
+
         self.cmd_pub.publish(cmd)
         self._draw_overlay(debug, cmd)
         small = cv2.resize(debug, (320, 320))
@@ -277,6 +285,7 @@ class YoloDockingNode(Node):
         self.state = DockState.SEARCH
         self.docked_counter = 0
         self.linear_integral = 0.0
+        self.last_cmd_vy = 0.0
         self.sm_cx = None
         self.sm_angle = None
         self.get_logger().info(reason)
@@ -305,12 +314,15 @@ class YoloDockingNode(Node):
 
         kp_lat = self.get_parameter('kp_lateral').value
         max_lat = self.get_parameter('max_lateral').value
-        y_vel = -kp_lat * err_x_norm * 2.0
-        if abs(err_x_norm) > 0.02:
-            if y_vel > 0 and y_vel < 0.05: y_vel = 0.05
-            elif y_vel < 0 and y_vel > -0.05: y_vel = -0.05
-        else:
+        abs_ex = abs(err_x_norm)
+        if abs_ex < 0.02:
             y_vel = 0.0
+        else:
+            y_vel = -kp_lat * err_x_norm * 2.0
+            # ramp the friction floor 0 -> 0.05 over err 0.02 -> 0.05 to avoid bang-bang
+            floor = 0.05 * min(1.0, (abs_ex - 0.02) / 0.03)
+            if abs(y_vel) < floor:
+                y_vel = math.copysign(floor, y_vel)
         cmd.linear.y = float(np.clip(y_vel, -max_lat, max_lat))
 
         approach_d = self.get_parameter('approach_distance').value
@@ -347,12 +359,18 @@ class YoloDockingNode(Node):
 
         kp_lat = self.get_parameter('kp_lateral').value
         max_lat = self.get_parameter('max_lateral').value
-        y_vel = -kp_lat * err_x_norm * 2.0
-        if abs(err_x_norm) > 0.02:
-            if y_vel > 0 and y_vel < 0.05: y_vel = 0.05
-            elif y_vel < 0 and y_vel > -0.05: y_vel = -0.05
-        else:
+        angle_db = self.get_parameter('angle_deadband_rad').value
+        abs_ex = abs(err_x_norm)
+        if abs_ex < 0.02:
             y_vel = 0.0
+        elif base_angle is not None and abs(base_angle) > 2.5 * angle_db:
+            # square up first; let angular settle before strafing to avoid fighting
+            y_vel = 0.0
+        else:
+            y_vel = -kp_lat * err_x_norm * 2.0
+            floor = 0.05 * min(1.0, (abs_ex - 0.02) / 0.03)
+            if abs(y_vel) < floor:
+                y_vel = math.copysign(floor, y_vel)
         cmd.linear.y = float(np.clip(y_vel, -max_lat, max_lat))
 
         max_a = self.get_parameter('max_angular').value

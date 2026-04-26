@@ -273,14 +273,14 @@ class YoloSelectNode(Node):
         for link in index0:
             if match.lower() in os.path.basename(link).lower():
                 self.get_logger().info(f"เลือกกล้อง (match='{match}'): {os.path.basename(link)}", throttle_duration_sec=5.0)
-                return link
+                return os.path.realpath(link)
 
         # 2) fallback: any external cam that is NOT in skip list (built-in webcams)
         for link in index0:
             name = os.path.basename(link).lower()
             if not any(s in name for s in skip_list):
                 self.get_logger().warning(f"ไม่เจอ '{match}' — ใช้กล้องสำรอง: {os.path.basename(link)}", throttle_duration_sec=5.0)
-                return link
+                return os.path.realpath(link)
 
         self.get_logger().error(
             f"Cannot find camera matching '{match}' (skip={skip_list}). Available: {[os.path.basename(c) for c in index0]}",

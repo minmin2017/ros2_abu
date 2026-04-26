@@ -1,0 +1,26 @@
+running egg_info
+writing ../../build/my_vision_system/my_vision_system.egg-info/PKG-INFO
+writing dependency_links to ../../build/my_vision_system/my_vision_system.egg-info/dependency_links.txt
+writing entry points to ../../build/my_vision_system/my_vision_system.egg-info/entry_points.txt
+writing requirements to ../../build/my_vision_system/my_vision_system.egg-info/requires.txt
+writing top-level names to ../../build/my_vision_system/my_vision_system.egg-info/top_level.txt
+reading manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+writing manifest file '../../build/my_vision_system/my_vision_system.egg-info/SOURCES.txt'
+running build
+running build_py
+copying my_vision_system/yolo_node.py -> /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system
+running install
+running install_lib
+copying /home/minmin/roboarm_ws/build/my_vision_system/build/lib/my_vision_system/yolo_node.py -> /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system
+byte-compiling /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system/yolo_node.py to yolo_node.cpython-310.pyc
+running install_data
+running install_egg_info
+removing '/home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/my_vision_system/my_vision_system.egg-info to /home/minmin/roboarm_ws/install/my_vision_system/lib/python3.10/site-packages/my_vision_system-0.0.0-py3.10.egg-info
+running install_scripts
+Installing yolo_a_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_docking_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_real_cam_debug script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+Installing yolo_select_node script to /home/minmin/roboarm_ws/install/my_vision_system/lib/my_vision_system
+writing list of installed files to '/home/minmin/roboarm_ws/build/my_vision_system/install.log'

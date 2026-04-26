@@ -31,6 +31,7 @@ setup(
             'yolo_node = my_vision_system.yolo_node:main',
             'yolo_docking_node = my_vision_system.yolo_docking_node:main',
             'yolo_select_node = my_vision_system.yolo_select_node:main',
+            'yolo_a_node = my_vision_system.yolo_a_node:main',
             'yolo_real_cam_debug = my_vision_system.yolo_real_cam_debug:main'
         ],
     },
